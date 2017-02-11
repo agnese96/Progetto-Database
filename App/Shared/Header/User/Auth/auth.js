@@ -1,14 +1,33 @@
 class Register {
-  constructor() {
+  constructor($http) {
+
     this.credentials = {
       username: '',
       email: '',
       password: ''
     };
     this.error = '';
+    this.$http=$http;
   }
   register() {
 
+    //checkInput();
+    this.$http({
+      method  : 'POST',
+      url     : 'server/register.php',
+      data    : $.param(this.credentials),  // pass in data as strings
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+     }).success(function(data) {
+        console.log(data);
+
+        if (!data.success) {
+          // if not successful, bind errors to error variables
+          $scope.error = data.error;
+        } else {
+          // if successful, bind success message to message
+          done();
+        }
+      });
   }
 }
 
