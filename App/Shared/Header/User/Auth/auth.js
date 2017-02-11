@@ -2,7 +2,8 @@ class Register {
   constructor($http) {
 
     this.credentials = {
-      username: '',
+      nome: '',
+      cognome: '',
       email: '',
       password: ''
     };
