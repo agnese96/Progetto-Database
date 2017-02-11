@@ -1,0 +1,8 @@
+<div ng-show="user.logged">
+  {{user.name}}
+  <md-icon md-svg-src="./Assets/Img/default.svg" class="avatar"></md-icon>
+  <md-button ng-click="user.logout()">Logout</md-button>
+</div>
+<div ng-show="! user.logged">
+  <md-button ng-click="user.login()">Login</md-button>
+</div>

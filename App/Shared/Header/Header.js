@@ -1,17 +1,14 @@
-app.controller('HeaderCtrl', function ($scope) {
-  $scope.user={
-    name:"Utente",
-    photo:"Assets/Img/default.png"
-  };
-});
+class headerCtrl {
+  constructor() {
 
-
-
+  }
+}
+app.controller('headerCtrl',headerCtrl)
 app.directive('myHeader', function() {
   return {
     scope: true,
-    controller: 'HeaderCtrl',
-    //controllerAs: 'head',
+    controller: 'headerCtrl',
+    controllerAs: 'head',
     templateUrl: 'App/Shared/Header/headerTemplate.html'
   }
 });
