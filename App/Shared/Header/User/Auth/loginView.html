@@ -1,0 +1,23 @@
+<form name="loginForm" layout="column" layout-fill layout-padding layout-margin>
+  <h3 class="md-display-1">
+    Sign in with your email: </h3>
+  <md-input-container>
+    <label>
+      Email
+    </label>
+    <input type="text" ng-model="login.credentials.email" aria-label="email" required/>
+  </md-input-container>
+  <md-input-container>
+    <label>
+      Password
+    </label>
+    <input type="password" ng-model="login.credentials.password" aria-label="password" required/>
+  </md-input-container>
+  <div layout="row" layout-align="space-between center">
+    <md-button class="md-raised md-primary" ng-click="login.login()" aria-label="login" ng-disabled="login.loginForm.$invalid()">Sign In
+    </md-button>
+  </div>
+</form>
+<md-toolbar ng-show="login.error" class="md-warn" layout="row" layout-fill layout-padding layout-margin>
+  <p class="md-body-1">{{ login.error }}</p>
+</md-toolbar>
