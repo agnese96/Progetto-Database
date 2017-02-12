@@ -1,14 +1,11 @@
-class headerCtrl {
+class HeaderCtrl {
   constructor() {
 
   }
 }
-app.controller('headerCtrl',headerCtrl)
-app.directive('myHeader', function() {
-  return {
-    scope: true,
-    controller: 'headerCtrl',
-    controllerAs: 'head',
-    templateUrl: 'App/Shared/Header/headerTemplate.html'
-  }
+
+app.component('headerCtrl', {
+  controller: HeaderCtrl,
+  controllerAs: 'head',
+  templateUrl: 'App/Shared/Header/headerTemplate.html'
 });

@@ -1,4 +1,4 @@
-class userCtrl {
+class UserCtrl {
   constructor() {
     this.name="Utente";
     this.photo="Assets/Img/default.png";
@@ -18,12 +18,9 @@ class userCtrl {
     this.logged=true;
   }
 }
-app.controller('userCtrl', userCtrl);
-app.directive('userInfo', function(){
-  return {
-    scope: true,
-    controller: 'userCtrl',
-    controllerAs: 'user',
-    templateUrl: 'App/Shared/Header/User/userInfoView.html'
-  }
+
+app.component('userInfo', {
+  controller: UserCtrl,
+  controllerAs: 'user',
+  templateUrl: 'App/Shared/Header/User/userInfoView.html'
 });
