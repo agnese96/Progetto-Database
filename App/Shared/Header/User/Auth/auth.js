@@ -7,10 +7,10 @@ class Register {
       email: '',
       password: ''
     };
-    this.error = '';
+    this.error ='';
     this.$http=$http;
   }
-  register() {
+  register($scope) {
 
     //checkInput();
     this.$http({
@@ -18,17 +18,20 @@ class Register {
       url     : 'server/register.php',
       data    : $.param(this.credentials),  // pass in data as strings
       headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-     }).success(function(data) {
-        console.log(data);
+    }).success(angular.bind(this, function(data) {
+       console.log(data);
 
-        if (!data.success) {
-          // if not successful, bind errors to error variables
-          $scope.error = data.error;
-        } else {
-          // if successful, bind success message to message
-          done();
-        }
-      });
+       if (!data.success) {
+         // if not successful, bind errors to error variables
+         this.error=data.error;
+       } else {
+         // if successful, bind success message to message
+         this.error='';
+         //TODO: aggiungere login automatico dopo registrazione.
+         this.done();
+       }
+     }));
+
   }
 }
 
