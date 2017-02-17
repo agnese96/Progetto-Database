@@ -1,6 +1,6 @@
 class HeaderCtrl {
   constructor() {
-
+    console.log('Costruttore controller header !');
   }
 }
 

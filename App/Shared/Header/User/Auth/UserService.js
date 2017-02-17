@@ -1,5 +1,6 @@
 class UserService {
   constructor($http, $localStorage) {
+    console.log('Costruttore user service');
     this.photo='';
     this.email='';
     this.logged=false;

@@ -47,34 +47,34 @@ app.component('register', {
 });
 
 
-class Login {
-  constructor(UserService) {
-    this.credentials={
-      email:'',
-      password:''
-    };
-    this.error='';
-    this.UserService=UserService;
-  }
-  login() {
-    this.UserService.login(credentials, angular.bind(this, function (result) {
-      if(result === true) {
-          console.log('successful login');
-          this.done;
-      }else{
-          this.error=result.error;
-      }
-    }); 
-  }
-}
-app.component('login', {
-  templateUrl: 'App/Shared/Header/User/Auth/loginView.html',
-  bindings: {
-    done: '&?'
-  },
-  controllerAs: 'login',
-  controller: Login
-});
+// class Login {
+//   constructor(UserService) {
+//     this.credentials={
+//       email:'',
+//       password:''
+//     };
+//     this.error='';
+//     this.UserService=UserService;
+//   }
+//   login() {
+//     this.UserService.login(credentials, angular.bind(this, function (result) {
+//       if(result === true) {
+//           console.log('successful login');
+//           this.done;
+//       }else{
+//           this.error=result.error;
+//       }
+//     }));
+//   }
+// }
+// app.component('login', {
+//   templateUrl: 'App/Shared/Header/User/Auth/loginView.html',
+//   bindings: {
+//     done: '&?'
+//   },
+//   controllerAs: 'login',
+//   controller: ['UserService', Login]
+// });
 
 class AuthButton {
   constructor($mdDialog, $mdMedia) {
@@ -86,7 +86,7 @@ class AuthButton {
     this.$mdDialog.show({
       controller($mdDialog) {
         //scorciatoia per creare una funzione.
-        this.close = () => {
+        this.close = function() {
           $mdDialog.hide();
         }
       },
