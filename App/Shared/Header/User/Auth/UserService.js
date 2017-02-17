@@ -1,6 +1,6 @@
 class UserService {
   constructor($http, $localStorage) {
-    this.username='';
+    this.photo='';
     this.email='';
     this.logged=false;
     this.$http=$http;
@@ -8,10 +8,10 @@ class UserService {
   }
 
   successAuth(credentials, res) {
-    this.email=credentials.email;
+    this.email=res.email;
     this.logged=true;
-    this.username=res.username;
-    this.$localStorage.currentUser= {email:  credentials.email, token: res.token};
+    this.photo=res.photo;
+    this.$localStorage.currentUser= {email:  res.email, token: res.token};
     this.$http.defaults.header.common.Authorization = 'Bearer' + res.token;
   }
 
@@ -23,7 +23,7 @@ class UserService {
       headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success( function (res) {
         if(res.token) {
-          successAuth(credentials, res);
+          successAuth(res);
           callback(true);
         }else {
           callback(false);
