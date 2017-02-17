@@ -1,19 +1,31 @@
 class UserService {
-  constructor($http, $localStorage) {
-    console.log('Costruttore user service');
-    this.photo='';
-    this.email='';
-    this.logged=false;
+  constructor($http, $window, $rootScope) {
+
     this.$http=$http;
-    this.$localStorage=$localStorage;
+    this.$window=$window;
+    this.$rootScope=$rootScope;
+
+    this.photo=this.$window.localStorage.getItem('photo');
+    this.email=this.$window.localStorage.getItem('email');
+    if(this.token!='')
+      this.logged=true;
+    else
+      this.logged=false;
   }
 
-  successAuth(credentials, res) {
+  updateLocalStorage(token, email, photo) {
+    this.$window.localStorage.setItem('token', token);
+    this.$window.localStorage.setItem('email', email);
+    this.$window.localStorage.setItem('photo', photo);
+    this.$http.defaults.headers.common['Authentication'] = 'Bearer' + token;
+    this.$rootScope.$emit('userChange');//emit an event so that the other controllers can update their info.
+  }
+
+  successAuth(res) {
     this.email=res.email;
     this.logged=true;
     this.photo=res.photo;
-    this.$localStorage.currentUser= {email:  res.email, token: res.token};
-    this.$http.defaults.header.common.Authorization = 'Bearer' + res.token;
+    this.updateLocalStorage(res.token, res.email, res.photo);
   }
 
   login(credentials, callback){
@@ -22,24 +34,28 @@ class UserService {
       url     : 'server/login.php',
       data    : $.param(credentials),  // pass in data as strings
       headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-    }).success( function (res) {
-        if(res.token) {
-          successAuth(res);
-          callback(true);
-        }else {
-          callback(false);
-        }
-
-    });
+    }).success( angular.bind(this, function (res){
+      console.log(res);
+      if(res.token) {
+        this.successAuth(res);
+        callback(true);
+      }else {
+        callback(res);
+      }
+    }));
   }
 
   logout() {
-    delete this.$localStorage.currentUser;
-    this.$http.defaults.header.common.Authorization = '';
+    this.$window.localStorage.removeItem('token');
+    this.$window.localStorage.removeItem('email');
+    this.$window.localStorage.removeItem('photo');
+    this.$http.defaults.headers.common['Authentication'] = '';
+    this.logged=false;
+    this.$rootScope.$emit('userChange');//emit an event so that the other controllers can update their info.
   }
 
   isLogged() { return this.logged; }
-  gUser()    { return { username: this.username, email: this.email }; }
+  gUser()    { return { email: this.email, photo: this.photo }; }
 }
 
-app.service('UserService', UserService);
+app.service('userService', UserService);

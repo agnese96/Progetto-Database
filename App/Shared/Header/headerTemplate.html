@@ -1,3 +1,8 @@
 <md-toolbar>
-La nostra agenda :D  {{user.name}} <user-info></user-info>
+  <div ng-show="head.logged">
+    <user-info></user-info>
+  </div>
+  <div ng-show="! head.logged">
+    <auth-button></auth-button>
+  </div>
 </md-toolbar>

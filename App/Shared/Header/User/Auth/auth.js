@@ -47,39 +47,41 @@ app.component('register', {
 });
 
 
-// class Login {
-//   constructor(UserService) {
-//     this.credentials={
-//       email:'',
-//       password:''
-//     };
-//     this.error='';
-//     this.UserService=UserService;
-//   }
-//   login() {
-//     this.UserService.login(credentials, angular.bind(this, function (result) {
-//       if(result === true) {
-//           console.log('successful login');
-//           this.done;
-//       }else{
-//           this.error=result.error;
-//       }
-//     }));
-//   }
-// }
-// app.component('login', {
-//   templateUrl: 'App/Shared/Header/User/Auth/loginView.html',
-//   bindings: {
-//     done: '&?'
-//   },
-//   controllerAs: 'login',
-//   controller: ['UserService', Login]
-// });
+class Login {
+  constructor(userService) {
+    this.credentials={
+      email:'',
+      password:''
+    };
+    this.error='';
+    this.userService=userService;
+  }
+  login() {
+    this.userService.login(this.credentials, angular.bind(this, function (result) {
+      if(result === true) {
+          console.log('successful login');
+          this.done();
+      }else{
+          console.log('unsuccessful login');
+          this.error=result.error;
+      }
+    }));
+  }
+}
+
+app.component('login', {
+  templateUrl: 'App/Shared/Header/User/Auth/loginView.html',
+  bindings: {
+    done: '&?'
+  },
+  controllerAs: 'login',
+  controller: Login
+});
 
 class AuthButton {
   constructor($mdDialog, $mdMedia) {
     this.$mdDialog = $mdDialog;
-    this.$mdMedia = $mdMedia
+    this.$mdMedia = $mdMedia;
   }
 
   open(event) {

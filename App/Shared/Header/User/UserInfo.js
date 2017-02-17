@@ -1,21 +1,13 @@
 class UserCtrl {
-  constructor() {
-    this.name="Utente";
-    this.photo="Assets/Img/default.png";
-    this.logged=true;
+  constructor(userService) {
+    this.userService=userService;
+    this.logged=userService.isLogged();
+    this.info=userService.gUser();
   }
 
   logout() {
     console.log("logout");
-    this.name="";
-    this.photo="";
-    this.logged=false;
-  }
-
-  login() {
-    this.name="Agnese";
-    this.photo="Assets/Img/default.png";
-    this.logged=true;
+    this.userService.logout();
   }
 }
 

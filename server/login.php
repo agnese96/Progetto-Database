@@ -1,8 +1,8 @@
 <?php
 
   require './lib/JWT.php';
-
-  $email = $_POST['email'];
+  require 'connection.php';
+  $email = $conn->real_escape_string($_POST['email']);
   $password = $_POST['password'];
 
 /*  if(strlen ($email) == 0) || strlen($password) == 0) {
@@ -10,13 +10,11 @@
     exit;
   }*/
 
-	$sql="SELECT FotoProfilo, Password FROM Utenti WHERE email=?;";
-	$stmt = $conn->prepare($sql);
-  $stmt->bind_param("s", $email);
-  $ris = $stmt->execute();
+	$sql="SELECT FotoProfilo, Password FROM Utenti WHERE email='$email';";
+  $ris = $conn->query($sql);
 	if($ris->num_rows == 1){
     $row = $ris->fetch_assoc();//come fetch array
-    if(password_verify($row['Password'], $password)) {
+    if(password_verify($password, $row['Password'])) {
       $data = array();
       $data['email'] = $email;
       $token = JWT::encode($data, 'secret_server_key');
