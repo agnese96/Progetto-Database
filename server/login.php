@@ -2,32 +2,33 @@
 
   require './lib/JWT.php';
 
-  $username = $_POST['username'];
+  $email = $_POST['email'];
   $password = $_POST['password'];
 
-/*  if(strlen ($username) == 0) || strlen($password) == 0) {
+/*  if(strlen ($email) == 0) || strlen($password) == 0) {
     header("Location: loginView.html");
     exit;
   }*/
 
-  $connessione=mysql_connect("localhost", "root", "");
-	if(mysql_select_db(Agenda))
-	{
-		$sql="SELECT * FROM Utenti WHERE email='$username' AND password='$password';";
-		$ris1 = mysql_query($sql);
-		$ris = mysql_fetch_array($ris1);
-		if($ris){
-			//$_SESSION['un'] = $username;
-			header("Location: home.php");
-			exit;
-		} else
-			echo "Nome utente o password errati. Riprova!";
-	}
-	else mysql_error ();
-	mysql_close($connessione);
+	$sql="SELECT FotoProfilo, Password FROM Utenti WHERE email=?;";
+	$stmt = $conn->prepare($sql);
+  $stmt->bind_param("s", $email);
+  $ris = $stmt->execute();
+	if($ris->num_rows == 1){
+    $row = $ris->fetch_assoc();//come fetch array
+    if(password_verify($row['Password'], $password)) {
+      $data = array();
+      $data['email'] = $email;
+      $token = JWT::encode($data, 'secret_server_key');
+      $data = (object) ['token' => $token, 'email' => $email, 'photo' => $row['FotoProfilo']];
+      echo json_encode($data);
+      exit;
+    } else
+    $error = "Password errata!";
+	} else
+	 $error = "Questa email non risulta registrata. Registrati ora!";
 
-  $token = array();
-  $token['id'] = "agnese@mail.it";
-  echo JWT::encode($token, 'secret_server_key');
-
+  $conn->close();
+  $data = (object) ['error' => $error];
+  echo json_encode($data);
  ?>
