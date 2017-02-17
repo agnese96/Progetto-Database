@@ -48,15 +48,23 @@ app.component('register', {
 
 
 class Login {
-  constructor() {
+  constructor(UserService) {
     this.credentials={
       email:'',
       password:''
     };
     this.error='';
+    this.UserService=UserService;
   }
   login() {
-
+    this.UserService.login(credentials, angular.bind(this, function (result) {
+      if(result === true) {
+          console.log('successful login');
+          this.done;
+      }else{
+          this.error=result.error;
+      }
+    }); 
   }
 }
 app.component('login', {
