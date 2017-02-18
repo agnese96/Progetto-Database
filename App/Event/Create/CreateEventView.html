@@ -1,0 +1,43 @@
+<div layout="column" layout-fill layout-margin layout-padding>
+  <h3 class="md-display-1">Create a new event</h3>
+  <form name="CreateEventForm" layout="column" layout-fill layout-padding layout-margin>
+    <md-input-container >
+      <label>
+        Titolo
+      </label>
+      <input type="text" ng-model="Create.Event.Titolo" placeholder="titolo" aria-label="titolo" required/>
+    </md-input-container>
+    <md-input-container >
+      <label>
+        Descrizione
+      </label>
+      <input type="text" ng-model="Create.Event.Descrizionne" placeholder="descrizione" aria-label="descrizione" required/>
+    </md-input-container>
+    <md-input-container >
+      <label>
+        Ricorrenza
+      </label>
+      <input type="number" ng-model="Create.Event.Ricorrenza" placeholder="ricorrenza" aria-label="ricorrenza" />
+    </md-input-container>
+    <md-input-container >
+      <label>
+        Frequenza
+      </label>
+      <input type="number" ng-model="Create.Event.Frequenza" placeholder="frequenza" aria-label="frequenza" />
+    </md-input-container>
+    <md-input-container >
+      <label>
+        Promemoria
+      </label>
+      <input type="number" ng-model="Create.Event.Promemoria" placeholder="promemoria" aria-label="promemoria" />
+    </md-input-container>
+    <md-input-container >
+      <label>
+        Categoria
+      </label>
+      <input type="text" ng-model="Create.Event.Categoria" placeholder="categoria" aria-label="categoria" />
+    </md-input-container>
+    <div layout="row" layout-align="end center">
+      <md-button class="md-raised md-primary" ng-click="Create.Submit()" aria-label="submit" ng-disabled="Create.CreateEventForm.$invalid()">Submit</md-button>
+    </div>
+  </form>
