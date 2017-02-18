@@ -1,13 +1,14 @@
 class UserService {
   constructor($http, $window, $rootScope) {
-
+    console.log('costruttore userService');
     this.$http=$http;
     this.$window=$window;
     this.$rootScope=$rootScope;
 
     this.photo=this.$window.localStorage.getItem('photo');
     this.email=this.$window.localStorage.getItem('email');
-    if(this.token!='')
+    this.token=this.$window.localStorage.getItem('token');
+    if(this.token)
       this.logged=true;
     else
       this.logged=false;
@@ -17,7 +18,7 @@ class UserService {
     this.$window.localStorage.setItem('token', token);
     this.$window.localStorage.setItem('email', email);
     this.$window.localStorage.setItem('photo', photo);
-    this.$http.defaults.headers.common['Authentication'] = 'Bearer' + token;
+    this.$http.defaults.headers.common['Authentication'] = 'Bearer: ' + token;
     this.$rootScope.$emit('userChange');//emit an event so that the other controllers can update their info.
   }
 
@@ -25,6 +26,7 @@ class UserService {
     this.email=res.email;
     this.logged=true;
     this.photo=res.photo;
+    this.token=res.token;
     this.updateLocalStorage(res.token, res.email, res.photo);
   }
 
@@ -35,7 +37,6 @@ class UserService {
       data    : $.param(credentials),  // pass in data as strings
       headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success( angular.bind(this, function (res){
-      console.log(res);
       if(res.token) {
         this.successAuth(res);
         callback(true);
@@ -46,6 +47,7 @@ class UserService {
   }
 
   logout() {
+    console.log('userService logout');
     this.$window.localStorage.removeItem('token');
     this.$window.localStorage.removeItem('email');
     this.$window.localStorage.removeItem('photo');
