@@ -12,7 +12,8 @@ $DataFine = $conn->real_escape_string($_POST["DataFine"]);
 $OraFine = $conn->real_escape_string($_POST["OraFine"]);
 //$DataFine .= $OraFine;
 
-/*if($Ricorrenza == 0)  // if user didn't insert any value
+/*
+if($Ricorrenza == 0)  // if user didn't insert any value
   $ric = 24;
 else if($Ricorrenza > 24) {
   $ric = 24;
@@ -21,7 +22,8 @@ else if($Ricorrenza > 24) {
 else {
   $ric = $Ricorrenza;   // if user inserted some value
   $Ricorrenza
-}*/
+}
+*/
 
 $stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria) VALUES(?,?,?,?,?,?)");
 $stmt1->bind_param("ssiiis", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$Promemoria);
