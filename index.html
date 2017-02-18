@@ -5,9 +5,28 @@
     <title>Agenda</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.1/angular-material.min.js"></script>
-  </head>
-  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> <!-- Google Material Icons -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="Assets/CSS/style.css">
 
+    <script src="App/AppController.js"></script>
+    <!-- includiamo i servizi -->
+    <script src="App/Shared/Header/User/Auth/UserService.js"></script>
+
+    <!--Includiamo le parti dell'applicazione-->
+
+    <script src="App/Shared/Header/Header.js"></script>
+    <script src="App/Shared/Header/User/UserInfo.js"></script>
+    <script src="App/Shared/Header/User/Auth/auth.js"></script>
+  </head>
+  <body ng-app="app">
+    <my-header></my-header>
+    <my-sidebar></my-sidebar>
+    <div ui-view></div>
   </body>
 </html>

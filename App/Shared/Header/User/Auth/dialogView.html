@@ -1,0 +1,17 @@
+<md-dialog aria-label="Login\Signup" ng-cloak>
+  <md-button ng-click="dialog.close()" class="dialog-close">
+    Close
+  </md-button>
+  <md-tabs md-border-bottom md-center-tabs md-dynamic-height>
+    <md-tab label="Login">
+      <md-dialog-content class="md-padding">
+        <login done="dialog.close()"></login>
+      </md-dialog-content>
+    </md-tab>
+    <md-tab label="Register">
+      <md-dialog-content class="md-padding">
+        <register done="dialog.close()"></register>
+      </md-dialog-content>
+    </md-tab>
+  </md-tabs>
+</md-dialog>
