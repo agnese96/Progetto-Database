@@ -59,12 +59,12 @@
       <label>
         Categoria
       </label>
-      <md-select ng-model="Create.Categoria" >
-        <md-option ng-repeat="Categoria in Categorie"></md-option>
+      <md-select ng-model="Create.NomeCategoria" >
+        <md-option ng-repeat="Categoria in Create.Categorie" value="{{Categoria}}">{{ Categoria }}</md-option>
       </md-select>
     </md-input-container>
     <div layout="row" layout-align="end center">
-      <md-button class="md-raised md-primary" ng-click="Create.Submit()" aria-label="submit" ng-disabled="Create.CreateEventForm.$invalid()">Submit</md-button>
+      <md-button class="md-raised md-primary" ng-click="Create.submit()" aria-label="submit" ng-disabled="Create.CreateEventForm.$invalid()">Submit</md-button>
     </div>
   </form>
 </div>

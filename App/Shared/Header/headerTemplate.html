@@ -1,6 +1,9 @@
 <md-toolbar>
   <div ng-show="head.logged">
     <user-info></user-info>
+    <md-button class="md-icon-button" aria-label="Aggiungi un evento" ui-sref="event.create">
+      <md-icon>&#xE145;</md-icon>
+    </md-button>
   </div>
   <div ng-show="! head.logged">
     <auth-button></auth-button>

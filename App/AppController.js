@@ -19,16 +19,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('event', {
       url: '/event',
+      abstract: true,
+      template: '<div ui-view></div>',
       data: {
         restricted: true
       }
     })
     .state('event.create', {
-      url: '/create',
+      url: '/c',
       template: "<create-event></create-event>"
     })
     .state('event.show', {
-      url: '/show/:eventId/:eventDate',
+      url: '/s/:eventId/:eventDate',
       templateUrl: 'Event/Show/ShowEventView.html',
       data: {
         owner: true
