@@ -25,7 +25,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('event.create', {
       url: '/create',
-      templateUrl: 'Event/Create/CreateEventView.html'
+      template: "<create-event></create-event>"
     })
     .state('event.show', {
       url: '/show/:eventId/:eventDate',
