@@ -12,38 +12,43 @@ $DataFine = $conn->real_escape_string($_POST["DataFine"]);
 $OraFine = $conn->real_escape_string($_POST["OraFine"]);
 //$DataFine .= $OraFine;
 
-for($x = 0; $x < $Ricorrenza; $x++)   /* if user inserted some value */
+/*if($Ricorrenza == 0)  // if user didn't insert any value
+  $ric = 24;
+else if($Ricorrenza > 24) {
+  $ric = 24;
+
+}
+else {
+  $ric = $Ricorrenza;   // if user inserted some value
+  $Ricorrenza
+}*/
+
+$stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria) VALUES(?,?,?,?,?,?)");
+$stmt1->bind_param("ssiiis", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$Promemoria);
+$stmt1->execute();
+
+$ID = $conn->insert_id;
+
+$stmt = $conn->prepare("INSERT INTO DateEvento(IDEvento, DataInizio, DataFine) VALUES(?,?,?)");
+$stmt->bind_param("iss", $ID, $DataI, $DataF);
+$stmt->execute();
+
+/*
+for($x = 0; $x < $ric; $x++)
 {
-  $stmt = $conn->prepare("INSERT INTO DateEvento(DataInizio, DataFine) VALUES(?,?)");
   $DataI = $DataInizio.$OraInizio;    //unisco gg-mm-aaaa con l'orario
   $DataF = $DataFine.$OraFine;    //unisco gg-mm-aaaa con l'orario
-  $stmt->bind_param("ss", $DataI, $DataF);
+  $stmt->execute();
   $DataInizio = date('Y-m-d', strtotime($DataInizio."+ $Frequenza days"));    //incremento la data inizio di un numero di giorni pari a "frequenza"
   $DataFine = date('Y-m-d', strtotime($DataFine."+ $Frequenza days"));    //incremento la data fine di un numero di giorni pari a "frequenza"
-
-  $stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria) VALUES(?,?,?,?,?,?)");
-  $stmt1->bind_param("ssiiis", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$Promemoria);
 }
+*/
 
-if($Ricorrenza == 0)  /* if user didn't insert any value */
-  for($x = 0; $x < 24; $x++)
-  {
-    $stmt = $conn->prepare("INSERT INTO DateEvento(DataInizio, DataFine) VALUES(?,?)");
-    $DataI = $DataInizio.$OraInizio;    //unisco gg-mm-aaaa con l'orario
-    $DataF = $DataFine.$OraFine;    //unisco gg-mm-aaaa con l'orario
-    $stmt->bind_param("ss", $DataI, $DataF);
-    $DataInizio = date('Y-m-d', strtotime($DataInizio."+ $Frequenza days"));    //incremento la data inizio di un numero di giorni pari a "frequenza"
-    $DataFine = date('Y-m-d', strtotime($DataFine."+ $Frequenza days"));    //incremento la data fine di un numero di giorni pari a "frequenza"
-
-    $stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria) VALUES(?,?,?,?,?,?)");
-    $stmt1->bind_param("ssiiis", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$Promemoria);
-  }
-
-if($stmt->execute() && $stmt1->execute())
+/*if($stmt->execute() && $stmt1->execute())
   $data = (object) ['success' => true];
 else
   $data = (object) ['error' => 'Si è verificato un errore :('];
-  
-echo json_encode($data);
+*/
 
+echo json_encode($data);
 ?>
