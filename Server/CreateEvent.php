@@ -1,5 +1,5 @@
 <?php
-require "connection.php"
+require "connection.php";
 $Titolo = $conn->real_escape_string($_POST["Titolo"]);
 $Descrizione = $conn->real_escape_string($_POST["Descrizione"]);
 $Ricorrenza = $conn->real_escape_string($_POST["Ricorrenza"]);
@@ -11,6 +11,7 @@ $OraInizio = $conn->real_escape_string($_POST["OraInizio"]);
 $DataFine = $conn->real_escape_string($_POST["DataFine"]);
 $OraFine = $conn->real_escape_string($_POST["OraFine"]);
 //$DataFine .= $OraFine;
+$NomeCategoria = $conn->real_escape_string($_POST["NomeCategoria"]);
 
 /*
 if($Ricorrenza == 0)  // if user didn't insert any value
@@ -26,14 +27,14 @@ else {
 */
 
 $stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria) VALUES(?,?,?,?,?,?)");
-$stmt1->bind_param("ssiiis", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$Promemoria);
-$stmt1->execute();
+$stmt1->bind_param("ssiiis", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$NomeCategoria);
+//$stmt1->execute();
 
 $ID = $conn->insert_id;
 
 $stmt = $conn->prepare("INSERT INTO DateEvento(IDEvento, DataInizio, DataFine) VALUES(?,?,?)");
 $stmt->bind_param("iss", $ID, $DataI, $DataF);
-$stmt->execute();
+//$stmt->execute();
 
 /*
 for($x = 0; $x < $ric; $x++)
@@ -46,11 +47,11 @@ for($x = 0; $x < $ric; $x++)
 }
 */
 
-/*if($stmt->execute() && $stmt1->execute())
+if($stmt->execute() && $stmt1->execute())
   $data = (object) ['success' => true];
 else
   $data = (object) ['error' => 'Si è verificato un errore :('];
-*/
+
 
 echo json_encode($data);
 ?>
