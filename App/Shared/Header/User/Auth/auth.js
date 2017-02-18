@@ -79,9 +79,11 @@ app.component('login', {
 });
 
 class AuthButton {
-  constructor($mdDialog, $mdMedia) {
+  constructor($mdDialog, $mdMedia, $rootScope) {
     this.$mdDialog = $mdDialog;
     this.$mdMedia = $mdMedia;
+
+    $rootScope.$on('loginRequired',angular.bind(this, this.open));
   }
 
   open(event) {

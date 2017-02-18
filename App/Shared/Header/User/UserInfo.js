@@ -1,13 +1,15 @@
 class UserCtrl {
-  constructor(userService) {
+  constructor($state, userService) {
     this.userService=userService;
     this.logged=userService.isLogged();
     this.info=userService.gUser();
+    this.$state=$state;
   }
 
   logout() {
     console.log("logout");
     this.userService.logout();
+    this.$state.go('home');
   }
 }
 

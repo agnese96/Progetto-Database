@@ -19,7 +19,7 @@ class UserService {
     this.$window.localStorage.setItem('email', email);
     this.$window.localStorage.setItem('photo', photo);
     this.$http.defaults.headers.common['Authentication'] = 'Bearer: ' + token;
-    this.$rootScope.$emit('userChange');//emit an event so that the other controllers can update their info.
+    this.$rootScope.$broadcast('userChange');//emit an event so that the other controllers can update their info.
   }
 
   successAuth(res) {
