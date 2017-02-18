@@ -15,6 +15,7 @@ $NomeCategoria = $conn->real_escape_string($_POST["NomeCategoria"]);
 
 $stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria) VALUES(?,?,?,?,?,?)");
 $stmt1->bind_param("ssiiis", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$NomeCategoria);
+
 if($stmt1->execute()){
   echo json_encode($data = ['error' => "Impossibile creare l'evento!"]);
   exit();
