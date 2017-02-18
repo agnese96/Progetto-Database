@@ -33,11 +33,38 @@
     </md-input-container>
     <md-input-container >
       <label>
+        Data inizio evento
+      </label>
+      <md-datepicker  ng-model="Create.Event.DataInizio" required>
+    </md-input-container>
+    <md-input-container>
+      <label>
+        Ora inizio evento
+      </label>
+      <input type="time" ng-moodel="Create.Event.OraInizio" required/>
+    </md-input-container>
+    <md-input-container >
+      <label>
+        Data fine evento
+      </label>
+      <md-datepicker ng-model="Create.Event.DataFine">
+    </md-input-container>
+    <md-input-container>
+      <label>
+        Orario fine evento
+      </label>
+      <input type="time" ng-model="Create.Event.OrarioFine" />
+    </md-input-container>
+    <md-input-container >
+      <label>
         Categoria
       </label>
-      <input type="text" ng-model="Create.Event.Categoria" placeholder="categoria" aria-label="categoria" />
+      <md-select ng-model="Create.Categoria" >
+        <md-option ng-repeat="Categoria in Categorie"></md-option>
+      </md-select>
     </md-input-container>
     <div layout="row" layout-align="end center">
       <md-button class="md-raised md-primary" ng-click="Create.Submit()" aria-label="submit" ng-disabled="Create.CreateEventForm.$invalid()">Submit</md-button>
     </div>
   </form>
+</div>
