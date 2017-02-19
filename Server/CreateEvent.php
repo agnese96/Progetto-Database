@@ -19,6 +19,7 @@ if(! $Token=JWT::decode($Token, 'secret_server_key'))
   echo json_encode(['error' => 'Devi fare il login']);
 $IDCreatore=$Token->email;
 
+//TODO: Permettere di avere dei campi facoltativi, controllare quindi se ho tutti i valori ed eventualmente modificare la query.
 $stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria, IDCreatore) VALUES(?,?,?,?,?,?,?)");
 $stmt1->bind_param("ssiiiss", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$NomeCategoria,$IDCreatore);
 
@@ -29,22 +30,37 @@ if(! $stmt1->execute()){
 
 $ID = $conn->insert_id;   //prendo l'id dell'ultimo evento inserito.
 
-$stmt = $conn->prepare("INSERT INTO DateEvento(IDEvento, DataInizio, DataFine) VALUES(?,?,?)");
+$stmt = $conn->prepare("INSERT INTO DateEvento(IDEvento, DataInizio, DataFine, OraInizio, OraFine) VALUES(?,?,?,?,?)");
 $data = ['IDEvento' => $ID];
+$not = $conn->prepare("INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio) VALUES('P',?,?,?,?,?)");
+$not->bind_param('sssis',$DataNotifica, $OraNotifica, $Titolo, $ID, $DataI);
+$ric = $conn->prepare("INSERT INTO Ricevere (Email, IDNotifica) VALUES (?,?)");
+$ric->bind_param('si',$email, $IDNotifica);
 $DataInizio = new DateTime($DataInizio);
 $DataFine = new DateTime($DataFine);
 $DataLimite= new DateTime();
 $DataLimite->add(new DateInterval('P24M'));
-$stmt->bind_param("iss", $ID, $DataI, $DataF);
+$stmt->bind_param("issss", $ID, $DataI, $DataF, $OraInizio, $OraFine);
 if($Ricorrenza == -1) $illimitato = true; else $illimitato = false;
 do {
   if(! $illimitato)
     $Ricorrenza--;
     $DataI=$DataInizio->format('Y-m-d');
     $DataF=$DataFine->format('Y-m-d');
+    $DataNotifica=$DataInizio->sub(new DateInterval('P'.$Promemoria.'H'))->format('Y-m-d');
+    $OraNotifica=(new DateTime($OraInizio))->sub(new DateInterval('P'.$Promemoria.'H'))->format('H:i:s');
     //TODO: Se c'è un problema nell'inserimento di uno degli eventi ricorrenti eliminare tutto ciò che è stato fatto finora
     if(! $stmt->execute()){
       echo json_encode($data = ['error' => "Impossibile creare l'evento $x!"]);
+      exit();
+    }
+    if(! $not->execute()){
+      echo json_encode($data = ['error' => "Impossibile creare la notifica $x!"]);
+      exit();
+    }
+    $IDNotifica=$conn->insert_id;
+    if(! $ric->execute()){
+      echo json_encode($data = ['error' => "Impossibile creare ricevere $x!"]);
       exit();
     }
     $DataInizio->add(new DateInterval('P'.$Frequenza.'D'));
