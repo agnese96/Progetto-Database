@@ -1,0 +1,16 @@
+<div layout="column" layout-fill layout-margin layout-padding>
+  <h3 class="md-display-1">{{Show.Event.Titolo}}</h3>
+  <div class="descrizione">
+    {{Show.Event.Descrizione}}
+  </div>
+  <div class="Ora">
+    Inizio:
+    <span>{{Show.Event.DataInizio}}</span>
+    <span>{{Show.Event.OraInizio}}</span>
+    <br />Fine:
+    <span ng-show='Show.Event.DataInizio!=Show.Event.DataFine'>{{Show.Event.DataFine}}</span>
+    <span>{{Show.Event.OraFine}}</span>
+  </div>
+  <div class="Categoria">
+    Categoria: {{Show.Event.NomeCategoria}}
+  </div>

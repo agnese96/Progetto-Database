@@ -44,7 +44,7 @@ $DataLimite->add(new DateInterval('P24M'));
 $stmt->bind_param("issss", $ID, $DataI, $DataF, $OraInizio, $OraFine);
 if($Ricorrenza == -1) $illimitato = true; else $illimitato = false;
 
-$data = ['IDEvento' => $ID, 'DataEvento' => $DataI];
+$data = ['IDEvento' => $ID, 'DataEvento' => $DataInizio->format('Y-m-d')];
 
 do {
   if(! $illimitato)

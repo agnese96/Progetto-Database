@@ -31,7 +31,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('event.show', {
       url: '/s/:eventId/:eventDate',
-      templateUrl: 'Event/Show/ShowEventView.html',
+      templateProvider: function ($stateParams) {
+        return "<show-event id='"+$stateParams.eventId+"' date='"+$stateParams.eventDate+"'></show-event>";
+      },
       data: {
         owner: true
       }

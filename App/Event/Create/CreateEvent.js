@@ -16,7 +16,7 @@ class CreateEvent {
 
   submit() {
     console.log(this.Event.DataInizio);
-    this.HttpService.newPostRequest(this.Event, 'CreateEvent.php', this.callback);
+    this.HttpService.newPostRequest(this.Event, 'CreateEvent.php', angular.bind(this, this.callback));
   }
 
   callback(err, res) {
@@ -24,6 +24,7 @@ class CreateEvent {
       console.error(err);
     else {
       console.log(res);
+      this.$state.go('event.show',{eventId:res.IDEvento, eventDate:res.DataEvento });
     }
   }
 }
