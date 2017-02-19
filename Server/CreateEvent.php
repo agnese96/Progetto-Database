@@ -31,7 +31,6 @@ if(! $stmt1->execute()){
 $ID = $conn->insert_id;   //prendo l'id dell'ultimo evento inserito.
 
 $stmt = $conn->prepare("INSERT INTO DateEvento(IDEvento, DataInizio, DataFine, OraInizio, OraFine) VALUES(?,?,?,?,?)");
-$data = ['IDEvento' => $ID];
 $not = $conn->prepare("INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio) VALUES('P',?,?,?,?,?)");
 $not->bind_param('sssis',$DataNotifica, $OraNotifica, $Titolo, $ID, $DataI);
 $ric = $conn->prepare("INSERT INTO Ricevere (Email, IDNotifica) VALUES (?,?)");
@@ -44,6 +43,9 @@ $DataLimite= new DateTime();
 $DataLimite->add(new DateInterval('P24M'));
 $stmt->bind_param("issss", $ID, $DataI, $DataF, $OraInizio, $OraFine);
 if($Ricorrenza == -1) $illimitato = true; else $illimitato = false;
+
+$data = ['IDEvento' => $ID, 'DataEvento' => $DataI];
+
 do {
   if(! $illimitato)
     $Ricorrenza--;
