@@ -10,6 +10,7 @@ $OraInizio = $conn->real_escape_string($_POST["OraInizio"]);
 $DataFine = $conn->real_escape_string($_POST["DataFine"]);
 $OraFine = $conn->real_escape_string($_POST["OraFine"]);
 $NomeCategoria = $conn->real_escape_string($_POST["NomeCategoria"]);
+//$DataInizio .= $OraInizio;//$DataFine .= $OraFine;
 
 //TODO: Controllo corretto per ricorrenze
 
@@ -21,7 +22,7 @@ if($stmt1->execute()){
   exit();
 }
 
-$ID = $conn->insert_id;//prendo l'id dell'ultimo evento inserito.
+$ID = $conn->insert_id;   //prendo l'id dell'ultimo evento inserito.
 
 $stmt = $conn->prepare("INSERT INTO DateEvento(IDEvento, DataInizio, DataFine) VALUES(?,?,?)");
 $stmt->bind_param("iss", $ID, $DataI, $DataF);
