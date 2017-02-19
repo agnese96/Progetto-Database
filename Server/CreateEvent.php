@@ -1,5 +1,6 @@
 <?php
 require "connection.php";
+require 'lib/JWT.php';
 $Titolo = $conn->real_escape_string($_POST["Titolo"]);
 $Descrizione = $conn->real_escape_string($_POST["Descrizione"]);
 $Ricorrenza = $conn->real_escape_string($_POST["Ricorrenza"]);
@@ -10,12 +11,17 @@ $OraInizio = $conn->real_escape_string($_POST["OraInizio"]);
 $DataFine = $conn->real_escape_string($_POST["DataFine"]);
 $OraFine = $conn->real_escape_string($_POST["OraFine"]);
 $NomeCategoria = $conn->real_escape_string($_POST["NomeCategoria"]);
+$Token = $_POST['token'];
 //$DataInizio .= $OraInizio;//$DataFine .= $OraFine;
 
 //TODO: Controllo corretto per ricorrenze
 
-$stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria) VALUES(?,?,?,?,?,?)");
-$stmt1->bind_param("ssiiis", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$NomeCategoria);
+if(! $Token=JWT::decode($Token, 'secret_server_key'))
+  echo json_encode(['error' => 'Devi fare il login']);
+$IDCreatore=$Token->email;
+
+$stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria, IDCreatore) VALUES(?,?,?,?,?,?,?)");
+$stmt1->bind_param("ssiiiss", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$NomeCategoria,$IDCreatore);
 
 if($stmt1->execute()){
   echo json_encode($data = ['error' => "Impossibile creare l'evento!"]);
@@ -27,7 +33,7 @@ $ID = $conn->insert_id;   //prendo l'id dell'ultimo evento inserito.
 $stmt = $conn->prepare("INSERT INTO DateEvento(IDEvento, DataInizio, DataFine) VALUES(?,?,?)");
 $stmt->bind_param("iss", $ID, $DataI, $DataF);
 
-$data = ['IDEvento' => $ID ];
+$data = ['IDEvento' => $ID];
 
 //TODO: Fare in modo che funzioni per gli eventi ricorrenti correttamente
 for($x = 0; $x < $Ricorrenza; $x++)
