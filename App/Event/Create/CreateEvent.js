@@ -15,6 +15,7 @@ class CreateEvent {
   }
 
   submit() {
+    console.log(this.Event.DataInizio);
     this.HttpService.newPostRequest(this.Event, 'CreateEvent.php', this.callback);
   }
 
