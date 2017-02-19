@@ -12,11 +12,11 @@ $IDCreatore = $token->email;
 $sql = "SELECT Titolo, Descrizione, IFNULL(Ricorrenza,0), IFNULL(Frequenza,0), IFNULL(Promemoria,0)
         FROM Eventi, DateEventi
         WHERE IDCreatore=$IDCreatore AND DataEvento=$DataEvento AND IDEvento=$IDEvento";
-$result = mysqli_query($conn, $sql);
+$result = $conn->query($sql);
 
-if(mysqli_num_rows($result) > 0) {
-  $row = mysqli_fetch_assoc($result);
-  echo json_encode($data = ['informazioni' => $row]);
+if($result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  echo json_encode($row);
 }
 else {
   echo json_encode($data = ['error' => $conn->error]);
