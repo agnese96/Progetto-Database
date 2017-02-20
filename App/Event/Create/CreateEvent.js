@@ -4,9 +4,8 @@ class CreateEvent {
     this.Event = {
       Titolo: '',
       Descrizione: '',
-      Ricorrenza: 1,
-      Frequenza: undefined,
-      Promemoria: undefined,
+      Ricorrenza: 0,
+      Promemoria: 1,
       NomeCategoria: ''
     };
     this.Categorie = ['Lavoro', 'Studio', 'Sport', 'Interessi', 'Personale' ];
@@ -15,7 +14,8 @@ class CreateEvent {
   }
 
   submit() {
-    console.log(this.Event.DataInizio);
+    if(this.repeated && !this.repeatedLimit)
+      this.Event.Ricorrenza=-1;
     this.HttpService.newPostRequest(this.Event, 'CreateEvent.php', angular.bind(this, this.callback));
   }
 

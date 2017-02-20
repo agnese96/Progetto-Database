@@ -1,4 +1,4 @@
-var app=angular.module("app", ['ngMaterial', 'ui.router']);
+var app=angular.module("app", ['ngMaterial', 'ngMessages', 'ui.router']);
 app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/home');
 
