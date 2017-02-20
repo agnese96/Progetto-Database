@@ -14,7 +14,7 @@
   $IDUtente= require 'lib/decodeToken.php';
   $IDEvento = $conn->real_escape_string($_POST['IDEvento']);
   if(! checkOwner($IDUtente, $IDEvento, $conn)){
-    echo json_encode(['error1' => $conn->error]);
+    echo json_encode($data=['error' => $conn->error]);
     exit();
   }
 
@@ -31,18 +31,21 @@
   $DataID = $conn->real_escape_string($_POST['DataID']);
 
   $sql = "UPDATE DateEvento
-          SET DataInizio=$DataInizio, OraInizio=$OraInizio, DataFine=$DataFine, OraFine=$OraFine
-          WHERE IDEvento=$IDEvento AND DataInizio=$DataID";
+          SET DataInizio='$DataInizio', OraInizio='$OraInizio', DataFine='$DataFine', OraFine='$OraFine'
+          WHERE IDEvento=$IDEvento AND DataInizio='$DataID'";
   $sql1 ="UPDATE Eventi
-          SET Descrizione=$Descrizione, Titolo=$Titolo, Frequenza=$Frequenza, NomeCategoria=$NomeCategoria
+          SET Descrizione='$Descrizione', Titolo='$Titolo', Frequenza=$Frequenza, NomeCategoria='$NomeCategoria',
               Promemoria=$Promemoria, Ricorrenza=$Ricorrenza
-          WHERE IDEvento=$IDEvento AND DataInizio=$DataID";
-
-  if(! $result = $conn->quey($sql) || ! $result1 = $conn->query($sql1)) {
-    eho json_encode($data = ['error' => $conn->error]);
+          WHERE IDEvento=$IDEvento";
+  if(! $result = $conn->query($sql)){
+    echo json_encode($data = ['error' => $conn->error]);
+    exit();
+  }
+  if(! $result1 = $conn->query($sql1)) {
+    echo json_encode($data = ['error' => $conn->error]);
     exit();
   }
 
-  echo json_encode(['success' => true]);
+  echo json_encode($data=['success' => true, 'idevento' => $IDEvento]);
   $conn->close();
  ?>

@@ -5,7 +5,6 @@ class HttpService {
   }
   newPostRequest(data, filename, callback) {
     data.token=this.token;
-    console.log(data.token);
     return this.$http({
       method  : 'POST',
       url     : 'server/'+filename,
