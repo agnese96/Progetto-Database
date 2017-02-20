@@ -1,13 +1,9 @@
 <?php
 require "connection.php";
-require "lib/JWT.php";
+$IDUtente = require 'lib/decodeToken.php';
 $DataEvento = $conn->real_escape_string($_POST["DataEvento"]);
 $IDEvento = $conn->real_escape_string($_POST["IDEvento"]);
-$token = $_POST['token'];
 
-if(! $token=JWT::decode($token, 'secret_server_key'))
-  echo json_encode(['error' => 'Devi fare il login']);
-$IDUtente = $token->email;
 
 // $sql = "SELECT Titolo, Descrizione, IFNULL(Ricorrenza,0) as Ricorrenza, IFNULL(Frequenza,0) as Frequenza, IFNULL(Promemoria,0) as Promemoria, IFNULL(NomeCategoria,0) as NomeCategoria
 //         FROM Eventi, DateEvento d, Invitare i

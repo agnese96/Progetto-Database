@@ -1,6 +1,6 @@
 <?php
 require "connection.php";
-require 'lib/JWT.php';
+$IDUtente = require 'lib/decodeToken';
 $Titolo = $conn->real_escape_string($_POST["Titolo"]);
 $Descrizione = $conn->real_escape_string($_POST["Descrizione"]);
 $Ricorrenza = $conn->real_escape_string($_POST["Ricorrenza"]);
@@ -11,17 +11,16 @@ $OraInizio = $conn->real_escape_string($_POST["OraInizio"]);
 $DataFine = $conn->real_escape_string($_POST["DataFine"]);
 $OraFine = $conn->real_escape_string($_POST["OraFine"]);
 $NomeCategoria = $conn->real_escape_string($_POST["NomeCategoria"]);
-$Token = $_POST['token'];
 //$DataInizio .= $OraInizio;//$DataFine .= $OraFine;
 
 
 if(! $Token=JWT::decode($Token, 'secret_server_key'))
   echo json_encode(['error' => 'Devi fare il login']);
-$IDCreatore=$Token->email;
+$IDUtente=$Token->email;
 
 //TODO: Permettere di avere dei campi facoltativi, controllare quindi se ho tutti i valori ed eventualmente modificare la query.
 $stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria, IDCreatore) VALUES(?,?,?,?,?,?,?)");
-$stmt1->bind_param("ssiiiss", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$NomeCategoria,$IDCreatore);
+$stmt1->bind_param("ssiiiss", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$NomeCategoria,$IDUtente);
 
 if(! $stmt1->execute()){
   echo json_encode($data = ['error' => $conn->error]);
@@ -34,7 +33,7 @@ $stmt = $conn->prepare("INSERT INTO DateEvento(IDEvento, DataInizio, DataFine, O
 $not = $conn->prepare("INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio) VALUES('P',?,?,?,?,?)");
 $not->bind_param('sssis',$DataNotifica, $OraNotifica, $Titolo, $ID, $DataI);
 $ric = $conn->prepare("INSERT INTO Ricevere (Email, IDNotifica) VALUES (?,?)");
-$ric->bind_param('si',$IDCreatore, $IDNotifica);
+$ric->bind_param('si',$IDUtente, $IDNotifica);
 $DataInizio = new DateTime($DataInizio);
 $DataFine = new DateTime($DataFine);
 $OraInizio= (new DateTime($OraInizio))->format('H:i:s');
