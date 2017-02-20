@@ -18,36 +18,31 @@
     exit();
   }
 
-  $editedEvent=$_POST['editedEvent'];
-  $editedDate=$_POST['editedDate'];
+  $DataInizio  = $conn->real_escape_string($_POST['DataInizio']);
+  $OraInizio = $conn->real_escape_string($_POST['OraInizio']);
+  $DataFine = $conn->real_escape_string($_POST['DataFine']);
+  $OraFine = $conn->real_escape_string($_POST['OraFine']);
+  $Descrizione = $conn->real_escape_string($_POST['Descrizione']);
+  $Titolo = $conn->real_escape_string($_POST['Titolo']);
+  $Frequenza = $conn->real_escape_string($_POST['Frequenza']);
+  $Promemoria = $conn->real_escape_string($_POST['Promemoria']);
+  $Ricorrenza = $conn->real_escape_string($_POST['Ricorrenza']);
+  $NomeCategoria = $conn->real_escape_string($_POST['NomeCategoria']);
+  $DataID = $conn->real_escape_string($_POST['DataID']);
 
-  if(count($editedEvent)) {
-    $sql="UPDATE Eventi SET ";
-    for($i=0; $i<count($editedEvent); $i++) {
-      if($i!=0)
-        $sql.=', ';
-      $sql.=$editedEvent[$i]." = ".$_POST[ $editedEvent[$i] ];
-    }
-    $sql.="WHERE IDEvento=$IDEvento ";
-    if(! $resul = $conn->execute($sql)) {
-      echo json_encode(['error2' => $conn->error]);
-      exit();
-    }
+  $sql = "UPDATE DateEvento
+          SET DataInizio=$DataInizio, OraInizio=$OraInizio, DataFine=$DataFine, OraFine=$OraFine
+          WHERE IDEvento=$IDEvento AND DataInizio=$DataID";
+  $sql1 ="UPDATE Eventi
+          SET Descrizione=$Descrizione, Titolo=$Titolo, Frequenza=$Frequenza, NomeCategoria=$NomeCategoria
+              Promemoria=$Promemoria, Ricorrenza=$Ricorrenza
+          WHERE IDEvento=$IDEvento AND DataInizio=$DataID";
+
+  if(! $result = $conn->quey($sql) || ! $result1 = $conn->query($sql1)) {
+    eho json_encode($data = ['error' => $conn->error]);
+    exit();
   }
 
-  if(count($editedDate)) {
-    $DataID = $conn->real_escape_string($_POST['DataID']);
-    $sql="UPDATE DateEvento SET ";
-    for($i=0; $i<count($editedEvent); $i++) {
-      if($i!=0)
-        $sql.=', ';
-      $sql.=$editedEvent[$i]." = ".$_POST[$editedEvent[$i]];
-    }
-    $sql.="WHERE IDEvento=$IDEvento AND DataInizio=$DataID";
-    if(! $resul = $conn->execute($sql)) {
-      echo json_encode(['error3' => $conn->error]);
-      exit();
-    }
-  }
-    echo json_encode(['success' => true]);
+  echo json_encode(['success' => true]);
+  $conn->close();
  ?>
