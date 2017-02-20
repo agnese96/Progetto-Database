@@ -20,6 +20,7 @@ if(! $result = $conn->query($sql)){
 
 if($result->num_rows > 0) {
   $row = $result->fetch_assoc();
+  $row['owner']=checkOwner($IDUtente, $IDEvento, $conn);
   echo json_encode($row);
 }
 else {
