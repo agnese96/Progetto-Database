@@ -1,7 +1,8 @@
 class ShowDeadline {
-  constructor($state, HttpService) {
+  constructor($state, $rootScope, HttpService) {
       this.HttpService=HttpService;
       this.$state=$state;
+      this.$rootScope=$rootScope;
       this.editmode=false;
   }
   $onInit() {
@@ -14,8 +15,9 @@ class ShowDeadline {
   }
   getDeadline(err, res) {
     this.loading=false;
-    if(err)
-      console.error(err);
+    if(err){
+      this.$state.go('home');
+    }
     else
       this.Deadline=res;
   }
@@ -44,6 +46,22 @@ class ShowDeadline {
       console.log(res);
       this.toggleContentEditable();
       this.loading;
+    }
+  }
+  checkDone() {
+    this.loading=true;
+    this.Data = {
+      IDScadenza : this.id
+    };
+    this.HttpService.newPostRequest(this.Data, 'CompleteDeadline.php', angular.bind(this, this.setDone));
+  }
+  setDone(err, res) {
+    if(err)
+      console.error(err);
+    else {
+      console.log(res);
+      this.loading=false;
+      this.$state.go('home');
     }
   }
 }

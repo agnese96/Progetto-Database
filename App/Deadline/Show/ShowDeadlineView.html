@@ -1,6 +1,8 @@
 <div layout="column" layout-fill layout-margin layout-padding>
   <div layout="row" layout-fill layout-margin layout-padding>
-    <h3 class="md-display-1 editable" ng-model="Show.Deadline.Descrizione" contenteditable="false"></h3>
+    <md-checkbox ng-model="Show.checked" ng-change="Show.checkDone()" ng-disabled="Show.editmode">
+      <h3 class="md-display-1 editable" ng-model="Show.Deadline.Descrizione" contenteditable="false"></h3>
+    </md-checkbox>
     <span flex></span>
     <md-button ng-click="Show.Edit()" ng-show="!Show.editmode">Edit</md-button>
     <md-button ng-click="Show.Cancel()" ng-show=" Show.editmode">Cancel</md-button>
