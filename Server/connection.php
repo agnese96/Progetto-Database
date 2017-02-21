@@ -23,4 +23,14 @@ function checkOwner($IDUtente, $IDEvento, $conn) {
   }
   return false;
 }
+function checkOwnerDeadline($IDUtente, $IDScadenza, $conn){
+  $sql="SELECT Descrizione
+        FROM Scadenze
+        WHERE IDScadenza = $IDScadenza AND IDCreatore = '$IDUtente'";
+  if($result = $conn->query($sql)){
+    if($result->num_rows==1)
+      return true;
+  }
+  return false;
+}
 ?>
