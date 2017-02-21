@@ -4,7 +4,8 @@
   require 'connection.php';
   $email = $conn->real_escape_string($_POST['email']);
   $password = $_POST['password'];
-
+  
+/*$conn->real_escape_string() corregge eventuali errori dovuti ad apici ecc ecc */
 /*  if(strlen ($email) == 0) || strlen($password) == 0) {
     header("Location: loginView.html");
     exit;

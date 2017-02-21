@@ -1,4 +1,4 @@
-var app=angular.module("app", ['ngMaterial', 'ui.router']);
+var app=angular.module("app", ['ngMaterial', 'ngMessages', 'ui.router']);
 app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/home');
 
@@ -19,17 +19,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('event', {
       url: '/event',
+      abstract: true,
+      template: '<div ui-view></div>',
       data: {
         restricted: true
       }
     })
     .state('event.create', {
-      url: '/create',
-      templateUrl: 'Event/Create/CreateEventView.html'
+      url: '/c',
+      template: "<create-event></create-event>"
     })
     .state('event.show', {
-      url: '/show/:eventId/:eventDate',
-      templateUrl: 'Event/Show/ShowEventView.html',
+      url: '/s/:eventId/:eventDate',
+      templateProvider: function ($stateParams) {
+        return "<show-event id='"+$stateParams.eventId+"' date='"+$stateParams.eventDate+"'></show-event>";
+      },
       data: {
         owner: true
       }
