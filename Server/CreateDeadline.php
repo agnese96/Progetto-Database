@@ -11,7 +11,8 @@ $Priorità = $conn->real_escape_string($_POST["Priorità"]);
 $stmt = $conn->prepare("INSERT INTO Scadenze(Descrizione, Data, Priorità, Ricorrenza, Frequenza, Promemoria, IDCreatore) VALUES (?,?,?,?,?,?,?)");
 $stmt->bind_param("ssiiiis", $Descrizione, $DataS, $Priorità, $Ricorrenza, $Frequenza, $Promemoria, $IDUtente);
 
-$DataScadenza = new DateTime($DataScadenza);
+$DataScadenza = new DateTime();
+$DataScadenza->setTimestamp($DataScadenza);
 $DataS=$DataScadenza->format('Y-m-d');
 
 if(! $stmt->execute()){
