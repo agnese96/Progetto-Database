@@ -7,8 +7,8 @@
           <label>
             Titolo
           </label>
-          <input nome="titolo" type="text" ng-model="Create.Event.Titolo" aria-label="titolo" md-maxlength="50" required md-no-asterisk/>
-          <div ng-messages="form.titolo.$error" ng-if="form.titolo.$touched" md-auto-hide="false">
+          <input name="titolo" type="text" ng-model="Create.Event.Titolo" aria-label="titolo" md-maxlength="50" required md-no-asterisk/>
+          <div ng-messages="form.titolo.$error">
             <div ng-message="required">Campo obbligatorio</div>
             <div ng-message="md-maxlength">Il titolo può essere lungo massimo 50 caratteri</div>
           </div>

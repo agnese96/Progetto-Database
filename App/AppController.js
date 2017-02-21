@@ -38,7 +38,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
         owner: true
       }
     })
-
+    .state('deadline', {
+      url: '/deadline',
+      abstract: true,
+      template: '<div ui-view></div>',
+      data: {
+        restricted: true,
+        owner: true
+      }
+    })
+    .state('deadline.create', {
+      url: '/c',
+      template: '<create-deadline></create-deadline>'
+    })
+    .state('deadline.show', {
+      url: '/s/:deadlineId',
+      templateProvider: function ($stateParams) {
+        return "<show-deadline id='"+$stateParams.deadlineId+"'></show-deadline>";
+      }
+    })
 })
   .run(function ($rootScope, $state, userService) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {

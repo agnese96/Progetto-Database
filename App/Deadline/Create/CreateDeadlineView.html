@@ -7,8 +7,8 @@
           <label>
             Descrizione
           </label>
-          <input nome="titolo" type="text" ng-model="Create.Deadline.Descrizione" aria-label="descrizione" md-maxlength="50" required md-no-asterisk/>
-          <div ng-messages="form.titolo.$error" ng-if="form.titolo.$touched" md-auto-hide="false">
+          <input name="titolo" type="text" ng-model="Create.Deadline.Descrizione" aria-label="descrizione" md-maxlength="50" required md-no-asterisk/>
+          <div ng-messages="form.titolo.$error">
             <div ng-message="required">Campo obbligatorio</div>
             <div ng-message="md-maxlength">La descrizione può essere lungo massimo 50 caratteri</div>
           </div>
@@ -31,7 +31,7 @@
       <md-icon>&#xE855;</md-icon>
       <input type="number" ng-model="Create.Deadline.Promemoria" aria-label="promemoria" value="1"/>
       <div class="hint">
-        Quante ore prima vuoi essere avvisato?
+        Quanti giorni prima vuoi essere avvisato?
       </div>
     </md-input-container>
     <div layout="row" layout-fill layout-align="space-between">

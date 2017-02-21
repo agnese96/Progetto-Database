@@ -13,11 +13,6 @@ $OraFine = $conn->real_escape_string($_POST["OraFine"]);
 $NomeCategoria = $conn->real_escape_string($_POST["NomeCategoria"]);
 //$DataInizio .= $OraInizio;//$DataFine .= $OraFine;
 
-
-if(! $Token=JWT::decode($Token, 'secret_server_key'))
-  echo json_encode(['error' => 'Devi fare il login']);
-$IDUtente=$Token->email;
-
 //TODO: Permettere di avere dei campi facoltativi, controllare quindi se ho tutti i valori ed eventualmente modificare la query.
 $stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria, IDCreatore) VALUES(?,?,?,?,?,?,?)");
 $stmt1->bind_param("ssiiiss", $Titolo,$Descrizione,$Ricorrenza,$Frequenza,$Promemoria,$NomeCategoria,$IDUtente);

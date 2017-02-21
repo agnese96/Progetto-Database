@@ -1,45 +1,25 @@
 <?php
 require "connection.php";
-$IDUtente = require 'lib/decodeToken';
-$Descrizione = $conn->real_escape_string($_POT["Descrizione"]);
-$DataScadenza = $conn->real_escape_string($_POT["Data"]);
-$Promemoria = $conn->real_escape_string($_POT["Promemoria"]);
-$Ricorrenza = $conn->real_escape_string($_POT["Ricorrenza"]);
-$Frequenza = $conn->real_escape_string($_POT["Frequenza"]);
-$Priorità = $conn->real_escape_string($_POT["Priorità"]);
-
-if(! $Token=JWT::decode($Token, 'secret_server_key'))
-  echo json_encode(['error' => 'Devi fare il login']);
-$IDUtente=$Token->email;
+$IDUtente = require 'lib/decodeToken.php';
+$Descrizione = $conn->real_escape_string($_POST["Descrizione"]);
+$DataScadenza = $conn->real_escape_string($_POST["Data"]);
+$Promemoria = $conn->real_escape_string($_POST["Promemoria"]);
+$Ricorrenza = $conn->real_escape_string($_POST["Ricorrenza"]);
+$Frequenza = $conn->real_escape_string($_POST["Frequenza"]);
+$Priorità = $conn->real_escape_string($_POST["Priorità"]);
 
 $stmt = $conn->prepare("INSERT INTO Scadenze(Descrizione, Data, Priorità, Ricorrenza, Frequenza, Promemoria, IDCreatore) VALUES (?,?,?,?,?,?,?)");
-$stmt->bind_param("ssiiiis", $Descrizione, $DataScadenza, $Priorità, $Ricorrenza, $Frequenza, $IDUtente);
-
-$ID = $conn->insert_id;
+$stmt->bind_param("ssiiiis", $Descrizione, $DataS, $Priorità, $Ricorrenza, $Frequenza, $Promemoria, $IDUtente);
 
 $DataScadenza = new DateTime($DataScadenza);
-$DataLimite= new DateTime();
-$DataLimite->add(new DateInterval('P24M'));
-if($Ricorrenza == -1) $illimitato = true; else $illimitato = false;
+$DataS=$DataScadenza->format('Y-m-d');
 
-$data = ['IDScadenza' => $ID, 'DataScadenza' => $DataScadenza->format('Y-m-d')];
-
-do {
-  if(! $illimitato)
-    $Ricorrenza--;
-    $DataScadenza=$DataScadenza->format('Y-m-d');
-    //TODO: Se c'è un problema nell'inserimento di uno degli eventi ricorrenti eliminare tutto ciò che è stato fatto finora
-    if(! $stmt->execute()){
-      echo json_encode($data = ['error' => $conn->error]);
-      exit();
-    }
-    $DataScadenza->add(new DateInterval('P'.$Frequenza.'D'));
-
-} while (($Ricorrenza>0 || $illimitato) && $DataScadenza < $DataLimite);
-
-if(! $illimitato){
-  $conn->query("UPDATE Scadenze SET Ricorrenza=$Ricorrenza WHERE IDScadenza=$ID");
+if(! $stmt->execute()){
+  echo json_encode($data = ['error' => $conn->error]);
+  exit();
 }
+$ID = $conn->insert_id;
+$data = ['IDScadenza' => $ID];
 
 $conn->close();
 echo json_encode($data);

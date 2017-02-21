@@ -2,16 +2,11 @@
   <div layout="row" layout-fill layout-margin layout-padding>
     <h3 class="md-display-1 editable" ng-model="Show.Deadline.Descrizione" contenteditable="false"></h3>
     <span flex></span>
-  <!-- controllare Show.Deadline.owner -->
-    <md-button ng-click="Show.Edit()" ng-show="Show.Deadline.owner && !Show.editmode">Edit</md-button>
+    <md-button ng-click="Show.Edit()" ng-show="!Show.editmode">Edit</md-button>
     <md-button ng-click="Show.Cancel()" ng-show=" Show.editmode">Cancel</md-button>
     <md-button ng-click="Show.Apply()" ng-show=" Show.editmode">Apply</md-button>
   </div>
-  <div class="descrizione editable" ng-model="Show.Deadline.Descrizione" contenteditable="false">
-    {{Show.Deadline.Descrizione}}
-  </div>
   <div class="Data">
-    Data di scadenza:
-    <span class="editable" ng-model="Show.Deadline.Data" contenteditable="false"></span>
+    Data di scadenza: <span class="editable" ng-model="Show.Deadline.Data" contenteditable="false"></span>
   </div>
 </div>

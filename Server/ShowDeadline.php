@@ -1,7 +1,6 @@
 <?php
 require "connection.php";
 $IDUtente = require 'lib/decodeToken.php';
-$Data = $conn->real_escape_string($_POST["Data"]);
 $IDScadenza = $conn->real_escape_string($_POST["IDScadenza"]);
 
 $sql = "SELECT Descrizione, Data, IFNULL(Ricorrenza,0) as Ricorrenza, IFNULL(Frequenza,0) as Frequenza, IFNULL(Promemoria,0) as Promemoria

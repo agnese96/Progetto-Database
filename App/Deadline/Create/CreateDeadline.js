@@ -1,10 +1,12 @@
 class CreateDeadline {
   constructor ($state, HttpService) {
+    console.log('costruttore Deadline');
     this.Deadline = {
       Descrizione: '',
       Priorità: 0,
       Ricorrenza: 0,
-      Promemoria: 1
+      Promemoria: 1,
+      Frequenza: 0
     };
     this.$state=$state;
     this.HttpService=HttpService;
@@ -19,12 +21,12 @@ class CreateDeadline {
       console.log(err);
     else {
       console.log(res);
-      this.$state.go('deadline.show', {deadlineId:res.IDScadenza, deadlineDate:res.Data });
+      this.$state.go('deadline.show', {deadlineId: res.IDScadenza });
     }
   }
 }
 
-app.component('createDealine', {
+app.component('createDeadline', {
   controller: CreateDeadline,
   controllerAs: 'Create',
   templateUrl: 'App/Deadline/Create/CreateDeadlineView.html'

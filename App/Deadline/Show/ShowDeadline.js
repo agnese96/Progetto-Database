@@ -8,7 +8,6 @@ class ShowDeadline {
     console.log(this.id);
     this.Data={
       IDScadenza : this.id,
-      Data : this.date
     };
     this.HttpService.newPostRequest(this.Data, 'ShowDeadline.php', angular.bind(this, this.getDeadline));
     this.loading=true;
@@ -17,9 +16,8 @@ class ShowDeadline {
     this.loading=false;
     if(err)
       console.error(err);
-    else{
+    else
       this.Deadline=res;
-    }
   }
   Edit() {
     this.Backup=angular.copy(this.Deadline);
@@ -29,10 +27,8 @@ class ShowDeadline {
     angular.copy(this.Backup, this.Deadline);
     this.toggleContentEditable();
   }
-//CONTROLLARE APPLY!
   Apply() {
     this.Deadline.IDScadenza=this.id;
-    this.Deadline.Data=this.date;
     this.loading=true;
     this.HttpService.newPostRequest(this.Deadline, 'EditDeadline.php', angular.bind(this, this.applyResponse));
   }
@@ -46,23 +42,18 @@ class ShowDeadline {
       this.Cancel();
     }else{
       console.log(res);
-      if(this.date != this.Deadline.Data)
-        this.$state.go('deadline.show', {eventId:this.id, eventDate:this.Deadline.Data});
-      else {
-        this.toggleContentEditable();
-        this.loading
-      }
+      this.toggleContentEditable();
+      this.loading;
     }
   }
 }
 
-app.component('showEvent', {
-  controller: ShowEvent,
+app.component('showDeadline', {
+  controller: ShowDeadline,
   controllerAs: 'Show',
-  templateUrl: 'App/Event/Show/ShowDeadlineView.html',
+  templateUrl: 'App/Deadline/Show/ShowDeadlineView.html',
   bindings: {
-    'id': '=',
-    'date': '@'
+    'id': '='
   }
 });
 
