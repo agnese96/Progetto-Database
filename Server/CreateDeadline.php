@@ -1,6 +1,7 @@
 <?php
 require "connection.php";
 $IDUtente = require 'lib/decodeToken.php';
+error_reporting(E_ALL ^ E_WARNING);
 $Descrizione = $conn->real_escape_string($_POST["Descrizione"]);
 $DataScadenza = $conn->real_escape_string($_POST["Data"]);
 $Promemoria = $conn->real_escape_string($_POST["Promemoria"]);

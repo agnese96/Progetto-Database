@@ -1,16 +1,40 @@
 class CreateEvent {
-  constructor ($state, HttpService) {
+  constructor ($q,$state, HttpService) {
     console.log('costruttore CreateEvent');
     this.Event = {
       Titolo: '',
       Descrizione: '',
       Ricorrenza: 0,
       Promemoria: 1,
-      NomeCategoria: ''
+      NomeCategoria: '',
+      Partecipanti: [
+        
+      ]
     };
     this.Categorie = ['Lavoro', 'Studio', 'Sport', 'Interessi', 'Personale' ];
     this.$state=$state;
+    this.$q=$q;
     this.HttpService=HttpService;
+    this.pendingSearch;
+    this.cancelSearch=angular.noop;
+  }
+  querySearch($query) {
+    if( !this.pendingSearch ) {
+      this.cancelSearch();
+
+      return this.pendingSearch = this.$q( (resolve, reject) => {
+          this.cancelSearch = reject;
+          this.HttpService.newPostRequest({Key: $query}, 'GetFilteredContacts.php', function contactsCallback(err, res) {
+              console.log(res);
+              if(err)
+                reject(err);
+              else {
+                resolve(res);
+              }
+          });
+      });
+    }
+    return this.pendingSearch;
   }
 
   submit() {

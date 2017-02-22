@@ -19,7 +19,7 @@ class CreateDeadline {
   }
   callback(err, res) {
     if(err)
-      console.log(err);
+      console.error(err);
     else {
       console.log(res);
       this.$rootScope.$broadcast('newDeadline');

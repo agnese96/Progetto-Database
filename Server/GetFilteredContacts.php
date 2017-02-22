@@ -3,7 +3,7 @@
   $IDUtente = require "lib/decodeToken.php";
   $Key = $conn->real_escape_string($_POST["Key"]);
 
-  $sql = "SELECT CONCAT_WS(' ', Cognome, Nome) AS Nominativo, FotoProfilo
+  $sql = "SELECT CONCAT_WS(' ', Cognome, Nome) AS Nominativo, FotoProfilo, Email
           FROM Utenti u JOIN Contatti c ON u.Email = c.Email2
           WHERE c.Email1 = '$IDUtente' AND (Nome LIKE '%$Key%' OR Email LIKE '%$Key%' OR Cognome LIKE '%$Key%')
           ORDER BY Cognome, Nome";

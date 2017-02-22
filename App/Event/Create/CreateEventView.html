@@ -68,6 +68,16 @@
         Quante ore prima vuoi essere avvisato?
       </div>
     </md-input-container>
+    <md-contact-chips
+      ng-model="Create.Event.Partecipanti"
+      md-contacts="Create.querySearch($query)"
+      md-contact-name="Nominativo"
+      md-contact-image="FotoProfilo"
+      md-contact-email="Email"
+      md-require-match="true"
+      filter-selected="Create.filterSelected"
+      placeholder="To"
+    ></md-contact-chips>
     <div layout="row" layout-fill layout-align="space-between">
         <md-switch ng-model="Create.repeated" aria-label="Evento ripetuto" ng-false-value>Evento ripetuto</md-switch>
       <md-input-container flex="70" ng-show="Create.repeated">
