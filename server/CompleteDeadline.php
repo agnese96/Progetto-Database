@@ -26,16 +26,14 @@
       echo json_encode($data=['error' => $conn->error]);
       exit();
     }
-    $data=['successUpdate' => true];
   }else{
     $sql="DELETE FROM Scadenze WHERE IDScadenza=$IDScadenza";
     if(! $result=$conn->query($sql)) {
       echo json_encode($data=['error' => $conn->error]);
       exit();
     }
-    $data=['successDelete' => true];
   }
   $conn->close();
-  echo json_encode($data);
+  echo json_encode($data=['id' => $IDScadenza]);
 
  ?>

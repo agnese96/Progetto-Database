@@ -4,9 +4,14 @@ class ShowDeadline {
       this.$state=$state;
       this.$rootScope=$rootScope;
       this.editmode=false;
+
+      $rootScope.$on('updateDeadline', angular.bind(this, function checkRefresh(event, data) {
+        console.log('Some deadline has been updated');
+        if(this.id==data)
+          this.$onInit();
+      }));
   }
   $onInit() {
-    console.log(this.id);
     this.Data={
       IDScadenza : this.id,
     };
@@ -16,6 +21,7 @@ class ShowDeadline {
   getDeadline(err, res) {
     this.loading=false;
     if(err){
+      this.$rootScope.$broadcast('errorToast', 'Questa scadenza non esiste');
       this.$state.go('home');
     }
     else
@@ -43,9 +49,9 @@ class ShowDeadline {
       console.error(err);
       this.Cancel();
     }else{
-      console.log(res);
       this.toggleContentEditable();
-      this.loading;
+      this.$rootScope.$broadcast('updateDeadline', this.id);
+      this.loading=false;
     }
   }
   checkDone() {
@@ -59,7 +65,7 @@ class ShowDeadline {
     if(err)
       console.error(err);
     else {
-      console.log(res);
+      this.$rootScope.$broadcast('updateDeadline', this.id);
       this.loading=false;
       this.$state.go('home');
     }

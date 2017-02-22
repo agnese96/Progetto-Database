@@ -16,7 +16,8 @@ class ShowEvent {
   getEvent(err, res) {
     this.loading=false;
     if(err)
-      console.error(err);
+      //console.error(err);
+      this.$rootScope.$broadcast('errorToast', 'Questo evento non esiste');
     else{
       this.Event=res;
     }

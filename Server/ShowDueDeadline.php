@@ -7,7 +7,7 @@
 
   $sql = "SELECT IDScadenza, Descrizione, Data, IFNULL(Ricorrenza,0) as Ricorrenza, IFNULL(Frequenza,0) as Frequenza, IFNULL(Promemoria,0) as Promemoria
           FROM Scadenze
-          WHERE IDCreatore='$IDUtente' AND (DATEDIFF('Data','CURDATE()') <= 7 OR DATEDIFF('DATE_SUB(Data, INTERVAL Promemoria DAY)','CURDATE()') <= 7)
+          WHERE IDCreatore='$IDUtente' AND (DATEDIFF(Data,CURDATE()) < 7 OR DATEDIFF(DATE_SUB(Data, INTERVAL Promemoria DAY),CURDATE()) < 7)
           ORDER BY Priorità";
 
   if(! $result = $conn->query($sql)){
@@ -21,7 +21,7 @@
     echo json_encode($rows);
   }
   else {
-    echo json_encode($data = ['error' => 'Scadenza/e non trovata/e']);
+    echo json_encode($data = ['error' => 'Nessuna scadenza trovata']);
     exit();
   }
 

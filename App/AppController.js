@@ -30,9 +30,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
       template: "<create-event></create-event>"
     })
     .state('event.show', {
-      url: '/s/:eventId/:eventDate',
+      url: '/s/:id/:date',
       templateProvider: function ($stateParams) {
-        return "<show-event id='"+$stateParams.eventId+"' date='"+$stateParams.eventDate+"'></show-event>";
+        return "<show-event id='"+$stateParams.id+"' date='"+$stateParams.date+"'></show-event>";
       },
       data: {
         owner: true
@@ -52,9 +52,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
       template: '<create-deadline></create-deadline>'
     })
     .state('deadline.show', {
-      url: '/s/:deadlineId',
+      url: '/s/:id',
       templateProvider: function ($stateParams) {
-        return "<show-deadline id='"+$stateParams.deadlineId+"'></show-deadline>";
+        return "<show-deadline id='"+$stateParams.id+"'></show-deadline>";
       }
     })
 })
@@ -69,3 +69,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
     });
   });
+class AppController {
+  constructor($rootScope,$mdToast) {
+    $rootScope.$on('errorToast', angular.bind(this, this.errorToast));
+    this.$mdToast=$mdToast;
+  }
+  errorToast(event, message) {
+    this.$mdToast.showSimple(message);
+  }
+
+}
+
+app.controller('appController',AppController);

@@ -1,5 +1,5 @@
 class CreateDeadline {
-  constructor ($state, HttpService) {
+  constructor ($state, $rootScope, HttpService) {
     console.log('costruttore Deadline');
     this.Deadline = {
       Descrizione: '',
@@ -10,6 +10,7 @@ class CreateDeadline {
     };
     this.$state=$state;
     this.HttpService=HttpService;
+    this.$rootScope=$rootScope;
   }
   submit(){
     if(this.repeated && !this.repeatedLimit)
@@ -21,7 +22,8 @@ class CreateDeadline {
       console.log(err);
     else {
       console.log(res);
-      this.$state.go('deadline.show', {deadlineId: res.IDScadenza });
+      this.$rootScope.$broadcast('newDeadline');
+      this.$state.go('deadline.show', {id: res.IDScadenza });
     }
   }
 }
