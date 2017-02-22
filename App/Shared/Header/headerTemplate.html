@@ -1,6 +1,17 @@
 <md-toolbar>
   <div ng-show="head.logged">
     <user-info></user-info>
+    <md-button class="md-icon-button" aria-label="Aggiungi un evento" ui-sref="event.create">
+      Evento
+      <md-icon>&#xE145;</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" aria-laber="Aggiungi una scadenza" ui-sref="deadline.create">
+      Scadenza
+      <md-icon>&#xE145;</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" aria-laber="Apri sidenav" ng-click="head.toggleSidenav()">
+      <md-icon>&#xE5D2;</md-icon>
+    </md-button>
   </div>
   <div ng-show="! head.logged">
     <auth-button></auth-button>

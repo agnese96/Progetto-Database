@@ -1,4 +1,4 @@
-var app=angular.module("app", ['ngMaterial', 'ui.router']);
+var app=angular.module("app", ['ngMaterial', 'ngMessages', 'ui.router']);
 app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/home');
 
@@ -19,22 +19,44 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('event', {
       url: '/event',
+      abstract: true,
+      template: '<div ui-view></div>',
       data: {
         restricted: true
       }
     })
     .state('event.create', {
-      url: '/create',
-      templateUrl: 'Event/Create/CreateEventView.html'
+      url: '/c',
+      template: "<create-event></create-event>"
     })
     .state('event.show', {
-      url: '/show/:eventId/:eventDate',
-      templateUrl: 'Event/Show/ShowEventView.html',
+      url: '/s/:id/:date',
+      templateProvider: function ($stateParams) {
+        return "<show-event id='"+$stateParams.id+"' date='"+$stateParams.date+"'></show-event>";
+      },
       data: {
         owner: true
       }
     })
-
+    .state('deadline', {
+      url: '/deadline',
+      abstract: true,
+      template: '<div ui-view></div>',
+      data: {
+        restricted: true,
+        owner: true
+      }
+    })
+    .state('deadline.create', {
+      url: '/c',
+      template: '<create-deadline></create-deadline>'
+    })
+    .state('deadline.show', {
+      url: '/s/:id',
+      templateProvider: function ($stateParams) {
+        return "<show-deadline id='"+$stateParams.id+"'></show-deadline>";
+      }
+    })
 })
   .run(function ($rootScope, $state, userService) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -47,3 +69,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
     });
   });
+class AppController {
+  constructor($rootScope,$mdToast) {
+    $rootScope.$on('errorToast', angular.bind(this, this.errorToast));
+    this.$mdToast=$mdToast;
+  }
+  errorToast(event, message) {
+    this.$mdToast.showSimple(message);
+  }
+
+}
+
+app.controller('appController',AppController);

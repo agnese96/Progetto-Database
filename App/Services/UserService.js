@@ -18,7 +18,7 @@ class UserService {
     this.$window.localStorage.setItem('token', token);
     this.$window.localStorage.setItem('email', email);
     this.$window.localStorage.setItem('photo', photo);
-    this.$http.defaults.headers.common['Authentication'] = 'Bearer: ' + token;
+    //this.$http.defaults.headers.common['Authentication'] = 'Bearer: ' + token;
     this.$rootScope.$broadcast('userChange');//emit an event so that the other controllers can update their info.
   }
 
@@ -51,13 +51,14 @@ class UserService {
     this.$window.localStorage.removeItem('token');
     this.$window.localStorage.removeItem('email');
     this.$window.localStorage.removeItem('photo');
-    this.$http.defaults.headers.common['Authentication'] = '';
+    //this.$http.defaults.headers.common['Authentication'] = '';
     this.logged=false;
     this.$rootScope.$emit('userChange');//emit an event so that the other controllers can update their info.
   }
 
   isLogged() { return this.logged; }
   gUser()    { return { email: this.email, photo: this.photo }; }
+  gToken()   { return this.token; }
 }
 
 app.service('userService', UserService);

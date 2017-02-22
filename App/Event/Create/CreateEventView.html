@@ -1,0 +1,99 @@
+<div layout="column" layout-fill layout-margin layout-padding>
+  <h3 class="md-display-1">Crea un nuovo evento</h3>
+  <form name="form" layout="column" layout-fill layout-padding layout-margin>
+    <div layout="row" layout-xs="column">
+      <div layout="column" flex-gt-xs="45">
+        <md-input-container >
+          <label>
+            Titolo
+          </label>
+          <input name="titolo" type="text" ng-model="Create.Event.Titolo" aria-label="titolo" md-maxlength="50" required md-no-asterisk/>
+          <div ng-messages="form.titolo.$error">
+            <div ng-message="required">Campo obbligatorio</div>
+            <div ng-message="md-maxlength">Il titolo può essere lungo massimo 50 caratteri</div>
+          </div>
+        </md-input-container>
+        <md-input-container >
+          <label>
+            Categoria
+          </label>
+          <md-select ng-model="Create.Event.NomeCategoria" >
+            <md-option ng-repeat="Categoria in Create.Categorie" value="{{Categoria}}">{{ Categoria }}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <span flex></span>
+      <div layout="column">
+        <div layout="row" flex-xs="100" layout-align="space-between">
+          <md-input-container flex-xs=60>
+            <label>
+              Data inizio
+            </label>
+            <md-datepicker  ng-model="Create.Event.DataInizio" required md-no-asterisk>
+          </md-input-container>
+          <md-input-container flex-xs=40>
+            <label>
+              Ora inizio
+            </label>
+            <input type="time" ng-model="Create.Event.OraInizio" required md-no-asterisk/>
+          </md-input-container>
+        </div>
+        <div layout="row" flex-xs="100" layout-align="space-between">
+          <md-input-container flex-xs=60>
+            <label>
+              Data fine
+            </label>
+            <md-datepicker ng-model="Create.Event.DataFine">
+          </md-input-container>
+          <md-input-container flex-xs=40>
+            <label>
+              Ora fine
+            </label>
+            <input type="time" ng-model="Create.Event.OraFine" />
+          </md-input-container>
+        </div>
+      </div>
+    </div>
+    <md-input-container >
+      <label>
+        Descrizione
+      </label>
+      <textarea ng-model="Create.Event.Descrizione" aria-label="descrizione" rows="3" md-select-on-focus/>
+    </md-input-container>
+    <md-input-container >
+      <label>Promemoria</label>
+      <md-icon>&#xE855;</md-icon>
+      <input type="number" ng-model="Create.Event.Promemoria" aria-label="promemoria" value="1"/>
+      <div class="hint">
+        Quante ore prima vuoi essere avvisato?
+      </div>
+    </md-input-container>
+    <div layout="row" layout-fill layout-align="space-between">
+        <md-switch ng-model="Create.repeated" aria-label="Evento ripetuto" ng-false-value>Evento ripetuto</md-switch>
+      <md-input-container flex="70" ng-show="Create.repeated">
+        <label>
+          Frequenza
+        </label>
+        <input type="number" ng-model="Create.Event.Frequenza"  aria-label="frequenza" />
+        <div class="hint">
+          Ogni quanti giorni si ripete?
+        </div>
+      </md-input-container>
+    </div>
+    <div layout="row" ng-show="Create.repeated" layout-fill>
+      <md-switch ng-model="Create.repeatedLimit" aria-label="Limite evento ripetuto" ng-false-value>Ha una fine?</md-switch>
+      <md-input-container flex="70" ng-show="Create.repeatedLimit">
+        <label>
+          Ricorrenza
+        </label>
+        <input type="number" ng-model="Create.Event.Ricorrenza" aria-label="ricorrenza" />
+        <div class="hint">
+          Quante volte si ripete?
+        </div>
+      </md-input-container>
+    </div>
+    <div layout="row" layout-align="end center">
+      <md-button class="md-raised md-primary" ng-click="Create.submit()" aria-label="submit" ng-disabled="form.$invalid">Submit</md-button>
+    </div>
+  </form>
+</div>
