@@ -23,10 +23,10 @@ class CreateEvent {
   querySearch($query) {
     if( !this.pendingSearch ) {
       this.cancelSearch();
-
+      //TODO FIX FILTERED SEARCH, PROBABLY A PROBLEM HERE!!
       return this.pendingSearch = this.$q( (resolve, reject) => {
           this.cancelSearch = reject;
-          this.HttpService.newPostRequest({Key: $query}, 'GetFilteredContacts.php', function contactsCallback(err, res) {
+          this.HttpService.newPostRequest({}, 'GetContacts.php', function contactsCallback(err, res) {
               console.log(res);
               if(err)
                 reject(err);
@@ -42,8 +42,9 @@ class CreateEvent {
   submit() {
     if(this.repeated && !this.repeatedLimit)
       this.Event.Ricorrenza=-1;
-    if(this.Event.Partecipanti.length)
+    if(this.Event.Partecipanti.length){
       this.Event.HasPartecipants = 1;
+    }
     this.HttpService.newPostRequest(this.Event, 'CreateEvent.php', angular.bind(this, this.callback));
   }
 

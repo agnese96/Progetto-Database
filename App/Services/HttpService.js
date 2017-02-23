@@ -1,10 +1,10 @@
 class HttpService {
   constructor($http, userService) {
     this.$http=$http;
-    this.token=userService.gToken();
+    this.userService=userService;
   }
   newPostRequest(data, filename, callback) {
-    data.token=this.token;
+    data.token=this.userService.gToken();
     return this.$http({
       method  : 'POST',
       url     : 'server/'+filename,

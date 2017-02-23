@@ -16,7 +16,7 @@ class DueDeadlines {
       this.Deadlines={};
     }
     else {
-      this.Deadlines=res;
+      this.Deadlines=res.data;
     }
   }
   checkDeadline(id) {

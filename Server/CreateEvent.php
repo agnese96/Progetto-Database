@@ -14,8 +14,10 @@ $OraFine = $conn->real_escape_string($_POST["OraFine"]);
 $NomeCategoria = $conn->real_escape_string($_POST["NomeCategoria"]);
 $HasPartecipants = $_POST['HasPartecipants'];
 
-if($HasPartecipants == 1)
+if($HasPartecipants == 1){
   $Partecipanti=$_POST['Partecipanti'];
+}
+
 
 if($Ricorrenza!=0 && $Frequenza==0) {
   echo json_encode($data = ['error' => 'Frequenza deve essere almeno 1!']);
@@ -53,6 +55,17 @@ $OraFine = ($OraFine)->format('H:i:s');
 $DataLimite = new DateTime();
 $DataLimite->add(new DateInterval('P24M'));
 $stmt->bind_param("issss", $ID, $DataI, $DataF, $OraInizio, $OraFine);
+//Query da eseguire per inserire i partecipanti e associare le relative notifiche
+if($HasPartecipants) {
+  $inv1 = $conn->prepare("INSERT INTO Invitare(Email, DataInizio, IDEvento) VALUES(?,?,?)");
+  $inv1->bind_param("ssi", $Email, $DataI, $ID);
+  $not1 = $conn->prepare("INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio) VALUES('N',?,?,?,?,?)");
+  $not1->bind_param('sssis',$DataNotifica, $OraNotifica, $Titolo, $ID, $DataI);
+  $ric1 = $conn->prepare("INSERT INTO Ricevere (Email, IDNotifica) VALUES (?,?)");
+  $ric1->bind_param('si',$Email, $IDNotifica1);
+  $ric2 = $conn->prepare("INSERT INTO Ricevere (Email, IDNotifica) VALUES (?,?)");
+  $ric2->bind_param('si',$Email, $IDNotifica);
+}
 if($Ricorrenza == -1) $illimitato = true; else $illimitato = false;
 
 $data = ['IDEvento' => $ID, 'DataEvento' => $DataInizio->format('Y-m-d')];
@@ -69,27 +82,6 @@ do {
       echo json_encode($data = ['error' => $conn->error]);
       exit();
     }
-    if($HasPartecipants) {
-      //$Partecipanti = $_POST["Partecipanti"];
-      $stmt2 = $conn->prepare("INSERT INTO Invitare(Email, DataInizio, IDEvento, Partecipa) VALUES(?,?,?,?)");
-      $stmt2->bind_param("ssii", $Email, $DataI, $ID, $Partecipa);
-      $not1 = $conn->prepare("INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio) VALUES('P',?,?,?,?,?)");
-      $not1->bind_param('sssis',$DataNotifica, $OraNotifica, $Titolo, $ID, $DataI);
-
-      $n = count($Partecipanti);
-
-      for($i=0; $i<$n; $i++) {
-        $Email = $Partecipanti[$i]['Email'];
-        if(! $stmt2->execute()) {
-          echo json_encode($data = ['error' => $conn->error]);
-          exit();
-        }
-      }
-      if(! $not1->execute()) {
-        echo json_encode($data = ['error' => $conn->error]);
-        exit();
-      }
-    }
     if(! $not->execute()){
       echo json_encode($data = ['error' => $conn->error]);
       exit();
@@ -98,6 +90,31 @@ do {
     if(! $ric->execute()){
       echo json_encode($data = ['error' => $conn->error]);
       exit();
+    }
+    if($HasPartecipants) {
+      if(! $not1->execute()) {
+        echo json_encode($data = ['error' => $conn->error]);
+        exit();
+      }
+      $IDNotifica1=$conn->insert_id;
+      $n = count($Partecipanti);
+
+      for($i=0; $i<$n; $i++) {
+        $Email = $Partecipanti[$i]['Email'];
+        if(! $inv1->execute()) {
+          echo json_encode($data = ['error' => $conn->error]);
+          exit();
+        }
+        if(! $ric1->execute()){
+          echo json_encode($data = ['error' => $conn->error]);
+          exit();
+        }
+        //Creo la notifica di Promemoria
+        if(! $ric2->execute()){
+          echo json_encode($data = ['error' => $conn->error]);
+          exit();
+        }
+      }
     }
     $DataInizio->add(new DateInterval('P'.$Frequenza.'D'));
     $DataFine->add(new DateInterval('P'.$Frequenza.'D'));

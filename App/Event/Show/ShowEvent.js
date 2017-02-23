@@ -1,6 +1,7 @@
 class ShowEvent {
-  constructor($state, $rootScope, HttpService) {
+  constructor($state, $rootScope, HttpService, userService) {
       this.HttpService=HttpService;
+      this.userService=userService;
       this.$state=$state;
       this.$rootScope=$rootScope;
       this.editmode=false;
@@ -16,10 +17,15 @@ class ShowEvent {
   getEvent(err, res) {
     this.loading=false;
     if(err)
-      //console.error(err);
       this.$rootScope.$broadcast('errorToast', 'Questo evento non esiste');
     else{
       this.Event=res;
+      if(this.Event.IDCreatore==this.userService.gMail()){
+        this.owner=true;
+      }else {
+        this.owner=false;
+        this.setResponse();
+      }
     }
   }
   Edit() {
@@ -66,6 +72,41 @@ class ShowEvent {
     }else{
       this.loading=false;
       this.$rootScope.$broadcast('errorToast',"Evento eliminato con successo");
+    }
+  }
+  Vote(response) {
+    this.loading=true;
+    this.Data.Partecipa=response;
+    this.HttpService.newPostRequest(this.Data,'EditInvitare.php',(err,res)=>{
+      this.loading=false;
+      if(err){
+        console.error(err);
+        this.$rootScope.$broadcast('errorToastNR',"Non è stato possibile rispondere all'invito");
+      }else{
+        this.setResponse(response);
+      }
+    });
+  }
+  setResponse(response){
+    if(!response)
+      response=this.Event.Partecipa;
+    this.Response = {
+      Yes: false,
+      Maybe: false,
+      No: false
+    };
+
+    switch (response) {
+      case 'Y':
+        this.Response.Yes=true;
+        break;
+      case 'M':
+        this.Response.Maybe=true;
+        break;
+      case 'N':
+        this.Response.No=true;
+        break;
+      default: break;
     }
   }
 }
