@@ -59,7 +59,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('contacts', {
       url: '/contacts',
-      abstract: true,
       template: '<contacts></contacts>',
       data: {
         restricted: true

@@ -4,14 +4,15 @@ class ShowContacts {
     this.initContacts();
   }
   initContacts() {
-    this.HttpService.newPostRequest({},'ShowContacts.php',angular.bind(this, this.getContacts));
+    this.HttpService.newPostRequest({},'GetContacts.php',angular.bind(this, this.getContacts));
   }
   getContacts(err, res) {
     if(err){
-      this.Contacts={};
+      console.error(err);
+      this.Contatti={};
     }
     else {
-      this.Contacts=res;
+      this.Contatti=res;
     }
   }
 }
