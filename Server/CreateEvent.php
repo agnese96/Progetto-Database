@@ -15,10 +15,10 @@ $NomeCategoria = $conn->real_escape_string($_POST["NomeCategoria"]);
 $HasPartecipants = $_POST['HasPartecipants'];
 
 if($HasPartecipants == 1)
-  $Partecipanti=json_decode($_POST['Partecipanti']);
+  $Partecipanti=$_POST['Partecipanti'];
 
-if($Frequenza==0) {
-  echo json_encode($data = ['error' => 'Ricorrenza deve essere almeno 1!']);
+if($Ricorrenza!=0 && $Frequenza==0) {
+  echo json_encode($data = ['error' => 'Frequenza deve essere almeno 1!']);
   exit();
 }
 
@@ -79,8 +79,7 @@ do {
       $n = count($Partecipanti);
 
       for($i=0; $i<$n; $i++) {
-        $Email = $Partecipanti[$i];
-        echo $Partecipanti[$i];
+        $Email = $Partecipanti[$i]['Email'];
         if(! $stmt2->execute()) {
           echo json_encode($data = ['error' => $conn->error]);
           exit();
