@@ -1,6 +1,6 @@
 <?php
 require "connection.php";
-$IDUtente = require 'lib/decodeToken';
+$IDUtente = require 'lib/decodeToken.php';
 $Titolo = $conn->real_escape_string($_POST["Titolo"]);
 $Descrizione = $conn->real_escape_string($_POST["Descrizione"]);
 $Ricorrenza = $conn->real_escape_string($_POST["Ricorrenza"]);
@@ -11,7 +11,10 @@ $OraInizio = $conn->real_escape_string($_POST["OraInizio"]);
 $DataFine = $conn->real_escape_string($_POST["DataFine"]);
 $OraFine = $conn->real_escape_string($_POST["OraFine"]);
 $NomeCategoria = $conn->real_escape_string($_POST["NomeCategoria"]);
-//$DataInizio .= $OraInizio;//$DataFine .= $OraFine;
+$HasPartecipants = $_POST['HasPartecipants'];
+
+if($HasPartecipants)
+  $Partecipanti = $_POST["Partecipanti"];
 
 //TODO: Permettere di avere dei campi facoltativi, controllare quindi se ho tutti i valori ed eventualmente modificare la query.
 $stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria, IDCreatore) VALUES(?,?,?,?,?,?,?)");
