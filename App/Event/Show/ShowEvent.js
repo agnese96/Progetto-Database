@@ -1,11 +1,11 @@
 class ShowEvent {
-  constructor($state, HttpService) {
+  constructor($state, $rootScope, HttpService) {
       this.HttpService=HttpService;
       this.$state=$state;
+      this.$rootScope=$rootScope;
       this.editmode=false;
   }
   $onInit() {
-    console.log(this.id);
     this.Data={
       IDEvento : this.id,
       DataEvento : this.date

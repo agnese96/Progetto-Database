@@ -22,7 +22,7 @@ class ShowDeadline {
     this.loading=false;
     if(err){
       this.$rootScope.$broadcast('errorToast', 'Questa scadenza non esiste');
-      this.$state.go('home');
+      //this.$state.go('home');
     }
     else
       this.Deadline=res;
