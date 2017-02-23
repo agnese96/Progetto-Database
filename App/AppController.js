@@ -57,6 +57,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
         return "<show-deadline id='"+$stateParams.id+"'></show-deadline>";
       }
     })
+    .state('contacts', {
+      url: '/contacts',
+      abstract: true,
+      template: '<contacts></contacts>',
+      data: {
+        restricted: true
+      }
+    })
+
 })
   .run(function ($rootScope, $state, userService) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
