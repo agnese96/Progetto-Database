@@ -5,8 +5,7 @@ class ShowDeadline {
       this.$rootScope=$rootScope;
       this.editmode=false;
 
-      $rootScope.$on('updateDeadline', angular.bind(this, function checkRefresh(event, data) {
-        console.log('Some deadline has been updated');
+      $rootScope.$on('updateDeadlines', angular.bind(this, function checkRefresh(event, data) {
         if(this.id==data)
           this.$onInit();
       }));
@@ -40,6 +39,10 @@ class ShowDeadline {
     this.loading=true;
     this.HttpService.newPostRequest(this.Deadline, 'EditDeadline.php', angular.bind(this, this.applyResponse));
   }
+  Delete() {
+    this.loading=true;
+    this.HttpService.newPostRequest({IDScadenza: this.id}, 'DeleteDeadline.php', angular.bind(this, this.deleteCallback));
+  }
   toggleContentEditable() {
     this.editmode=!this.editmode;
     $('.editable').attr('contenteditable',this.editmode);
@@ -66,8 +69,20 @@ class ShowDeadline {
       console.error(err);
     else {
       this.$rootScope.$broadcast('updateDeadline', this.id);
+      this.$rootScope.$broadcast('errorToastNR',"Scadenza completata :D");
       this.loading=false;
       this.$state.go('home');
+    }
+  }
+  deleteCallback(err, res) {
+    this.loading=false;
+    if(err){
+      console.log(err);
+      this.$rootScope.$broadcast('errorToastNR',"Impossibile eliminare la scadenza");
+    }else{
+      this.loading=false;
+      this.$rootScope.$broadcast('updateDeadline', this.id);
+      this.$rootScope.$broadcast('errorToast',"Scadenza eliminata con successo");
     }
   }
 }

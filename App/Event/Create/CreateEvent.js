@@ -52,7 +52,7 @@ class CreateEvent {
       console.error(err);
     else {
       console.log(res);
-      this.$state.go('event.show',{eventId:res.IDEvento, eventDate:res.DataEvento });
+      this.$state.go('event.show',{id:res.IDEvento, date:res.DataEvento });
     }
   }
 }

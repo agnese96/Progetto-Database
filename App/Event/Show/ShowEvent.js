@@ -36,6 +36,10 @@ class ShowEvent {
     this.loading=true;
     this.HttpService.newPostRequest(this.Event, 'EditEvent.php', angular.bind(this, this.applyResponse));
   }
+  Delete() {
+    this.loading=true;
+    this.HttpService.newPostRequest({IDEvento: this.id, DataID: this.date}, 'DeleteEvent.php', angular.bind(this, this.deleteCallback));
+  }
   toggleContentEditable() {
     this.editmode=!this.editmode;
     $('.editable').attr('contenteditable',this.editmode);
@@ -52,6 +56,16 @@ class ShowEvent {
         this.toggleContentEditable();
         this.loading
       }
+    }
+  }
+  deleteCallback(err, res) {
+    this.loading=false;
+    if(err){
+      console.log(err);
+      this.$rootScope.$broadcast('errorToastNR',"Impossibile eliminare l'evento");
+    }else{
+      this.loading=false;
+      this.$rootScope.$broadcast('errorToast',"Evento eliminato con successo");
     }
   }
 }

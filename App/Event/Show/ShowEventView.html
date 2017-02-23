@@ -2,9 +2,18 @@
   <div layout="row" layout-fill layout-margin layout-padding>
     <h3 class="md-display-1 editable" ng-model="Show.Event.Titolo" contenteditable="false"></h3>
     <span flex></span>
-    <md-button ng-click="Show.Edit()" ng-show="Show.Event.owner && !Show.editmode">Edit</md-button>
-    <md-button ng-click="Show.Cancel()" ng-show=" Show.editmode">Cancel</md-button>
-    <md-button ng-click="Show.Apply()" ng-show=" Show.editmode">Apply</md-button>
+    <md-button class="md-icon-button" ng-click="Show.Edit()" ng-show="Show.Event.owner && !Show.editmode">
+      <md-icon>&#xE254;</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="Show.Delete()" ng-show="!Show.editmode">
+      <md-icon>&#xE872;</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="Show.Cancel()" ng-show="Show.editmode">
+      <md-icon>&#xE5CD;</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="Show.Apply()" ng-show="Show.editmode">
+      <md-icon>&#xE876;</md-icon>
+    </md-button>
   </div>
   <div class="descrizione editable" ng-model="Show.Event.Descrizione" contenteditable="false">
     {{Show.Event.Descrizione}}

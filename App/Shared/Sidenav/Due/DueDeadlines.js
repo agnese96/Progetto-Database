@@ -26,7 +26,7 @@ class DueDeadlines {
     if(err){
       console.error(err);
     }else {
-      this.$rootScope.$broadcast('updateDeadline',res.id);
+      this.$rootScope.$broadcast('updateDeadlines',res.id);
       this.initDeadlines();
       this.done();
     }

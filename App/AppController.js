@@ -72,11 +72,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
 class AppController {
   constructor($rootScope,$mdToast, $state) {
     $rootScope.$on('errorToast', angular.bind(this, this.errorToast));
+    $rootScope.$on('errorToastNR', angular.bind(this, this.errorToastNR));
     this.$mdToast=$mdToast;
     this.$state=$state;
   }
   errorToast(event, message) {
     this.$state.go('home');//TODO: change this to go to calendar state when ready!
+    this.$mdToast.showSimple(message);
+  }
+  errorToastNR(event, message) {
     this.$mdToast.showSimple(message);
   }
 
