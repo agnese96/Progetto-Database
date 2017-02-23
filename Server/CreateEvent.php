@@ -1,6 +1,7 @@
 <?php
 require "connection.php";
 $IDUtente = require 'lib/decodeToken.php';
+error_reporting(E_ALL ^ E_WARNING);
 $Titolo = $conn->real_escape_string($_POST["Titolo"]);
 $Descrizione = $conn->real_escape_string($_POST["Descrizione"]);
 $Ricorrenza = $conn->real_escape_string($_POST["Ricorrenza"]);
@@ -13,8 +14,15 @@ $OraFine = $conn->real_escape_string($_POST["OraFine"]);
 $NomeCategoria = $conn->real_escape_string($_POST["NomeCategoria"]);
 $HasPartecipants = $_POST['HasPartecipants'];
 
-if($HasPartecipants)
-  $Partecipanti = $_POST["Partecipanti"];
+if($HasPartecipants == 1)
+  $Partecipanti=json_decode($_POST['Partecipanti']);
+
+if($Frequenza==0) {
+  echo json_encode($data = ['error' => 'Ricorrenza deve essere almeno 1!']);
+  exit();
+}
+
+set_time_limit(300);
 
 //TODO: Permettere di avere dei campi facoltativi, controllare quindi se ho tutti i valori ed eventualmente modificare la query.
 $stmt1 = $conn->prepare("INSERT INTO Eventi(Titolo, Descrizione, Ricorrenza, Frequenza, Promemoria, NomeCategoria, IDCreatore) VALUES(?,?,?,?,?,?,?)");
@@ -32,11 +40,17 @@ $not = $conn->prepare("INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento
 $not->bind_param('sssis',$DataNotifica, $OraNotifica, $Titolo, $ID, $DataI);
 $ric = $conn->prepare("INSERT INTO Ricevere (Email, IDNotifica) VALUES (?,?)");
 $ric->bind_param('si',$IDUtente, $IDNotifica);
-$DataInizio = new DateTime($DataInizio);
-$DataFine = new DateTime($DataFine);
-$OraInizio= (new DateTime($OraInizio))->format('H:i:s');
-$OraFine= (new DateTime($OraFine))->format('H:i:s');
-$DataLimite= new DateTime();
+$DataInizio = new DateTime();
+$DataInizio->setTimestamp($DataInizio);
+$DataFine = new DateTime();
+$DataFine->setTimestamp($DataFine);
+$OraInizio = new DateTime();
+$OraInizio->setTimestamp($OraInizio);
+$OraInizio = ($OraInizio)->format('H:i:s');
+$OraFine = new DateTime();
+$OraFine->setTimestamp($OraFine);
+$OraFine = ($OraFine)->format('H:i:s');
+$DataLimite = new DateTime();
 $DataLimite->add(new DateInterval('P24M'));
 $stmt->bind_param("issss", $ID, $DataI, $DataF, $OraInizio, $OraFine);
 if($Ricorrenza == -1) $illimitato = true; else $illimitato = false;
@@ -55,6 +69,28 @@ do {
       echo json_encode($data = ['error' => $conn->error]);
       exit();
     }
+    if($HasPartecipants) {
+      //$Partecipanti = $_POST["Partecipanti"];
+      $stmt2 = $conn->prepare("INSERT INTO Invitare(Email, DataInizio, IDEvento, Partecipa) VALUES(?,?,?,?)");
+      $stmt2->bind_param("ssii", $Email, $DataI, $ID, $Partecipa);
+      $not1 = $conn->prepare("INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio) VALUES('P',?,?,?,?,?)");
+      $not1->bind_param('sssis',$DataNotifica, $OraNotifica, $Titolo, $ID, $DataI);
+
+      $n = count($Partecipanti);
+
+      for($i=0; $i<$n; $i++) {
+        $Email = $Partecipanti[$i];
+        echo $Partecipanti[$i];
+        if(! $stmt2->execute()) {
+          echo json_encode($data = ['error' => $conn->error]);
+          exit();
+        }
+      }
+      if(! $not1->execute()) {
+        echo json_encode($data = ['error' => $conn->error]);
+        exit();
+      }
+    }
     if(! $not->execute()){
       echo json_encode($data = ['error' => $conn->error]);
       exit();
@@ -72,7 +108,6 @@ do {
 if(! $illimitato){
   $conn->query("UPDATE Eventi SET Ricorrenza=$Ricorrenza WHERE IDEvento=$ID");
 }
-
 
 $conn->close();
 echo json_encode($data);
