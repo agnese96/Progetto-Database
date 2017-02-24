@@ -14,9 +14,9 @@ if(checkOwner($IDUtente, $IDEvento, $conn)){
           WHERE d.DataInizio='$DataEvento' AND d.IDEvento=$IDEvento AND i.Email='$IDUtente'";
 }
 
-$sql1 = "SELECT u.Email, u.Nome, u.Cognome, u.FotoProfilo, u.Partecipa
-        FROM (DataEvento de JOIN Invitare i ON de.IDEvento=i.IDEvento AND de.DataInizio=i.DataInizio) JOIN Utenti u ON i.Email=u.Email
-        WHERE de.DataInizio='$DataEvento' AND de.IDEvento=$IDEvento AND i.Email<>'$IDUtente' ";
+$sql1 = "SELECT u.Email, u.Nome, u.Cognome, u.FotoProfilo, i.Partecipa
+        FROM (DateEvento de JOIN Invitare i ON de.IDEvento=i.IDEvento AND de.DataInizio=i.DataInizio) JOIN Utenti u ON i.Email=u.Email
+        WHERE de.DataInizio='$DataEvento' AND de.IDEvento=$IDEvento AND (i.Email>'$IDUtente' OR i.Email<'$IDUtente')";
 
 if(! $result = $conn->query($sql)){
   echo json_encode($data = ['error' => $conn->error]);
@@ -30,7 +30,7 @@ if($result->num_rows > 0) {
   }
   $row = $result->fetch_assoc();
   if($result1->num_rows > 0) {
-      $rows = $result->fetch_all(MSQLI_ASSOC);
+      $rows = $result1->fetch_all(MYSQLI_ASSOC);
       echo json_encode($data = ['event' => $row, 'partecipants' => $rows]);
   }
   else
