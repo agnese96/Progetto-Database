@@ -1,16 +1,19 @@
 <?php
 require "connection.php";
 $IDUtente = require 'lib/decodeToken.php';
-error_reporting(E_ALL ^ E_WARNING);
 $Titolo = $conn->real_escape_string($_POST["Titolo"]);
 $Descrizione = $conn->real_escape_string($_POST["Descrizione"]);
 $Ricorrenza = $conn->real_escape_string($_POST["Ricorrenza"]);
 $Frequenza = $conn->real_escape_string($_POST["Frequenza"]);
 $Promemoria = $conn->real_escape_string($_POST["Promemoria"]);
 $DataInizio = $conn->real_escape_string($_POST["DataInizio"]);
+$DataInizio = strstr($DataInizio, " (", true);
 $OraInizio = $conn->real_escape_string($_POST["OraInizio"]);
+$OraInizio = strstr($OraInizio, " (", true);
 $DataFine = $conn->real_escape_string($_POST["DataFine"]);
+$DataFine = strstr($DataFine, " (", true);
 $OraFine = $conn->real_escape_string($_POST["OraFine"]);
+$OraFine = strstr($OraFine, " (", true);
 $NomeCategoria = $conn->real_escape_string($_POST["NomeCategoria"]);
 $HasPartecipants = $_POST['HasPartecipants'];
 
@@ -42,15 +45,12 @@ $not = $conn->prepare("INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento
 $not->bind_param('sssis',$DataNotifica, $OraNotifica, $Titolo, $ID, $DataI);
 $ric = $conn->prepare("INSERT INTO Ricevere (Email, IDNotifica) VALUES (?,?)");
 $ric->bind_param('si',$IDUtente, $IDNotifica);
-$DataInizio = new DateTime();
-$DataInizio->setTimestamp($DataInizio);
-$DataFine = new DateTime();
-$DataFine->setTimestamp($DataFine);
-$OraInizio = new DateTime();
-$OraInizio->setTimestamp($OraInizio);
+$DataInizio = new DateTime($DataInizio);
+$DataFine = new DateTime($DataFine);
+
+$OraInizio = new DateTime($OraInizio);
 $OraInizio = ($OraInizio)->format('H:i:s');
-$OraFine = new DateTime();
-$OraFine->setTimestamp($OraFine);
+$OraFine = new DateTime($OraFine);
 $OraFine = ($OraFine)->format('H:i:s');
 $DataLimite = new DateTime();
 $DataLimite->add(new DateInterval('P24M'));
