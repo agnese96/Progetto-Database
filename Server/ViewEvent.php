@@ -13,14 +13,28 @@ if(checkOwner($IDUtente, $IDEvento, $conn)){
           FROM (Eventi e JOIN DateEvento d ON e.IDEvento=d.IDEvento) JOIN  Invitare i ON (d.IDEvento=i.IDEvento AND d.DataInizio=i.DataInizio)
           WHERE d.DataInizio='$DataEvento' AND d.IDEvento=$IDEvento AND i.Email='$IDUtente'";
 }
+
+$sql1 = "SELECT u.Email, u.Nome, u.Cognome, u.FotoProfilo, u.Partecipa
+        FROM (DataEvento de JOIN Invitare i ON de.IDEvento=i.IDEvento AND de.DataInizio=i.DataInizio) JOIN Utenti u ON i.Email=u.Email
+        WHERE de.DataInizio='$DataEvento' AND de.IDEvento=$IDEvento AND i.Email<>'$IDUtente' ";
+
 if(! $result = $conn->query($sql)){
   echo json_encode($data = ['error' => $conn->error]);
   exit();
 }
 
 if($result->num_rows > 0) {
+  if(! $result1 = $conn->query($sql1)){
+    echo json_encode($data = ['error' => $conn->error]);
+    exit();
+  }
   $row = $result->fetch_assoc();
-  echo json_encode($row);
+  if($result1->num_rows > 0) {
+      $rows = $result->fetch_all(MSQLI_ASSOC);
+      echo json_encode($data = ['event' => $row, 'partecipants' => $rows]);
+  }
+  else
+    echo json_encode($data = ['event' => $row]);
 }
 else {
   echo json_encode($data = ['error' => 'Evento non trovato']);

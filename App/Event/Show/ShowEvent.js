@@ -17,9 +17,11 @@ class ShowEvent {
   getEvent(err, res) {
     this.loading=false;
     if(err)
-      this.$rootScope.$broadcast('errorToast', 'Questo evento non esiste');
+      console.log(res);
+      //this.$rootScope.$broadcast('errorToast', 'Questo evento non esiste');
     else{
-      this.Event=res;
+      this.Event=res.event;
+      console.log(res);
       if(this.Event.IDCreatore==this.userService.gMail()){
         this.owner=true;
       }else {
