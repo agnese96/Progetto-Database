@@ -38,15 +38,27 @@
   <div class="Categoria" >
     Categoria: <span class="editable" contenteditable="false" ng-model="Show.Event.NomeCategoria"></span>
   </div>
-  <md-contact-chips
-    ng-model="Show.Event.Partecipanti"
-    md-contacts="Show.querySearch($query)"
-    md-contact-name="Nominativo"
-    md-contact-image="FotoProfilo"
-    md-contact-email="Email"
-    md-require-match="true"
-    readonly="Show.editmode"
-    filter-selected="Create.filterSelected"
-    placeholder="Invita i tuoi contatti"
-  ></md-contact-chips>
+  <md-chips flex class="md-contact-chips" ng-model="Show.Event.Partecipanti" md-require-match="true" md-autocomplete-snap md-on-add="Show.addPartecipant($chip)" md-on-remove="Show.rmvPartecipant($chip)" readonly="!Show.editmode">
+      <md-autocomplete md-menu-class="md-contact-chips-suggestions" md-selected-item="Show.selectedItem" md-search-text="Show.searchText"
+      md-items="item in Show.Contatti | filter: {name: Show.searchText}" md-no-cache="true"
+      md-autoselect="true" placeholder="Invita i tuoi conttati">
+          <div class="md-contact-suggestion">
+              <img ng-src="{{item.FotoProfilo}}" alt="{{item.Nominativo}}" ng-if="item.FotoProfilo" />
+              <span class="md-contact-name">{{item.Nominativo}}</span>
+              <span class="md-contact-email">{{item.Email}}</span>
+          </div>
+          <md-not-found>
+            Nessun contatto corrispondente alla tua ricerca
+            <a ng-click="Show.newContact(Show.searchText)">Crealo ora</a>
+          </md-not-found>
+      </md-autocomplete>
+      <md-chip-template>
+          <div class="md-contact-avatar">
+              <img ng-src="{{$chip.FotoProfilo}}" alt="{{$chip.Nominativo}}" ng-if="$chip.FotoProfilo" />
+          </div>
+          <div class="md-contact-name">
+              {{$chip.Nominativo}}
+          </div>
+      </md-chip-template>
+  </md-chips>
 </div>

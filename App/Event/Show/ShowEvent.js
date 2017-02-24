@@ -22,7 +22,6 @@ class ShowEvent {
     else{
       this.Event=res.event;
       this.Event.Partecipanti=res.partecipants;
-      console.log(res);
       if(this.Event.IDCreatore==this.userService.gMail()){
         this.owner=true;
       }else {
@@ -33,17 +32,22 @@ class ShowEvent {
   }
   Edit() {
     this.Backup=angular.copy(this.Event);
+    this.Event.AddedPartecipants=[];
+    this.Event.RemovedPartecipants=[];
     this.toggleContentEditable();
     this.getContacts();
   }
   Cancel() {
     angular.copy(this.Backup, this.Event);
+    this.Event.AddedPartecipants=[];
+    this.Event.RemovedPartecipants=[];
     this.toggleContentEditable();
   }
   Apply() {
     this.Event.IDEvento=this.id;
     this.Event.DataID=this.date;
     this.loading=true;
+    console.log(this.Event);
     this.HttpService.newPostRequest(this.Event, 'EditEvent.php', angular.bind(this, this.applyResponse));
   }
   Delete() {
@@ -60,11 +64,13 @@ class ShowEvent {
       this.Cancel();
     }else{
       console.log(res);
+      this.Event.AddedPartecipants=[];
+      this.Event.RemovedPartecipants=[];
       if(this.date != this.Event.DataInizio)
-        this.$state.go('event.show', {eventId:this.id, eventDate:this.Event.DataInizio});
+        this.$state.go('event.show', {id:this.id, date:this.Event.DataInizio});
       else {
         this.toggleContentEditable();
-        this.loading
+        this.loading=false;
       }
     }
   }
@@ -128,6 +134,12 @@ class ShowEvent {
           this.Contatti=res;
         }
     });
+  }
+  addPartecipant(chip) {
+    this.Event.AddedPartecipants.push(chip.Email);
+  }
+  rmvPartecipant(chip) {
+    this.Event.RemovedPartecipants.push(chip.Email);
   }
 }
 
