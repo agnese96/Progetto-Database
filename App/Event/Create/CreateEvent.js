@@ -54,6 +54,9 @@ class CreateEvent {
         }
     });
   }
+  newContact() {
+    //TODO ADD CONTACT
+  }
 }
 
 app.component('createEvent', {
