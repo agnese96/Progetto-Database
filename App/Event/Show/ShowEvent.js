@@ -21,6 +21,7 @@ class ShowEvent {
       //this.$rootScope.$broadcast('errorToast', 'Questo evento non esiste');
     else{
       this.Event=res.event;
+      this.Event.Partecipanti=res.partecipants;
       console.log(res);
       if(this.Event.IDCreatore==this.userService.gMail()){
         this.owner=true;
@@ -33,6 +34,7 @@ class ShowEvent {
   Edit() {
     this.Backup=angular.copy(this.Event);
     this.toggleContentEditable();
+    this.getContacts();
   }
   Cancel() {
     angular.copy(this.Backup, this.Event);
@@ -110,6 +112,22 @@ class ShowEvent {
         break;
       default: break;
     }
+  }
+  querySearch(criteria) {
+    if(this.Contatti)
+      return criteria ? this.Contatti.filter((contact)=>{
+        return (contact.Nominativo.toLowerCase().indexOf(criteria.toLowerCase()) !=-1);
+      }) : [];
+    return [];
+  }
+  getContacts() {
+    this.HttpService.newPostRequest({}, 'GetContacts.php', (err, res)=> {
+        if(err)
+          this.Contatti=[];
+        else {
+          this.Contatti=res;
+        }
+    });
   }
 }
 

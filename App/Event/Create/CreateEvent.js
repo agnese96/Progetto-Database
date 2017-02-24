@@ -17,26 +17,14 @@ class CreateEvent {
     this.$state=$state;
     this.$q=$q;
     this.HttpService=HttpService;
-    this.pendingSearch;
-    this.cancelSearch=angular.noop;
+    this.getContacts();
   }
-  querySearch($query) {
-    if( !this.pendingSearch ) {
-      this.cancelSearch();
-      //TODO FIX FILTERED SEARCH, PROBABLY A PROBLEM HERE!!
-      return this.pendingSearch = this.$q( (resolve, reject) => {
-          this.cancelSearch = reject;
-          this.HttpService.newPostRequest({}, 'GetContacts.php', function contactsCallback(err, res) {
-              console.log(res);
-              if(err)
-                reject(err);
-              else {
-                resolve(res);
-              }
-          });
-      });
-    }
-    return this.pendingSearch;
+  querySearch(criteria) {
+    if(this.Contatti)
+      return criteria ? this.Contatti.filter((contact)=>{
+        return (contact.Nominativo.toLowerCase().indexOf(criteria.toLowerCase()) !=-1);
+      }) : [];
+    return [];
   }
 
   submit() {
@@ -44,6 +32,7 @@ class CreateEvent {
       this.Event.Ricorrenza=-1;
     if(this.Event.Partecipanti.length){
       this.Event.HasPartecipants = 1;
+      console.log(this.Event);
     }
     this.HttpService.newPostRequest(this.Event, 'CreateEvent.php', angular.bind(this, this.callback));
   }
@@ -55,6 +44,15 @@ class CreateEvent {
       console.log(res);
       this.$state.go('event.show',{id:res.IDEvento, date:res.DataEvento });
     }
+  }
+  getContacts() {
+    this.HttpService.newPostRequest({}, 'GetContacts.php', (err, res)=> {
+        if(err)
+          this.Contatti=[];
+        else {
+          this.Contatti=res;
+        }
+    });
   }
 }
 

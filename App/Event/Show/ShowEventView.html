@@ -38,4 +38,15 @@
   <div class="Categoria" >
     Categoria: <span class="editable" contenteditable="false" ng-model="Show.Event.NomeCategoria"></span>
   </div>
+  <md-contact-chips
+    ng-model="Show.Event.Partecipanti"
+    md-contacts="Show.querySearch($query)"
+    md-contact-name="Nominativo"
+    md-contact-image="FotoProfilo"
+    md-contact-email="Email"
+    md-require-match="true"
+    readonly="Show.editmode"
+    filter-selected="Create.filterSelected"
+    placeholder="Invita i tuoi contatti"
+  ></md-contact-chips>
 </div>

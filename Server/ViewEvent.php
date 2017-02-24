@@ -14,7 +14,7 @@ if(checkOwner($IDUtente, $IDEvento, $conn)){
           WHERE d.DataInizio='$DataEvento' AND d.IDEvento=$IDEvento AND i.Email='$IDUtente'";
 }
 
-$sql1 = "SELECT u.Email, u.Nome, u.Cognome, u.FotoProfilo, i.Partecipa
+$sql1 = "SELECT u.Email, CONCAT_WS(' ', Cognome, Nome) AS Nominativo, u.FotoProfilo, i.Partecipa
         FROM (DateEvento de JOIN Invitare i ON de.IDEvento=i.IDEvento AND de.DataInizio=i.DataInizio) JOIN Utenti u ON i.Email=u.Email
         WHERE de.DataInizio='$DataEvento' AND de.IDEvento=$IDEvento AND (i.Email>'$IDUtente' OR i.Email<'$IDUtente')";
 
