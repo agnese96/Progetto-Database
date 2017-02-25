@@ -19,6 +19,8 @@
   $Ricorrenza = $conn->real_escape_string($_POST['Ricorrenza']);
   $NomeCategoria = $conn->real_escape_string($_POST['NomeCategoria']);
   $DataID = $conn->real_escape_string($_POST['DataID']);
+  $AddedPartecipants   = isset($_POST['AddedPartecipants']) ? $_POST['AddedPartecipants'] : [];
+  $RemovedPartecipants = isset($_POST['RemovedPartecipants']) ? $_POST['RemovedPartecipants'] : [];
 
   $sql = "UPDATE DateEvento
           SET DataInizio='$DataInizio', OraInizio='$OraInizio', DataFine='$DataFine', OraFine='$OraFine'
@@ -34,6 +36,32 @@
   if(! $result1 = $conn->query($sql1)) {
     echo json_encode($data = ['error' => $conn->error]);
     exit();
+  }
+
+  $n = count($AddedPartecipants);
+  if( $n > 0) {
+    $stmt = $conn->prepare("INSERT INTO Invitare(Email, DataInizio, IDEvento) VALUES(?,?,?)");
+    $stmt->bind_param("ssi", $IDInvitato, $DataInizio, $IDEvento);
+    for($i=0; $i<$n; $i++) {
+      $IDInvitato = $AddedPartecipants[$i]['Email'];
+      if(! $stmt->execute()) {
+        echo json_encode($data = ['error' => $conn->error]);
+        exit();
+      }
+    }
+  }
+
+  $n1 = count($RemovedPartecipants);
+  if($n1 > 0) {
+    $stmt =$conn->prepare( "DELETE FROM Invitare WHERE Email=? AND IDEvento=? AND DataInizio=? ");
+    $stmt->bind_param("sis", $IDInvitato, $IDEvento, $DataInizio);
+    for($i=0; $i<$n1; $i++) {
+      $IDInvitato = $RemovedPartecipants[$i]['Email'];
+      if(! $stmt->execute()) {
+        echo json_encode($data = ['error' => "Errore rimozione $i"]);
+        exit();
+      }
+    }
   }
 
   echo json_encode($data=['success' => true, 'idevento' => $IDEvento]);

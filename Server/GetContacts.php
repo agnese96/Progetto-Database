@@ -2,7 +2,7 @@
   require "connection.php";
   $IDUtente = require "lib/decodeToken.php";
 
-  $sql = "SELECT CONCAT_WS(' ', Cognome, Nome) AS Nominativo, FotoProfilo
+  $sql = "SELECT CONCAT_WS(' ', Cognome, Nome) AS Nominativo, FotoProfilo, Email
           FROM Utenti u JOIN Contatti c ON u.Email = c.Email2
           WHERE c.Email1 = '$IDUtente'
           ORDER BY Nominativo";

@@ -1,9 +1,14 @@
 class UserCtrl {
-  constructor($state, userService) {
+  constructor($state, $rootScope, userService) {
     this.userService=userService;
-    this.logged=userService.isLogged();
-    this.info=userService.gUser();
     this.$state=$state;
+    this.initUserInfo();
+    $rootScope.$on('userChange',()=>{ this.initUserInfo(); });
+  }
+
+  initUserInfo() {
+    this.logged=this.userService.isLogged();
+    this.info=this.userService.gUser();
   }
 
   logout() {

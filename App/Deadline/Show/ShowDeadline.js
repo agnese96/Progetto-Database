@@ -5,8 +5,7 @@ class ShowDeadline {
       this.$rootScope=$rootScope;
       this.editmode=false;
 
-      $rootScope.$on('updateDeadline', angular.bind(this, function checkRefresh(event, data) {
-        console.log('Some deadline has been updated');
+      $rootScope.$on('updateDeadlines', angular.bind(this, function checkRefresh(event, data) {
         if(this.id==data)
           this.$onInit();
       }));
@@ -22,7 +21,7 @@ class ShowDeadline {
     this.loading=false;
     if(err){
       this.$rootScope.$broadcast('errorToast', 'Questa scadenza non esiste');
-      this.$state.go('home');
+      //this.$state.go('home');
     }
     else
       this.Deadline=res;
@@ -39,6 +38,10 @@ class ShowDeadline {
     this.Deadline.IDScadenza=this.id;
     this.loading=true;
     this.HttpService.newPostRequest(this.Deadline, 'EditDeadline.php', angular.bind(this, this.applyResponse));
+  }
+  Delete() {
+    this.loading=true;
+    this.HttpService.newPostRequest({IDScadenza: this.id}, 'DeleteDeadline.php', angular.bind(this, this.deleteCallback));
   }
   toggleContentEditable() {
     this.editmode=!this.editmode;
@@ -66,8 +69,20 @@ class ShowDeadline {
       console.error(err);
     else {
       this.$rootScope.$broadcast('updateDeadline', this.id);
+      this.$rootScope.$broadcast('errorToastNR',"Scadenza completata :D");
       this.loading=false;
       this.$state.go('home');
+    }
+  }
+  deleteCallback(err, res) {
+    this.loading=false;
+    if(err){
+      console.log(err);
+      this.$rootScope.$broadcast('errorToastNR',"Impossibile eliminare la scadenza");
+    }else{
+      this.loading=false;
+      this.$rootScope.$broadcast('updateDeadline', this.id);
+      this.$rootScope.$broadcast('errorToast',"Scadenza eliminata con successo");
     }
   }
 }
@@ -79,25 +94,4 @@ app.component('showDeadline', {
   bindings: {
     'id': '='
   }
-});
-
-app.directive("contenteditable", function() {
-  return {
-    restrict: "A",
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-
-      function read() {
-        ngModel.$setViewValue(element.html());
-      }
-
-      ngModel.$render = function() {
-        element.html(ngModel.$viewValue || "");
-      };
-
-      element.bind("blur keyup change", function() {
-        scope.$apply(read);
-      });
-    }
-  };
 });

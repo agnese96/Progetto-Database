@@ -1,0 +1,8 @@
+<md-list>
+  <md-subheader class="md-no-sticky">I tuoi contatti</md-subheader>
+  <md-list-item ng-repeat="Contatto in Contacts.Contatti" class="noright">
+    <img alt="{{ Contatto.Nominativo }}" ng-src="{{ Contatto.FotoProfilo }}" class="md-avatar" />
+    <p>{{ Contatto.Nominativo }}</p>
+    <!--md-checkbox class="md-secondary" ng-model="person.selected"></md-checkbox-->
+  </md-list-item>
+</md-list>

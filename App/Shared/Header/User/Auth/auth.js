@@ -1,5 +1,5 @@
 class Register {
-  constructor($http) {
+  constructor($http, userService) {
 
     this.credentials = {
       nome: '',
@@ -9,6 +9,7 @@ class Register {
     };
     this.error ='';
     this.$http=$http;
+    this.userService=userService;
   }
   register($scope) {
 
@@ -29,8 +30,15 @@ class Register {
          this.error='';
          //TODO: aggiungere login automatico dopo registrazione.
 
-         //chiude il dialog
-         this.done();
+         this.userService.login({email: this.credentials.email, password: this.credentials.password},(res)=>{
+           if(res === true){
+             //chiude il dialog
+             this.done();
+           }
+           else{
+               this.error=result.error;
+           }
+         })
        }
      }));
 

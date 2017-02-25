@@ -1,0 +1,36 @@
+<md-chips flex
+  class="md-contact-chips"
+  ng-model="cc.partecipants"
+  md-require-match="true"
+  md-on-add="cc.add({email: $chip.Email})"
+  md-on-remove="cc.rmv({email: $chip.Email})"
+  readonly="cc.readonly"
+  md-autocomplete-snap>
+    <md-autocomplete
+      md-menu-class="md-contact-chips-suggestions"
+      md-selected-item="cc.selectedItem"
+      md-search-text="cc.searchText"
+      md-items="item in cc.contacts | filter: {Nominativo: cc.searchText}"
+      md-no-cache="true"
+      md-item-text="item.Nominativo"
+      md-autoselect="true"
+      placeholder="Invita i tuoi conttati">
+        <div class="md-contact-suggestion">
+            <img ng-src="{{item.FotoProfilo}}" alt="{{item.Nominativo}}" ng-if="item.FotoProfilo" />
+            <span class="md-contact-name">{{item.Nominativo}}</span>
+            <span class="md-contact-email">{{item.Email}}</span>
+        </div>
+        <md-not-found>
+          Nessun contatto corrispondente alla tua ricerca.
+          <a ng-click="cc.newContact(cc.searchText)">Aggiungilo ora!</a>
+        </md-not-found>
+    </md-autocomplete>
+    <md-chip-template>
+        <div class="md-contact-avatar">
+            <img ng-src="{{$chip.FotoProfilo}}" alt="{{$chip.Nominativo}}" ng-if="$chip.FotoProfilo" />
+        </div>
+        <div class="md-contact-name">
+            {{$chip.Nominativo}}
+        </div>
+    </md-chip-template>
+</md-chips>

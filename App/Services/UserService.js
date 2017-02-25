@@ -12,6 +12,7 @@ class UserService {
       this.logged=true;
     else
       this.logged=false;
+    console.log(this.token);
   }
 
   updateLocalStorage(token, email, photo) {
@@ -58,6 +59,7 @@ class UserService {
 
   isLogged() { return this.logged; }
   gUser()    { return { email: this.email, photo: this.photo }; }
+  gMail()    { return this.email; }
   gToken()   { return this.token; }
 }
 
