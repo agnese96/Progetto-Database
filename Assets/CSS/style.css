@@ -1,3 +1,12 @@
+
+/* reset bootstrap styles*/
+a:hover, a:active, a:visited{
+  color: white;
+}
+label {
+  font-weight: 250;
+}
+
 /*INIZIO contact chips style*/
   .chipsdemoContactChips md-content.autocomplete {
     min-height: 250px; }

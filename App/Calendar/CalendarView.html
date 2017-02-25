@@ -13,13 +13,13 @@
   </div>
 </div>
 <div layout="row" layout-align="space-between">
-  <md-button mwl-date-modifier date="cal.viewDate" decrement="cal.view">
+  <md-button mwl-date-modifier date="cal.viewDate" decrement="cal.view" ng-click="cal.getEvents()">
     <
   </md-button>
-  <md-button mwl-date-modifier date="cal.viewDate" set-to-today>
+  <md-button mwl-date-modifier date="cal.viewDate" set-to-today ng-click="cal.getEvents()">
     Oggi
   </md-button>
-  <md-button mwl-date-modifier date="cal.viewDate" increment="cal.view">
+  <md-button mwl-date-modifier date="cal.viewDate" increment="cal.view" ng-click="cal.getEvents()">
     >
   </md-button>
 </div>
@@ -29,8 +29,7 @@
     events="cal.events"
     view-title="cal.calendarTitle"
     on-event-click="cal.eventClicked(calendarEvent)"
-    on-event-times-changed="cal.timesChanged(calendarEvent, calendarNewEventStart, calendarNewEventEnd, calendarDraggedFromDate)"
-    on-timespan-click="cal.timespanClick(calendarDate, calendarCell)"
+    on-event-times-changed="cal.timesChanged(calendarEvent, calendarNewEventStart, calendarNewEventEnd)"
     on-date-range-select="cal.dateRangeSelect(calendarRangeStartDate, calendarRangeEndDate)"
     cell-is-open="true">
 </mwl-calendar>
