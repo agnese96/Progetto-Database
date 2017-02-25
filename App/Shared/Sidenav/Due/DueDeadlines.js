@@ -13,10 +13,11 @@ class DueDeadlines {
   }
   getDeadlines(err, res) {
     if(err){
+      console.log(err);
       this.Deadlines={};
     }
     else {
-      this.Deadlines=res.data;
+      this.Deadlines=res;
     }
   }
   checkDeadline(id) {
