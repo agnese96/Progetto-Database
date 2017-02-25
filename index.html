@@ -42,8 +42,10 @@
     <script src="App/Deadline/Show/ShowDeadline.js"></script>
   </head>
   <body ng-app="app" ng-controller="appController">
-    <my-header></my-header>
-    <my-sidenav></my-sidenav>
-    <div ui-view></div>
+    <my-header flex="15"></my-header>
+    <section layout="row">
+      <my-sidenav></my-sidenav>
+      <md-content ui-view flex></md-content>
+    </section>
   </body>
 </html>

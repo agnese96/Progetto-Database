@@ -11,6 +11,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/calendar',
       templateUrl: 'App/Calendar/CalendarView.html',
       controller: 'calendarController',
+      controllerAs: 'cal',
       data: {
         restricted: true
       }
