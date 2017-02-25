@@ -1,4 +1,4 @@
-var app=angular.module("app", ['ngMaterial', 'ngMessages', 'ui.router']);
+var app=angular.module("app", ['ngMaterial', 'ngMessages', 'ui.router','mwl.calendar', 'ui.bootstrap']);
 app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/home');
 
@@ -9,6 +9,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('calendar',{
       url: '/calendar',
+      templateUrl: 'App/Calendar/CalendarView.html',
+      controller: 'calendarController',
       data: {
         restricted: true
       }

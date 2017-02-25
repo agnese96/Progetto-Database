@@ -1,0 +1,11 @@
+<mwl-calendar
+    view="cal.view"
+    view-date="cal.viewDate"
+    events="cal.events"
+    view-title="calendarTitle"
+    on-event-click="cal.eventClicked(calendarEvent)"
+    on-event-times-changed="cal.timesChanged(calendarEvent, calendarNewEventStart, calendarNewEventEnd, calendarDraggedFromDate)"
+    on-timespan-click="cal.timespanClick(calendarDate, calendarCell)"
+    on-date-range-select="cal.dateRangeSelect(calendarRangeStartDate, calendarRangeEndDate)"
+    cell-is-open="true">
+</mwl-calendar>
