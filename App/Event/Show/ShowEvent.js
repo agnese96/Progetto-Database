@@ -17,11 +17,14 @@ class ShowEvent {
   getEvent(err, res) {
     this.loading=false;
     if(err)
-      console.log(res);
-      //this.$rootScope.$broadcast('errorToast', 'Questo evento non esiste');
+      this.$rootScope.$broadcast('errorToast', 'Questo evento non esiste');
     else{
       this.Event=res.event;
-      this.Event.Partecipanti=res.partecipants;
+      if(res.partecipants)
+        this.Event.Partecipanti=res.partecipants;
+      else {
+        this.Event.Partecipanti=[];
+      }
       if(this.Event.IDCreatore==this.userService.gMail()){
         this.owner=true;
       }else {
@@ -34,8 +37,9 @@ class ShowEvent {
     this.Backup=angular.copy(this.Event);
     this.Event.AddedPartecipants=[];
     this.Event.RemovedPartecipants=[];
+    if(!this.Event.Partecipanti)
+      this.Event.Partecipanti=[];
     this.toggleContentEditable();
-    this.getContacts();
   }
   Cancel() {
     angular.copy(this.Backup, this.Event);
@@ -119,27 +123,12 @@ class ShowEvent {
       default: break;
     }
   }
-  querySearch(criteria) {
-    if(this.Contatti)
-      return criteria ? this.Contatti.filter((contact)=>{
-        return (contact.Nominativo.toLowerCase().indexOf(criteria.toLowerCase()) !=-1);
-      }) : [];
-    return [];
+  addPartecipant(email) {
+    console.log(email);
+    this.Event.AddedPartecipants.push({Email: email});
   }
-  getContacts() {
-    this.HttpService.newPostRequest({}, 'GetContacts.php', (err, res)=> {
-        if(err)
-          this.Contatti=[];
-        else {
-          this.Contatti=res;
-        }
-    });
-  }
-  addPartecipant(chip) {
-    this.Event.AddedPartecipants.push(chip.Email);
-  }
-  rmvPartecipant(chip) {
-    this.Event.RemovedPartecipants.push(chip.Email);
+  rmvPartecipant(email) {
+    this.Event.RemovedPartecipants.push({Email: part});
   }
 }
 
@@ -151,25 +140,4 @@ app.component('showEvent', {
     'id': '=',
     'date': '@'
   }
-});
-
-app.directive("contenteditable", function() {
-  return {
-    restrict: "A",
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-
-      function read() {
-        ngModel.$setViewValue(element.html());
-      }
-
-      ngModel.$render = function() {
-        element.html(ngModel.$viewValue || "");
-      };
-
-      element.bind("blur keyup change", function() {
-        scope.$apply(read);
-      });
-    }
-  };
 });
