@@ -1,0 +1,23 @@
+{
+  "name": "progetto-database",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agnese96/Progetto-Database.git"
+  },
+  "author": "Agnese Folli, Enrico Puccia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agnese96/Progetto-Database/issues"
+  },
+  "homepage": "https://github.com/agnese96/Progetto-Database#readme",
+  "dependencies": {
+    "angular-bootstrap-calendar": "^0.28.0",
+    "moment": "^2.17.1"
+  }
+}
