@@ -3,7 +3,7 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname="Agenda";
-
+date_default_timezone_set ( 'Europe/Amsterdam' );
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
