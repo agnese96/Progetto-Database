@@ -43,7 +43,7 @@
     $stmt = $conn->prepare("INSERT INTO Invitare(Email, DataInizio, IDEvento) VALUES(?,?,?)");
     $stmt->bind_param("ssi", $IDInvitato, $DataInizio, $IDEvento);
     $sql2 = "INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio)
-              VALUES('Nuovo invito a un evento', CURDATE(), CURTIME(), $Titolo, $IDEvento, $DataInizio)";
+              VALUES('Nuovo invito a un evento', CURDATE(), CURTIME(), '$Titolo', $IDEvento, $DataID)";
     if(! $result2 = $conn->query($sql2)) {
       echo json_encode($data = ['error' => $conn->error]);
       exit();
@@ -70,7 +70,7 @@
     $stmt =$conn->prepare( "DELETE FROM Invitare WHERE Email=? AND IDEvento=? AND DataInizio=? ");
     $stmt->bind_param("sis", $IDInvitato, $IDEvento, $DataInizio);
     $sql2 = "INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio)
-              VALUES(Rimozione dalla lista dei partecipanti, CURDATE(), CURTIME(), $Titolo, $IDEvento, $DataInizio)";
+              VALUES('Rimozione dalla lista dei partecipanti', CURDATE(), CURTIME(), '$Titolo', $IDEvento, $DataID)";
     if(! $result2 = $conn->query($sql2)) {
       echo json_encode($data = ['error' => $conn->error]);
       exit();
@@ -90,7 +90,7 @@
         exit();
       }
     }
-
+  }
   echo json_encode($data=['success' => true, 'idevento' => $IDEvento]);
   $conn->close();
  ?>
