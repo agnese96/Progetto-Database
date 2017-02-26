@@ -5,6 +5,27 @@ class ShowDeadline {
       this.$rootScope=$rootScope;
       this.editmode=false;
 
+      this.Priorities = [{
+          nome: 'Priorità 0',
+          class: '',
+          val: 0
+        },
+        {
+          nome: 'Priorità 1',
+          class: 'low-priority',
+          val: 1
+        },
+        {
+          nome: 'Priorità 2',
+          class: 'medium-priority',
+          val: 2
+        },
+        {
+          nome: 'Priorità 3',
+          class: 'high-priority',
+          val: 3
+      }];
+
       $rootScope.$on('updateDeadlines', angular.bind(this, function checkRefresh(event, data) {
         if(this.id==data)
           this.$onInit();

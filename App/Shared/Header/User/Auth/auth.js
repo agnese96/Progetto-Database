@@ -56,19 +56,21 @@ app.component('register', {
 
 
 class Login {
-  constructor(userService) {
+  constructor($state, userService) {
     this.credentials={
       email:'',
       password:''
     };
     this.error='';
     this.userService=userService;
+    this.$state=$state;
   }
   login() {
     this.userService.login(this.credentials, angular.bind(this, function (result) {
       if(result === true) {
           console.log('successful login');
           this.done();
+          this.$state.go('calendar');
       }else{
           console.log('unsuccessful login');
           this.error=result.error;

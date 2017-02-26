@@ -14,10 +14,27 @@ class DueDeadlines {
   getDeadlines(err, res) {
     if(err){
       console.log(err);
-      this.Deadlines={};
+      this.Deadlines=[];
     }
     else {
-      this.Deadlines=res;
+      this.Deadlines=res.map(function (Deadline) {
+        switch (Deadline.Priority) {
+          case '1':
+            Deadline.class="low-priority";
+            break;
+          case '2':
+            Deadline.class="medium-priority";
+            break;
+          case '3':
+            Deadline.class="high-priority";
+            break;
+          default:
+            Deadline.class="";
+            break;
+        }
+        console.log(Deadline);
+        return Deadline;
+      });
     }
   }
   checkDeadline(id) {

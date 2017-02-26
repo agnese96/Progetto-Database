@@ -41,11 +41,30 @@
     <script src="App/Deadline/Create/CreateDeadline.js"></script>
     <script src="App/Deadline/Show/ShowDeadline.js"></script>
   </head>
-  <body ng-app="app" ng-controller="appController">
-    <my-header flex="15"></my-header>
-    <section layout="row">
-      <my-sidenav></my-sidenav>
-      <div ui-view flex></div>
-    </section>
+  <body layout="row" ng-app="app" ng-controller="appController">
+    <my-sidenav layout="column" class="md-whiteframe-z2"></my-sidenav>
+    <div class="relative" layout="column" role="main" flex>
+      <md-fab-speed-dial md-direction="up" class="md-scale md-fab-bottom-right">
+        <md-fab-trigger>
+          <md-button aria-label="Nuovo" class="md-fab md-accent">
+              <md-icon>&#xE145;</md-icon>
+          </md-button>
+        </md-fab-trigger>
+        <md-fab-actions>
+          <md-button aria-label="Evento" class="md-fab md-raised" ui-sref="event.create">
+              <md-icon>&#xE878;</md-icon>
+          </md-button>
+        </md-fab-actions>
+        <md-fab-actions>
+          <md-button aria-label="Scadenza" class="md-fab md-raised" ui-sref="deadline.create">
+              <md-icon>&#xE834;</md-icon>
+          </md-button>
+        </md-fab-actions>
+      </md-fab-speed-dial>
+      <my-header></my-header>
+      <md-content flex md-scroll-y>
+        <div ui-view layout="column" layout-fill layout-padding layout-align="space-around"></div>
+      </md-content>
+    </div>
   </body>
 </html>

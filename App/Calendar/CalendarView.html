@@ -1,35 +1,41 @@
-<div layout="row" layout-align="space-between" layout-padding>
-  <h3 class="md-display-1" >{{cal.calendarTitle}}</h3>
-  <div>
-    <md-button class="md-icon-button" aria-label="Vista mese" ng-click="cal.setView('month')">
-      <md-icon ng-class="{'chosen-response': cal.viewMonth}">&#xE8F0;</md-icon>
-    </md-button>
-    <md-button class="md-icon-button" aria-label="Vista settimana" ng-click="cal.setView('week')">
-      <md-icon ng-class="{'chosen-response': cal.viewWeek}">&#xE8F3;</md-icon>
-    </md-button>
-    <md-button class="md-icon-button" aria-label="Vista giorno" ng-click="cal.setView('day')">
-      <md-icon ng-class="{'chosen-response': cal.viewDay}">&#xE8ED;</md-icon>
-    </md-button>
-  </div>
-</div>
-<div layout="row" layout-align="space-between">
-  <md-button mwl-date-modifier date="cal.viewDate" decrement="cal.view" ng-click="cal.getEvents()">
-    <
-  </md-button>
-  <md-button mwl-date-modifier date="cal.viewDate" set-to-today ng-click="cal.getEvents()">
-    Oggi
-  </md-button>
-  <md-button mwl-date-modifier date="cal.viewDate" increment="cal.view" ng-click="cal.getEvents()">
-    >
-  </md-button>
-</div>
-<mwl-calendar
-    view="cal.view"
-    view-date="cal.viewDate"
-    events="cal.events"
-    view-title="cal.calendarTitle"
-    on-event-click="cal.eventClicked(calendarEvent)"
-    on-event-times-changed="cal.timesChanged(calendarEvent, calendarNewEventStart, calendarNewEventEnd)"
-    on-date-range-select="cal.dateRangeSelect(calendarRangeStartDate, calendarRangeEndDate)"
-    cell-is-open="true">
-</mwl-calendar>
+<div class="inset" hide-sm></div>
+<md-card flex-gt-sm="60" flex-gt-md="40">
+  <md-card-content>
+    <div layout="row" layout-align="space-between" layout-padding>
+      <h3 class="md-display-1" >{{cal.calendarTitle}}</h3>
+      <div>
+        <md-button class="md-icon-button" aria-label="Vista mese" ng-click="cal.setView('month')">
+          <md-icon ng-class="{'chosen-response': cal.viewMonth}">&#xE8F0;</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="Vista settimana" ng-click="cal.setView('week')">
+          <md-icon ng-class="{'chosen-response': cal.viewWeek}">&#xE8F3;</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="Vista giorno" ng-click="cal.setView('day')">
+          <md-icon ng-class="{'chosen-response': cal.viewDay}">&#xE8ED;</md-icon>
+        </md-button>
+      </div>
+    </div>
+    <div layout="row" layout-align="space-between">
+      <md-button mwl-date-modifier date="cal.viewDate" decrement="cal.view" ng-click="cal.getEvents()">
+        <
+      </md-button>
+      <md-button mwl-date-modifier date="cal.viewDate" set-to-today ng-click="cal.getEvents()">
+        Oggi
+      </md-button>
+      <md-button mwl-date-modifier date="cal.viewDate" increment="cal.view" ng-click="cal.getEvents()">
+        >
+      </md-button>
+    </div>
+    <mwl-calendar
+        view="cal.view"
+        view-date="cal.viewDate"
+        events="cal.events"
+        view-title="cal.calendarTitle"
+        on-event-click="cal.eventClicked(calendarEvent)"
+        on-event-times-changed="cal.timesChanged(calendarEvent, calendarNewEventStart, calendarNewEventEnd)"
+        on-date-range-select="cal.dateRangeSelect(calendarRangeStartDate, calendarRangeEndDate)"
+        cell-is-open="true">
+    </mwl-calendar>
+
+  </md-card-content>
+</md-card>

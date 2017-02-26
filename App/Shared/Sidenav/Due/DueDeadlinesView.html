@@ -1,12 +1,8 @@
-<div layout-fill>
-  <md-list>
-    <md-subheader>Scadenze imminenti</md-subheader>
-    <md-list-item ng-repeat="Deadline in Due.Deadlines" ng-click="Due.goToDeadline(Deadline.IDScadenza)" class="md-2-line">
-      <div class="md-list-item-text">
-        <h3>{{ Deadline.Descrizione }}</h3>
-        <p>{{ Deadline.Data }}</p>
-      </div>
-      <md-checkbox class="md-secondary" ng-model="Deadline.checked" ng-change="Due.checkDeadline(Deadline.IDScadenza)"></md-checkbox>
-    </md-list-item>
-  </md-list>
-</div>
+<md-subheader>Scadenze imminenti</md-subheader>
+<md-list-item layout="row" ng-repeat="Deadline in Due.Deadlines track by $index" ng-click="Due.goToDeadline(Deadline.IDScadenza)" class="no-right md-2-line">
+  <div class="md-list-item-text" flex>
+    <h3><md-icon ng-class="Deadline.class" class="material-icons">&#xE153;</md-icon>{{ Deadline.Descrizione }}</h3>
+    <p>{{ Deadline.Data }}</p>
+  </div>
+  <md-checkbox class="md-secondary" ng-model="Deadline.checked" ng-change="Due.checkDeadline(Deadline.IDScadenza)" flex="5"></md-checkbox>
+</md-list-item>

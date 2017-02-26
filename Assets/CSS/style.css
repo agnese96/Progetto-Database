@@ -1,8 +1,5 @@
 
 /* reset bootstrap styles*/
-a:hover, a:active, a:visited{
-  color: white;
-}
 label {
   font-weight: 250;
 }
@@ -49,7 +46,18 @@ label {
     height: 250px;
     overflow: hidden; }
 
-
+md-content.md-default-theme {
+  background-color: #eee;
+}
+md-card {
+  background-color: #fff;
+}
+md-sidenav {
+  fill: #737373;
+}
+h2 {
+  font-weight: 400;
+}
 .avatar {
   position: relative;
   width: 128px;
@@ -78,12 +86,16 @@ label {
     /* Set our own color */
     color: grey;
 }
-.mySidebar{
-  height: 100%;
-}
-.md-sidenav-left {
-  height: 100%;
+.app-container {
+  position: relative;
+  height: calc(100% - 64px);
 }
 .chosen-response {
-  color: blue;
+  color: #F50057;
+}
+.high-priority { color: #F44336; }
+.medium-priority { color: #FFB74D; }
+.low-priority { color: #FFE082; }
+.list-text {
+  font-size: 16px;
 }

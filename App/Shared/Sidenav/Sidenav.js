@@ -1,6 +1,11 @@
 class Sidenav {
-  constructor($mdSidenav) {
+  constructor($mdSidenav, $state) {
     this.handler=$mdSidenav;
+    this.$state=$state;
+  }
+  goTo(destination) {
+    this.close();
+    this.$state.go(destination);
   }
   close() {
     this.handler('left').toggle();

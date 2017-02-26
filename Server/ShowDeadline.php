@@ -3,7 +3,7 @@ require "connection.php";
 $IDUtente = require 'lib/decodeToken.php';
 $IDScadenza = $conn->real_escape_string($_POST["IDScadenza"]);
 
-$sql = "SELECT Descrizione, Data, Priorità, IFNULL(Promemoria,0) as Promemoria, IFNULL(Ricorrenza,0) as Ricorrenza, IFNULL(Frequenza,0) as Frequenza
+$sql = "SELECT Descrizione, Data, Priorità as Priority, IFNULL(Promemoria,0) as Promemoria, IFNULL(Ricorrenza,0) as Ricorrenza, IFNULL(Frequenza,0) as Frequenza
         FROM Scadenze
         WHERE IDScadenza=$IDScadenza AND IDCreatore='$IDUtente' ";
 if(! $result = $conn->query($sql)){

@@ -16,7 +16,14 @@
       <md-icon>&#xE876;</md-icon>
     </md-button>
   </div>
-  <div class="Data">
-    Data di scadenza: <span class="editable" ng-model="Show.Deadline.Data" contenteditable="false"></span>
+  <div layout="row" layout-align="space-between">
+    <md-select ng-model="Show.Deadline.Priority" class="md-no-underline" ng-disabled="!Show.editmode" flex>
+      <md-option ng-repeat="Priority in Show.Priorities" ng-value="{{Priority.val}}" >
+        <md-icon class="{{Priority.class}} material-icons">&#xE153;</md-icon>{{ Priority.nome }}
+      </md-option>
+    </md-select>
+    <div class="Data" flex layout-padding layout-margin>
+      Data di scadenza: <span class="editable" ng-model="Show.Deadline.Data" contenteditable="false"></span>
+    </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 var app=angular.module("app", ['ngMaterial', 'ngMessages', 'ui.router','mwl.calendar', 'ui.bootstrap']);
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
   $urlRouterProvider.otherwise('/calendar');
 
   $stateProvider
@@ -84,7 +84,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
         restricted: true
       }
     })
-
+  var customBlueMap = 		$mdThemingProvider.extendPalette('light-blue', {
+    'contrastDefaultColor': 'light',
+    'contrastDarkColors': ['50'],
+    '50': 'ffffff'
+  });
+  $mdThemingProvider.definePalette('customBlue', customBlueMap);
+  $mdThemingProvider.theme('default')
+    .primaryPalette('customBlue', {
+      'default': '500',
+      'hue-1': '50'
+    })
+    .accentPalette('pink');
+  $mdThemingProvider.theme('input', 'default')
+        .primaryPalette('grey');
 })
   .run(function ($rootScope, $state, userService) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
