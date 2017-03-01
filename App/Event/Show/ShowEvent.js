@@ -16,12 +16,27 @@ class ShowEvent {
   }
   getEvent(err, res) {
     this.loading=false;
+    console.log(err);
     if(err)
       this.$rootScope.$broadcast('errorToast', 'Questo evento non esiste');
     else{
       this.Event=res.event;
       if(res.partecipants)
-        this.Event.Partecipanti=res.partecipants;
+        this.Event.Partecipanti=res.partecipants.map(function (partecipant) {
+            switch (partecipant.Partecipa) {
+              case 'N':
+                partecipant.partIcon="thumb_down";
+                break;
+              case 'M':
+                partecipant.partIcon="thumbs_up_down";
+                break;
+              case 'Y':
+                partecipant.partIcon="thumb_up";
+                break;
+            }
+            console.log(partecipant);
+            return partecipant;
+        });
       else {
         this.Event.Partecipanti=[];
       }

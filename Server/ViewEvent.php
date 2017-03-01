@@ -15,8 +15,12 @@ if(checkOwner($IDUtente, $IDEvento, $conn)){
 }
 
 $sql1 = "SELECT u.Email, CONCAT_WS(' ', Cognome, Nome) AS Nominativo, u.FotoProfilo, i.Partecipa
-        FROM (DateEvento de JOIN Invitare i ON de.IDEvento=i.IDEvento AND de.DataInizio=i.DataInizio) JOIN Utenti u ON i.Email=u.Email
-        WHERE de.DataInizio='$DataEvento' AND de.IDEvento=$IDEvento AND (i.Email>'$IDUtente' OR i.Email<'$IDUtente')";
+          FROM (DateEvento de JOIN Invitare i ON de.IDEvento=i.IDEvento AND de.DataInizio=i.DataInizio) JOIN Utenti u ON i.Email=u.Email
+          WHERE de.DataInizio='$DataEvento' AND de.IDEvento=$IDEvento AND (i.Email>'$IDUtente' OR i.Email<'$IDUtente')
+        UNION
+        SELECT u.Email, CONCAT_WS(' ', Cognome, Nome) AS Nominativo, u.FotoProfilo, 'Y' AS Partecipa
+          FROM (DateEvento de JOIN Eventi e ON de.IDEvento=e.IDEvento ) JOIN Utenti u ON e.IDCreatore=u.Email
+          WHERE de.DataInizio='$DataEvento' AND de.IDEvento=$IDEvento AND (e.IDCreatore>'$IDUtente' OR e.IDCreatore<'$IDUtente')";
 
 if(! $result = $conn->query($sql)){
   echo json_encode($data = ['error' => $conn->error]);
