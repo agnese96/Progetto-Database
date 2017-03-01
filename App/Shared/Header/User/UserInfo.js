@@ -9,6 +9,7 @@ class UserCtrl {
   initUserInfo() {
     this.logged=this.userService.isLogged();
     this.info=this.userService.gUser();
+    console.log(this.info.name);
   }
 
   logout() {

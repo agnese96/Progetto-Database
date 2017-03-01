@@ -1,20 +1,31 @@
-<md-toolbar>
-  <div ng-show="head.logged">
-    <md-button class="md-icon-button" aria-laber="Apri sidenav" ng-click="head.toggleSidenav()">
+<md-toolbar ng-show="!head.searchMode" class="md-whitefram-2dp">
+  <div class="md-toolbar-tools" >
+    <md-button class="md-icon-button" hide-gt-md aria-label="Menu" ng-click="head.toggleSidenav()" ng-disabled="$mdMedia('gt-md') || ! head.logged ">
       <md-icon>&#xE5D2;</md-icon>
     </md-button>
-    <user-info></user-info>
-    <md-button class="md-icon-button" aria-label="Aggiungi un evento" ui-sref="event.create">
-      Evento
-      <md-icon>&#xE145;</md-icon>
-    </md-button>
-    <md-button class="md-icon-button" aria-laber="Aggiungi una scadenza" ui-sref="deadline.create">
-      Scadenza
-      <md-icon>&#xE145;</md-icon>
-    </md-button>
+    <h3 flex md-truncate ui-sref="calendar">Agenda</h3>
+    <span flex></span>
+    <div ng-show="! head.logged">
+      <auth-button></auth-button>
+    </div>
+    <div ng-show="head.logged">
+      <md-button class="md-icon-button" aria-label="Cerca" ng-click="head.searchMode=!head.searchMode">
+        <md-icon>&#xE8B6;</md-icon>
+      </md-button>
+    </div>
   </div>
-  <div ng-show="! head.logged">
-    <auth-button></auth-button>
-
+</md-toolbar>
+<md-toolbar class="md-hue-1" ng-show="head.searchMode">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" ng-click="head.searchMode=!head.searchMode" aria-label="Indietro">
+      <md-icon>&#xE5C4;</md-icon>
+    </md-button>
+    <md-input-container md-theme="input" flex>
+      <label>&nbsp;</label>
+      <input type="text" ng-model="head.searchQuery" placeholder="cerca un evento o una scadenza">
+    </md-input-container>
+    <md-button class="md-icon-button" aria-label="Cerca" ng-click="head.search()">
+      <md-icon>&#xE8B6;</md-icon>
+    </md-button>
   </div>
 </md-toolbar>

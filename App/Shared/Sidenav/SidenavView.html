@@ -4,7 +4,28 @@
     md-component-id="left"
     md-is-locked-open="$mdMedia('gt-md')"
     md-whiteframe="4">
-    <md-content >
-      <due-deadlines done="Sidenav.close()"></due-deadlines>
-    </md-content>
+    <md-toolbar class="md-tall md-hue-2">
+      <span flex></span>
+      <div layout="column" class="md-toolbar-tools-bottom inset">
+        <user-info></user-info>
+      </div>
+    </md-toolbar>
+    <md-list>
+          <md-list-item md-ink-ripple layout="row" ng-click="Sidenav.goTo('calendar')">
+              <md-list-item-text><p class="list-text"><md-icon>&#xE878;</md-icon> Calendario</p></md-list-item-text>
+          </md-list-item>
+          <md-list-item md-ink-ripple layout="row" ng-click="Sidenav.goTo('contacts')">
+            <md-list-item-text><p class="list-text"><md-icon>&#xE7FB;</md-icon> Contatti</p></md-list-item-text>
+          </md-list-item>
+    <md-divider></md-divider>
+    <due-deadlines done="Sidenav.close()"></due-deadlines>
+    <md-divider></md-divider>
+          <md-list-item md-ink-ripple layout="row" ng-click="Sidenav.goTo('settings')">
+            <md-list-item-text><p class="list-text"><md-icon>&#xE8B8;</md-icon> Impostazioni</p></md-list-item-text>
+          </md-list-item>
+          <md-list-item md-ink-ripple layout="row" ng-click="Sidenav.logout()">
+            <md-list-item-text><p class="list-text"><md-icon>&#xE879;</md-icon> Esci</p></md-list-item-text>
+          </md-list-item>
+    </md-list>
+  </md-sidenav>
 </section>

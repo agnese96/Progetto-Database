@@ -12,9 +12,10 @@
   $Promemoria = $conn->real_escape_string($_POST['Promemoria']);
   $Frequenza = $conn->real_escape_string($_POST['Frequenza']);
   $Ricorrenza = $conn->real_escape_string($_POST['Ricorrenza']);
+  $Priorità = $conn->real_escape_string($_POST['Priority']);
 
   $sql = "UPDATE Scadenze
-          SET Descrizione='$Descrizione', Data='$Data', Promemoria=$Promemoria, Frequenza=$Frequenza, Ricorrenza=$Ricorrenza
+          SET Descrizione='$Descrizione', Data='$Data', Promemoria=$Promemoria, Frequenza=$Frequenza, Ricorrenza=$Ricorrenza, Priorità=$Priorità
           WHERE IDScadenza='$IDScadenza'";
   if(! $result = $conn->query($sql)) {
     echo json_encode($data = ['error' => $conn->error]);

@@ -1,6 +1,6 @@
 var app=angular.module("app", ['ngMaterial', 'ngMessages', 'ui.router','mwl.calendar', 'ui.bootstrap']);
-app.config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/home');
+app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+  $urlRouterProvider.otherwise('/calendar');
 
   $stateProvider
     .state('home', {
@@ -11,6 +11,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/calendar',
       templateUrl: 'App/Calendar/CalendarView.html',
       controller: 'calendarController',
+      controllerAs: 'cal',
       data: {
         restricted: true
       }
@@ -29,7 +30,24 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('event.create', {
       url: '/c',
-      template: "<create-event></create-event>"
+      params: {
+        dataInizio: null,
+        oraInizio: null,
+        dataFine: null,
+        oraFine: null
+      },
+      templateProvider: function($stateParams) {
+        let bindings="";
+        if($stateParams.dataInizio)
+          bindings+="datai='"+$stateParams.dataInizio+"' ";
+        if($stateParams.oraInizio)
+          bindings+="ora-inizio='"+$stateParams.oraInizio+"' ";
+        if($stateParams.dataFine)
+          bindings+="dataf='"+$stateParams.dataFine+"' ";
+        if($stateParams.oraFine)
+          bindings+="ora-fine='"+$stateParams.oraFine+"' ";
+        return "<create-event "+bindings+"></create-event>";
+      }
     })
     .state('event.show', {
       url: '/s/:id/:date',
@@ -66,7 +84,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
         restricted: true
       }
     })
-
+  var customBlueMap = 		$mdThemingProvider.extendPalette('light-blue', {
+    'contrastDefaultColor': 'light',
+    'contrastDarkColors': ['50'],
+    '50': 'ffffff'
+  });
+  $mdThemingProvider.definePalette('customBlue', customBlueMap);
+  $mdThemingProvider.theme('default')
+    .primaryPalette('customBlue', {
+      'default': '500',
+      'hue-1': '50'
+    })
+    .accentPalette('pink');
+  $mdThemingProvider.theme('input', 'default')
+        .primaryPalette('grey');
 })
   .run(function ($rootScope, $state, userService) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -87,7 +118,7 @@ class AppController {
     this.$state=$state;
   }
   errorToast(event, message) {
-    this.$state.go('home');//TODO: change this to go to calendar state when ready!
+    this.$state.go('calendar');//TODO: change this to go to calendar state when ready!
     this.$mdToast.showSimple(message);
   }
   errorToastNR(event, message) {

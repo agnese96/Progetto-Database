@@ -1,9 +1,20 @@
 class Sidenav {
-  constructor($mdSidenav) {
+  constructor($mdSidenav, $state, userService) {
     this.handler=$mdSidenav;
+    this.$state=$state;
+    this.userService=userService;
+  }
+  goTo(destination) {
+    this.close();
+    this.$state.go(destination);
   }
   close() {
     this.handler('left').toggle();
+  }
+  logout() {
+    this.userService.logout();
+    this.close();
+    this.$state.go('home');
   }
 }
 

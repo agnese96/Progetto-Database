@@ -5,7 +5,7 @@
 //  $DataRecente = ('Y-m-d', strtotime($Data. ' - 7 days'));
 //  $DataCorrente = curdate();
 
-  $sql = "SELECT IDScadenza, Descrizione, Data, IFNULL(Ricorrenza,0) as Ricorrenza, IFNULL(Frequenza,0) as Frequenza, IFNULL(Promemoria,0) as Promemoria
+  $sql = "SELECT IDScadenza, Descrizione, Data, Priorità as Priority
           FROM Scadenze
           WHERE IDCreatore='$IDUtente' AND (DATEDIFF(Data,CURDATE()) < 7 OR DATEDIFF(DATE_SUB(Data, INTERVAL Promemoria DAY),CURDATE()) < 7)
           ORDER BY Priorità";

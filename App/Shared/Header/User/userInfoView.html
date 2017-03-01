@@ -1,5 +1,6 @@
-<div ng-show="user.logged">
-  {{user.info.email}}
-  <md-icon md-svg-src="./Assets/Img/default.svg" class="avatar"></md-icon>
-  <md-button ng-click="user.logout()">Logout</md-button>
+<div layout="column" class="md-toolbar-tools-bottom inset">
+  <!-- <md-icon md-src="{{user.info.photo}}" class="avatar"></md-icon> -->
+  <span></span>
+  <div>{{user.info.name}}</div>
+  <div>{{user.info.email}}</div>
 </div>
