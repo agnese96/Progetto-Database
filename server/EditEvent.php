@@ -42,9 +42,23 @@
   if( $n > 0) {
     $stmt = $conn->prepare("INSERT INTO Invitare(Email, DataInizio, IDEvento) VALUES(?,?,?)");
     $stmt->bind_param("ssi", $IDInvitato, $DataInizio, $IDEvento);
+    $sql2 = "INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio)
+              VALUES('Nuovo invito a un evento', CURDATE(), CURTIME(), '$Titolo', $IDEvento, $DataID)";
+    if(! $result2 = $conn->query($sql2)) {
+      echo json_encode($data = ['error' => $conn->error]);
+      exit();
+    }
+    $ric = $conn->prepare("INSERT INTO Ricevere(Email, IDNotifica) VALUES(?,?)");
+    $ric->bind_param("si", $IDInvitato, $IDNotifica);
+
+//Dentro il for creo n tuple in ricevere e n tuple in invitare
     for($i=0; $i<$n; $i++) {
       $IDInvitato = $AddedPartecipants[$i]['Email'];
       if(! $stmt->execute()) {
+        echo json_encode($data = ['error' => $conn->error]);
+        exit();
+      }
+      if(! $ric->execute()) {
         echo json_encode($data = ['error' => $conn->error]);
         exit();
       }
@@ -55,15 +69,28 @@
   if($n1 > 0) {
     $stmt =$conn->prepare( "DELETE FROM Invitare WHERE Email=? AND IDEvento=? AND DataInizio=? ");
     $stmt->bind_param("sis", $IDInvitato, $IDEvento, $DataInizio);
+    $sql2 = "INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio)
+              VALUES('Rimozione dalla lista dei partecipanti', CURDATE(), CURTIME(), '$Titolo', $IDEvento, $DataID)";
+    if(! $result2 = $conn->query($sql2)) {
+      echo json_encode($data = ['error' => $conn->error]);
+      exit();
+    }
+    $ric = $conn->prepare("INSERT INTO Ricevere(Email, IDNotifica) VALUES(?,?)");
+    $ric->bind_param("si", $IDInvitato, $IDNotifica);
+
+//Dentro il for creo n tuple in ricevere e n tuple in invitare
     for($i=0; $i<$n1; $i++) {
       $IDInvitato = $RemovedPartecipants[$i]['Email'];
       if(! $stmt->execute()) {
         echo json_encode($data = ['error' => "Errore rimozione $i"]);
         exit();
       }
+      if(! $ric->execute()) {
+        echo json_encode($data = ['error' => $conn->error]);
+        exit();
+      }
     }
   }
-
   echo json_encode($data=['success' => true, 'idevento' => $IDEvento]);
   $conn->close();
  ?>
