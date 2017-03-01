@@ -60,6 +60,7 @@ class CalendarController {
     this.HttpService.newPostRequest(data, url, angular.bind(this, this.setContacts));
   }
   setContacts(err, res){
+console.log(err);
     if (err) {
       this.events=[];
     }else{
