@@ -7,6 +7,7 @@ class CalendarController {
     this.config(calendarConfig);
     this.viewDate=new Date();
     this.setView('month');
+    this.events=[];
     this.getEvents();
   }
   config(calendarConfig) {
@@ -45,27 +46,31 @@ class CalendarController {
     switch (this.view) {
       case 'month':
         data.Month=mViewDate.get('month')+1;
-        url="GetEventMonth.php";
+        url="Month.php";
         break;
       case 'week':
         data.Week=mViewDate.week();
-        url="GetEventWeek.php";
+        url="Week.php";
         break;
       case 'day':
         data.Month=mViewDate.get('month')+1;
         data.Day=mViewDate.get('date');
-        url="GetEventDay.php";
+        url="Day.php";
         break;
     }
-    this.HttpService.newPostRequest(data, url, angular.bind(this, this.setContacts));
+    this.HttpService.newPostRequest(data,'GetEvent'+url, angular.bind(this, this.setEvents));
+    this.HttpService.newPostRequest(data,'GetDeadline'+url, angular.bind(this, this.setDeadlines));
   }
+<<<<<<< Updated upstream
   setContacts(err, res){
 console.log(err);
+=======
+  setEvents(err, res){
+>>>>>>> Stashed changes
     if (err) {
-      this.events=[];
+      //this.events=[];
     }else{
-      this.events=res.map((event)=>{
-        let removeButton="<md-button class='md-icon'>&#xE872;<md-icon></md-button>";
+      this.events.concat(res.map((event)=>{
         return {
           id: event.IDEvento,
           title: event.Titolo,
@@ -76,7 +81,24 @@ console.log(err);
           allDay: false,
           draggable: true
         }
-      });
+      }));
+    }
+  }
+  setDeadlines(err, res){
+    if (err) {
+      //this.events=[];
+    }else{
+      this.events.concat(res.map((deadline)=>{
+        return {
+          id: deadline.IDScadenza,
+          title: deadline.Descrizione,
+          startsAt: moment(deadline.Data, 'Y-M-D').toDate(),
+          color: this.getColors(deadline.Priority),
+          incrementsBadgeTotal: true,
+          allDay: true,
+          draggable: true
+        }
+      }));
     }
   }
   getColors(cat) {
