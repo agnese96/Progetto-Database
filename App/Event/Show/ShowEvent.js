@@ -128,7 +128,7 @@ class ShowEvent {
     this.Event.AddedPartecipants.push({Email: email});
   }
   rmvPartecipant(email) {
-    this.Event.RemovedPartecipants.push({Email: part});
+    this.Event.RemovedPartecipants.push({Email: email});
   }
 }
 
