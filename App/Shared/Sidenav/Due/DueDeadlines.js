@@ -32,7 +32,6 @@ class DueDeadlines {
             Deadline.class="";
             break;
         }
-        console.log(Deadline);
         return Deadline;
       });
     }
@@ -50,7 +49,6 @@ class DueDeadlines {
     }
   }
   goToDeadline(id) {
-    console.log(id);
     this.done();
     this.$state.go('deadline.show', {id: id});
   }

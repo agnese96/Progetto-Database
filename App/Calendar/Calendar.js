@@ -85,7 +85,7 @@ class CalendarController {
     }else{
       this.events = this.events.concat(res.map((deadline)=>{
         return {
-          IDScadenza: deadline.IDScadenza,
+          id: deadline.IDScadenza,
           title: deadline.Descrizione,
           startsAt: moment(deadline.Data, 'Y-M-D').toDate(),
           color: this.getColors(deadline.Priority),
@@ -147,8 +147,9 @@ class CalendarController {
     }
   }
   eventClicked(calendarEvent) {
-    if(calendarEvent.IDScadenza)
-      this.$state.go('deadline.show', {id: calendarEvent.IDScadenza});
+    if(calendarEvent.allDay){
+      this.$state.go('deadline.show', {id: calendarEvent.id});
+    }
     else{
       let Data = moment(calendarEvent.startsAt).format('Y-M-D');
       this.$state.go('event.show',{id: calendarEvent.id, date: Data});
