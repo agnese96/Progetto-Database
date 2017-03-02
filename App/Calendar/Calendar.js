@@ -3,12 +3,10 @@ class CalendarController {
     this.$state=$state;
     this.$rootScope=$rootScope;
     this.HttpService=HttpService;
-
+    this.events=[];
     this.config(calendarConfig);
     this.viewDate=new Date();
     this.setView('month');
-    this.events=[];
-    this.getEvents();
   }
   config(calendarConfig) {
     // This will configure times on the day view to display in 24 hour format rather than the default of 12 hour
@@ -38,6 +36,7 @@ class CalendarController {
     this.getEvents();
   }
   getEvents() {
+    this.events.length=0;
     let mViewDate = moment(this.viewDate);
     let data = {
       Year : mViewDate.get('year')
@@ -61,16 +60,11 @@ class CalendarController {
     this.HttpService.newPostRequest(data,'GetEvent'+url, angular.bind(this, this.setEvents));
     this.HttpService.newPostRequest(data,'GetDeadline'+url, angular.bind(this, this.setDeadlines));
   }
-<<<<<<< Updated upstream
-  setContacts(err, res){
-console.log(err);
-=======
   setEvents(err, res){
->>>>>>> Stashed changes
     if (err) {
       //this.events=[];
     }else{
-      this.events.concat(res.map((event)=>{
+      this.events = this.events.concat(res.map((event)=>{
         return {
           id: event.IDEvento,
           title: event.Titolo,
@@ -82,15 +76,16 @@ console.log(err);
           draggable: true
         }
       }));
+     console.log(this.events);
     }
   }
   setDeadlines(err, res){
     if (err) {
       //this.events=[];
     }else{
-      this.events.concat(res.map((deadline)=>{
+      this.events = this.events.concat(res.map((deadline)=>{
         return {
-          id: deadline.IDScadenza,
+          IDScadenza: deadline.IDScadenza,
           title: deadline.Descrizione,
           startsAt: moment(deadline.Data, 'Y-M-D').toDate(),
           color: this.getColors(deadline.Priority),
@@ -99,6 +94,7 @@ console.log(err);
           draggable: true
         }
       }));
+      console.log(this.events);
     }
   }
   getColors(cat) {
@@ -133,11 +129,31 @@ console.log(err);
           secondary: '#80DEEA'
         }
         break;
+      case '1':
+        return {
+          primary: '#FFE082'
+        }
+        break;
+      case '2':
+        return {
+          primary: '#FFB74D'
+        }
+        break;
+      case '3':
+        return {
+          primary: '#F44336'
+        }
+        break;
     }
   }
   eventClicked(calendarEvent) {
-    let Data = moment(calendarEvent.startsAt).format('Y-M-D');
-    this.$state.go('event.show',{id: calendarEvent.id, date: Data});
+    if(calendarEvent.IDScadenza)
+      this.$state.go('deadline.show', {id: calendarEvent.IDScadenza});
+    else{
+      let Data = moment(calendarEvent.startsAt).format('Y-M-D');
+      this.$state.go('event.show',{id: calendarEvent.id, date: Data});
+    }
+
   }
   dateRangeSelect(rangeStart, rangeEnd) {
     let params = {
