@@ -4,7 +4,7 @@ $IDUtente = require "lib/decodeToken.php";
 $Month = $conn->real_escape_string($_POST['Month']);
 $Year = $conn->real_escape_string($_POST['Year']);
 
-$sql = "SELECT Descrizione, Data, Priorità as Priority
+$sql = "SELECT IDScadenza, Descrizione, Data, Priorità as Priority
         FROM Scadenze
         WHERE month(Data) = $Month AND year(Data) = $Year AND IDCreatore = '$IDUtente'";
 

@@ -4,7 +4,7 @@ $IDUtente = require "lib/decodeToken.php";
 $Week = $conn->real_escape_string($_POST['Week']);
 $Year = $conn->real_escape_string($_POST['Year']);
 
-$sql = "SELECT Descrizione, Data, Priorità as Priority
+$sql = "SELECT IDScadenza, Descrizione, Data, Priorità as Priority
         FROM Scadenze
         WHERE week(Data) = $Week AND year(Data) = $Year AND IDCreatore = '$IDUtente'";
 
