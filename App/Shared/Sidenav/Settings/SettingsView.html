@@ -1,0 +1,51 @@
+<div layout="column" layout-fill layout-margin layout-padding>
+  <div layout="row" layout-fill layout-margin layout-padding>
+    <h3 class="md-display-1 editable" ng-model="Show.Setting.Email" contenteditable="false"></h3>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="Show.Edit()" ng-show="Show.owner && !Show.editmode">
+      <md-icon>&#xE254;</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="Show.Delete()" ng-show="Show.owner && !Show.editmode">
+      <md-icon>&#xE872;</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="Show.Cancel()" ng-show="Show.editmode">
+      <md-icon>&#xE5CD;</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="Show.Apply()" ng-show="Show.editmode">
+      <md-icon>&#xE876;</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="Show.Vote('Y')"  ng-show="!Show.owner">
+      <md-icon ng-class="{'chosen-response': Show.Response.Yes }">&#xE8DC;</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="Show.Vote('M')"  ng-show="!Show.owner">
+      <md-icon ng-class="{'chosen-response': Show.Response.Maybe }">&#xE8DD;</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="Show.Vote('N')"   ng-show="!Show.owner">
+      <md-icon ng-class="{'chosen-response': Show.Response.No }" >&#xE8DB;</md-icon>
+    </md-button>
+  </div>
+<!--
+  <div class="descrizione editable" ng-model="Show.Settings.Nome" contenteditable="false">
+    {{Show.Settings.Nome}}
+  </div>
+-->
+  <div class="Nominativo">
+    Nome: <span class="editable" ng-model="Show.Settings.Nome" contenteditable="false"></span>
+    <br />
+    Cognome: <span class="editable" contenteditable="false" ng-model="Show.Settings.Cognome"></span>
+  </div>
+  <div class="Altro" >
+    Data di nascita: <span class="editable" contenteditable="false" ng-model="Show.Settings.DataNascita"></span>
+    Città di residenza: <span class="editable" contenteditable="false" ng-model="Show.Settings.Città"></span>
+    Professione: <span class="editable" contenteditable="false" ng-model="Show.Settings.Professione"></span>
+  </div>
+  <div class="FotoProfilo">
+    FotoProfilo: <span class="editable" contenteditable="false" ng-model="Show.Settings.FotoProfilo"></span>
+  </div>
+  <div class="Preferenze" >
+    Scegli la vista di default del calendario: <span class="editable" contenteditable="false" ng-model="Show.Settings.VistaCalendario"></span>
+    A che ora incomincia la tua giornata? <span class="editable" contenteditable="false" ng-model="Show.Settings.OraVistaGiornaliera"></span>
+    Primo giorno della settimana: <span class="editable" contenteditable="false" ng-model="Show.Settings.GiornoVistaSettimanale"></span>
+  </div>
+
+</div>
