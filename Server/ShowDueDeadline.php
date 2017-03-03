@@ -8,7 +8,7 @@
   $sql = "SELECT IDScadenza, Descrizione, Data, Priorità as Priority
           FROM Scadenze
           WHERE IDCreatore='$IDUtente' AND (DATEDIFF(Data,CURDATE()) < 7 OR DATEDIFF(DATE_SUB(Data, INTERVAL Promemoria DAY),CURDATE()) < 7)
-          ORDER BY Data, Priorità";
+          ORDER BY Data ASC, Priorità DESC";
 
   if(! $result = $conn->query($sql)){
     echo json_encode($data = ['error' => $conn->error]);

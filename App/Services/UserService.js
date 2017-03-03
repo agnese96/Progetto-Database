@@ -1,6 +1,5 @@
 class UserService {
   constructor($http, $window, $rootScope) {
-    console.log('costruttore userService');
     this.$http=$http;
     this.$window=$window;
     this.$rootScope=$rootScope;
@@ -13,7 +12,18 @@ class UserService {
       this.logged=true;
     else
       this.logged=false;
-    console.log(this.token);
+    //console.log(this.token);
+  }
+
+  updateName(Name){
+    this.name=Name;
+    this.$window.localStorage.setItem('name',Name);
+    this.$rootScope.$broadcast('userChange');
+  }
+  updatePhoto(Photo){
+    this.photo=Photo;
+    this.$window.localStorage.setItem('photo',Photo);
+    this.$rootScope.$broadcast('userChange');
   }
 
   updateLocalStorage(token, email, photo, name) {
@@ -21,7 +31,6 @@ class UserService {
     this.$window.localStorage.setItem('email', email);
     this.$window.localStorage.setItem('photo', photo);
     this.$window.localStorage.setItem('name', name);
-    //this.$http.defaults.headers.common['Authentication'] = 'Bearer: ' + token;
     this.$rootScope.$broadcast('userChange');//emit an event so that the other controllers can update their info.
   }
 
@@ -55,7 +64,6 @@ class UserService {
     this.$window.localStorage.removeItem('token');
     this.$window.localStorage.removeItem('email');
     this.$window.localStorage.removeItem('photo');
-    //this.$http.defaults.headers.common['Authentication'] = '';
     this.logged=false;
     this.$rootScope.$emit('userChange');//emit an event so that the other controllers can update their info.
   }

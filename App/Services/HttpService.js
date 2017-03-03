@@ -17,6 +17,22 @@ class HttpService {
         callback(res.error, res);
     });
   }
+  fileUpload(files, filename, callback) {
+    let fd=new FormData();
+    angular.forEach(files,function(file){
+      fd.append('fileToUpload',file);
+    });
+    fd.append('token',this.userService.gToken());
+    return this.$http.post('server/'+filename,fd,{
+      transformRequest: angular.identity,
+      headers: {'Content-Type':undefined}
+    }).success(function(res){
+      if(res.error)
+        callback(res.error);
+      else
+        callback(res.error,res);
+    });
+  }
 }
 
 app.service('HttpService', HttpService);

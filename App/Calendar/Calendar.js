@@ -1,8 +1,9 @@
 class CalendarController {
-  constructor($state, $rootScope, calendarConfig, HttpService) {
+  constructor($state, $rootScope, calendarConfig, HttpService, userService) {
     this.$state=$state;
     this.$rootScope=$rootScope;
     this.HttpService=HttpService;
+    this.userService=userService;
     this.events=[];
     this.config(calendarConfig);
     this.viewDate=new Date();
@@ -73,7 +74,7 @@ class CalendarController {
           color: this.getColors(event.NomeCategoria),
           incrementsBadgeTotal: true,
           allDay: false,
-          draggable: true
+          draggable: res.IDCreatore==this.userService.gMail()
         }
       }));
      console.log(this.events);

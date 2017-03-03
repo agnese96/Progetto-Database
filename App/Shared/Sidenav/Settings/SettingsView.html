@@ -1,51 +1,69 @@
 <div layout="column" layout-fill layout-margin layout-padding>
-  <div layout="row" layout-fill layout-margin layout-padding>
-    <h3 class="md-display-1 editable" ng-model="Show.Setting.Email" contenteditable="false"></h3>
-    <span flex></span>
-    <md-button class="md-icon-button" ng-click="Show.Edit()" ng-show="Show.owner && !Show.editmode">
-      <md-icon>&#xE254;</md-icon>
-    </md-button>
-    <md-button class="md-icon-button" ng-click="Show.Delete()" ng-show="Show.owner && !Show.editmode">
-      <md-icon>&#xE872;</md-icon>
-    </md-button>
-    <md-button class="md-icon-button" ng-click="Show.Cancel()" ng-show="Show.editmode">
-      <md-icon>&#xE5CD;</md-icon>
-    </md-button>
-    <md-button class="md-icon-button" ng-click="Show.Apply()" ng-show="Show.editmode">
-      <md-icon>&#xE876;</md-icon>
-    </md-button>
-    <md-button class="md-icon-button" ng-click="Show.Vote('Y')"  ng-show="!Show.owner">
-      <md-icon ng-class="{'chosen-response': Show.Response.Yes }">&#xE8DC;</md-icon>
-    </md-button>
-    <md-button class="md-icon-button" ng-click="Show.Vote('M')"  ng-show="!Show.owner">
-      <md-icon ng-class="{'chosen-response': Show.Response.Maybe }">&#xE8DD;</md-icon>
-    </md-button>
-    <md-button class="md-icon-button" ng-click="Show.Vote('N')"   ng-show="!Show.owner">
-      <md-icon ng-class="{'chosen-response': Show.Response.No }" >&#xE8DB;</md-icon>
-    </md-button>
+  <h3 class="md-display-2 ">Impostazioni</h3>
+  <form name="form" layout="column" layout-fill layout-padding layout-margin>
+    <h4 class="md-display-1">Informazioni personali</h4>
+    <div layout="row" layout-xs="column">
+      <md-input-container flex-gt-xs="45">
+        <label>
+          Nome
+        </label>
+        <input name="Nome" type="text" ng-model="Update.Settings.Nome" aria-label="Nome" required md-no-asterisk/>
+      </md-input-container>
+      <md-input-container >
+        <label>
+          Cognome
+        </label>
+        <input name="Cognome" type="text" ng-model="Update.Settings.Cognome" aria-label="Cognome" required md-no-asterisk/>
+      </md-input-container>
   </div>
-<!--
-  <div class="descrizione editable" ng-model="Show.Settings.Nome" contenteditable="false">
-    {{Show.Settings.Nome}}
+   <div layout="row" layout-xs="column">
+      <md-input-container flex-gt-xs="45">
+        <label>
+          Data di nascita
+        </label>
+        <input name="DataNascita" type="date" ng-model="Update.Settings.DataNascita" aria-label="Data di nascita" md-no-asterisk/>
+      </md-input-container>
+      <md-input-container >
+        <label>
+          Città
+        </label>
+        <input name="Città" type="text" ng-model="Update.Settings.City" aria-label="Città" md-no-asterisk/>
+      </md-input-container>
+      <md-input-container >
+        <label>
+          Professione
+        </label>
+        <input name="Professione" type="text" ng-model="Update.Settings.Professione" aria-label="Professione" md-no-asterisk/>
+      </md-input-container>
   </div>
--->
-  <div class="Nominativo">
-    Nome: <span class="editable" ng-model="Show.Settings.Nome" contenteditable="false"></span>
-    <br />
-    Cognome: <span class="editable" contenteditable="false" ng-model="Show.Settings.Cognome"></span>
+  <div layout="row" layout-align="end center">
+    <md-button class="md-raised md-primary" ng-click="Update.submitPersonal()" aria-label="submit" ng-disabled="form.$invalid">Submit</md-button>
   </div>
-  <div class="Altro" >
-    Data di nascita: <span class="editable" contenteditable="false" ng-model="Show.Settings.DataNascita"></span>
-    Città di residenza: <span class="editable" contenteditable="false" ng-model="Show.Settings.Città"></span>
-    Professione: <span class="editable" contenteditable="false" ng-model="Show.Settings.Professione"></span>
+  <md-divider></md-divider>
+  <h4 class="md-display-1">Cambia foto profilo</h4>
+  <input file-model="Update.Settings.FotoProfilo" type=file accept="image/*">
+  <div layout="row" layout-align="end center">
+    <md-button class="md-raised md-primary" ng-click="Update.changePhoto()" aria-label="submit" ng-disabled="form.$invalid">Submit</md-button>
   </div>
-  <div class="FotoProfilo">
-    FotoProfilo: <span class="editable" contenteditable="false" ng-model="Show.Settings.FotoProfilo"></span>
+  <md-divider></md-divider>
+  <h4 class="md-display-1">Preferenze</h4>
+  Scegli la vista del calendario predefinita
+  <md-radio-group ng-model="Update.Settings.VistaCalendario">
+    <md-radio-button value="month" selected>Mensile</md-radio-button>
+    <md-radio-button value="week" selected>Settimanale</md-radio-button>
+    <md-radio-button value="day" selected>Giornaliera</md-radio-button>
+  </md-radio-group>
+  <md-input-container >
+    <label>
+      Inizio giorno
+    </label>
+    <input name="OraInizioGiorno" type="time" ng-model="Update.Settings.OraInizioGiorno" aria-label="Inizio giorno" required md-no-asterisk/>
+    <div class="hint">
+      A che ora inizia di solito la tua giornata?
+    </div>
+  </md-input-container>
+  <div layout="row" layout-align="end center">
+    <md-button class="md-raised md-primary" ng-click="Update.submitPreferences()" aria-label="submit" ng-disabled="form.$invalid">Submit</md-button>
   </div>
-  <div class="Preferenze" >
-    Scegli la vista di default del calendario: <span class="editable" contenteditable="false" ng-model="Show.Settings.VistaCalendario"></span>
-    A che ora incomincia la tua giornata? <span class="editable" contenteditable="false" ng-model="Show.Settings.OraVistaGiornaliera"></span>
-    Primo giorno della settimana: <span class="editable" contenteditable="false" ng-model="Show.Settings.GiornoVistaSettimanale"></span>
-  </div>
-
+</form>
 </div>

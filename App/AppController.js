@@ -84,6 +84,10 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
         restricted: true
       }
     })
+    .state('settings', {
+      url: '/settings',
+      template: '<settings></settings>'
+    })
   var customBlueMap = 		$mdThemingProvider.extendPalette('light-blue', {
     'contrastDefaultColor': 'light',
     'contrastDarkColors': ['50'],
