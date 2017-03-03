@@ -21,9 +21,8 @@ if(! $stmt->execute()){
   exit();
 }
 $ID = $conn->insert_id;
-$data = ['IDScadenza' => $ID];
 
 $conn->close();
-echo json_encode($data);
+echo json_encode($data = ['IDScadenza' => $ID]);
 
  ?>
