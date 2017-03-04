@@ -13,6 +13,9 @@ class Settings {
         this.Settings=res;
         if(this.Settings.OraInizioGiorno)
           this.Settings.OraInizioGiorno = moment(this.Settings.OraInizioGiorno,'H:m:s').toDate();
+        if(this.Settings.DataNascita)
+          this.Settings.DataNascita = moment(this.Settings.DataNascita,'Y-M-D').toDate();
+
       }
     });
   }
@@ -21,7 +24,7 @@ class Settings {
     let data={
       Nome: this.Settings.Nome,
       Cognome: this.Settings.Cognome,
-      DataNascita: this.Settings.DataNascita,
+      DataNascita: moment(this.Settings.DataNascita).format('Y-M-D'),
       City: this.Settings.City,
       Professione: this.Settings.Professione
     };
@@ -50,10 +53,10 @@ class Settings {
     this.loading=true;
     let data={
       VistaCalendario: this.Settings.VistaCalendario,
-      OraInizioGiorno: this.Settings.OraInizioGiorno
+      OraInizioGiorno: moment(this.Settings.OraInizioGiorno).format('H:m:s')
     };
     this.HttpService.newPostRequest(data,'SetPreferenceSettings.php',(err,res)=>{
-      this.loading=false;
+      this.loading=false;console.log(res);
       if(err)
         this.$rootScope.$broadcast('errorToast','Impossibile applicare le impostazioni');
       else{

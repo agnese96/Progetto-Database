@@ -1,7 +1,7 @@
 <?php
 require "connection.php";
 $IDUtente = require 'lib/decodeToken.php';
-$target_dir='/Applications/XAMPP/xamppfiles/htdocs/';
+$target_dir='C:/xampp/htdocs/';
 $output_dir='Progetto-Database/Assets/Img/';
 $file_name=basename($_FILES['fileToUpload']['name']);
 $target_file = $target_dir.$output_dir.$file_name;

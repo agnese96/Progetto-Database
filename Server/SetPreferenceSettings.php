@@ -1,11 +1,11 @@
-<? php
+<?php
   require 'connection.php';
   $IDUtente = require 'lib/decodeToken.php';
   $VistaCalendario = $conn->real_escape_string($_POST['VistaCalendario']);
-  $OrarioInizioGiorno = $conn->real_escape_string($_POST['OrarioInizioGiorno']);
+  $OraInizioGiorno = $conn->real_escape_string($_POST['OraInizioGiorno']);
 
   $sql = "UPDATE Utenti
-          SET VistaCalendario='$VistaCalendario', OrarioInizioGiorno='$OrarioInizioGiorno'
+          SET VistaCalendario='$VistaCalendario', OraInizioGiorno='$OraInizioGiorno'
           WHERE Email = '$IDUtente'";
 
   if(! $result = $conn->query($sql)) {
