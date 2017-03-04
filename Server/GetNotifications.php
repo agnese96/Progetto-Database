@@ -8,7 +8,7 @@ $sql = "SELECT TitoloEvento, Data, Ora, Tipo, IDEvento, DataInizio
 
 $sql1 = "SELECT Data, Descrizione, Priorità
         FROM Scadenze
-        WHERE CURDATE()>DATE_SUB(Data, INTERVAL Promemoria HOUR) AND IDCreatore='$IDUtente'";
+        WHERE CURDATE()>=DATE_SUB(Data, INTERVAL Promemoria DAY) AND IDCreatore='$IDUtente'";
 
 if(! $result = $conn->query($sql)) {
   echo json_encode($data = ['error' => $conn->error]);
@@ -19,10 +19,10 @@ if(! $result1 = $conn->query($sql1)) {
   exit();
 }
 
-/*
+
 $rowsNE = [];
 $rowsNS = [];
-*/
+
 if($result->num_rows > 0)
   $rowsNE = $result->fetch_all(MYSQLI_ASSOC);
 if($result1->num_rows > 0)
