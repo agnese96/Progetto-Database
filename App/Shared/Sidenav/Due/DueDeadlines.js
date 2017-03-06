@@ -13,7 +13,7 @@ class DueDeadlines {
   }
   getDeadlines(err, res) {
     if(err){
-      console.log(err);
+      console.error(err);
       this.Deadlines=[];
     }
     else {

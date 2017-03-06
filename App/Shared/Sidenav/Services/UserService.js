@@ -1,6 +1,5 @@
 class UserService {
   constructor($http, $window, $rootScope) {
-    console.log('costruttore userService');
     this.$http=$http;
     this.$window=$window;
     this.$rootScope=$rootScope;
@@ -13,7 +12,7 @@ class UserService {
       this.logged=true;
     else
       this.logged=false;
-    console.log(this.token);
+    //console.log(this.token);
   }
 
   updateLocalStorage(token, email, photo, name) {
@@ -51,7 +50,6 @@ class UserService {
   }
 
   logout() {
-    console.log('userService logout');
     this.$window.localStorage.removeItem('token');
     this.$window.localStorage.removeItem('email');
     this.$window.localStorage.removeItem('photo');

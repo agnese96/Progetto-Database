@@ -1,4 +1,7 @@
 <div class="notification-panel" md-whiteframe="4">
+  <div ng-show="panel.empty" layout-padding layout-margin>
+    <h3 class="md-display-1">Non ci sono notifiche da visualizzare!</h3>
+  </div>
   <md-list>
     <md-list-item class="md-3-line" ng-repeat="notifica in panel.notifications" ui-sref="{{notifica.stato}}">
       <div class="md-list-item-text" layout="column">

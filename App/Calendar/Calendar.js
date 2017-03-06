@@ -77,7 +77,6 @@ class CalendarController {
           draggable: event.IDCreatore==this.userService.gMail()
         }
       }));
-     console.log(this.events);
     }
   }
   setDeadlines(err, res){
@@ -157,7 +156,6 @@ class CalendarController {
           this.startHour=moment(res.OraInizioGiorno,'H:m:s').format('HH:mm');
         else
           this.startHour="07:00";
-        console.log(this.startHour);
       }
     })
   }
@@ -186,7 +184,7 @@ class CalendarController {
     if(ev.allDay)
       this.changeDeadlineTimes(ev,start,end);
     else {
-      this.changeDeadlineTimes(ev,start,end);
+      this.changeEventTimes(ev,start,end);
     }
   }
   changeDeadlineTimes(ev, start, end) {
@@ -200,7 +198,7 @@ class CalendarController {
     this.HttpService.newPostRequest(Data, 'EditTimes_Deadline.php', (err, res)=> {
       if(err){
         angular.copy(Backup, ev);
-        console.log(err);
+        console.error(err);
         this.$rootScope.$broadcast('errorToastNR', "Impossibile spostare l'evento");
       }
     });
@@ -220,7 +218,7 @@ class CalendarController {
     this.HttpService.newPostRequest(Data, 'EditTimes.php', (err, res)=> {
       if(err){
         angular.copy(Backup, ev);
-        console.log(err);
+        console.error(err);
         this.$rootScope.$broadcast('errorToastNR', "Impossibile spostare l'evento");
       }
     });

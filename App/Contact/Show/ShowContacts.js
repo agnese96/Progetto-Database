@@ -45,11 +45,9 @@ class ShowContacts {
       if(err){
         this.$rootScope.$broadcast('errorToastNR',"Impossibile aggiungere il contatto");
       }else if(res.warning){
-        console.log(res);
         this.$rootScope.$broadcast('errorToastNR',"Il contatto non è iscritto all'applicazione");
       }
       else{
-        console.log(res);
         this.Contatti.push(res);
       }
     });
@@ -60,7 +58,6 @@ class ShowContacts {
         this.$rootScope.$broadcast('errorToastNR',"C'è stato un problema, riprova più tardi");
       }else{
         this.selected=true;
-        console.log(res);
         this.selectedContact=res;
       }
     })

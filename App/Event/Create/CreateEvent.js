@@ -27,7 +27,6 @@ class CreateEvent {
       this.Event.Ricorrenza=-1;
     if(this.Event.Partecipanti.length){
       this.Event.HasPartecipants = 1;
-      console.log(this.Event);
     }
     this.HttpService.newPostRequest(this.Event, 'CreateEvent.php', angular.bind(this, this.submitCallback));
   }
@@ -36,7 +35,6 @@ class CreateEvent {
     if(err)
       console.error(err);
     else {
-      console.log(res);
       this.$state.go('event.show',{id:res.IDEvento, date:res.DataEvento });
     }
   }

@@ -44,7 +44,6 @@ class Settings {
       if(err)
         this.$rootScope.$broadcast('errorToast','Impossibile modificare la foto profilo');
       else{
-        console.log(res);
         this.userService.updatePhoto(res.photo);
       }
     });
@@ -56,7 +55,7 @@ class Settings {
       OraInizioGiorno: moment(this.Settings.OraInizioGiorno).format('H:m:s')
     };
     this.HttpService.newPostRequest(data,'SetPreferenceSettings.php',(err,res)=>{
-      this.loading=false;console.log(res);
+      this.loading=false;
       if(err)
         this.$rootScope.$broadcast('errorToast','Impossibile applicare le impostazioni');
       else{

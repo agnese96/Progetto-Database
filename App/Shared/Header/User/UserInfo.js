@@ -9,11 +9,9 @@ class UserCtrl {
   initUserInfo() {
     this.logged=this.userService.isLogged();
     this.info=this.userService.gUser();
-    console.log(this.info.name);
   }
 
   logout() {
-    console.log("logout");
     this.userService.logout();
     this.$state.go('home');
   }

@@ -98,7 +98,7 @@ class ShowDeadline {
   deleteCallback(err, res) {
     this.loading=false;
     if(err){
-      console.log(err);
+      console.error(err);
       this.$rootScope.$broadcast('errorToastNR',"Impossibile eliminare la scadenza");
     }else{
       this.loading=false;

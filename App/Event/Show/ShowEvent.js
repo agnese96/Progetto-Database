@@ -74,7 +74,6 @@ class ShowEvent {
     Data.OraInizio=moment(Data.OraInizio).format('HH:mm');
     Data.OraFine=moment(Data.OraFine).format('HH:mm');
     this.loading=true;
-    console.log(Data);
     this.HttpService.newPostRequest(Data, 'EditEvent.php', angular.bind(this, this.applyResponse));
   }
   Delete() {
@@ -90,7 +89,6 @@ class ShowEvent {
       console.error(err);
       this.Cancel();
     }else{
-      console.log(res);
       this.Event.AddedPartecipants=[];
       this.Event.RemovedPartecipants=[];
       if(this.date != this.Event.DataInizio){
@@ -106,7 +104,6 @@ class ShowEvent {
   deleteCallback(err, res) {
     this.loading=false;
     if(err){
-      console.log(err);
       this.$rootScope.$broadcast('errorToastNR',"Impossibile eliminare l'evento");
     }else{
       this.loading=false;
@@ -149,7 +146,6 @@ class ShowEvent {
     }
   }
   addPartecipant(email) {
-    console.log(email);
     this.Event.AddedPartecipants.push({Email: email});
   }
   rmvPartecipant(email) {

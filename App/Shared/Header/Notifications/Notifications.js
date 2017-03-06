@@ -16,7 +16,6 @@ class NotificationsPanel {
         this.$rootScope.$broadcast('errorToast','Impossibile sincronizzare le notifiche');
       }else{
         this.notifications.length=0;
-        console.log(res);
         if(res.NotificheEvento)
           this.notifications=res.NotificheEvento.map(function mapNE(not) {
               let notifica={
@@ -54,14 +53,15 @@ class NotificationsPanel {
               stato: "deadline.show({id:"+not.IDScadenza+"})"
             }
           }));
-        console.log(this.notifications);
+        if(this.notifications.length==0)
+          this.empty=true;
       }
     });
   }
-  $onDestroy() {
-    console.log('Stop sincronizzazione notifiche');
-    this.$interval.cancel(this.sync);
-  }
+  // $onDestroy() {
+  //   console.log('Stop sincronizzazione notifiche');
+  //   this.$interval.cancel(this.sync);
+  // }
 
 }
 

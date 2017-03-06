@@ -60,7 +60,6 @@ class UserService {
   }
 
   logout() {
-    console.log('userService logout');
     this.$window.localStorage.removeItem('token');
     this.$window.localStorage.removeItem('email');
     this.$window.localStorage.removeItem('photo');

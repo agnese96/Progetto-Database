@@ -1,6 +1,5 @@
 class CreateDeadline {
   constructor ($state, $rootScope, HttpService) {
-    console.log('costruttore Deadline');
     this.Deadline = {
       Descrizione: '',
       Priority: 0,
@@ -41,7 +40,6 @@ class CreateDeadline {
     if(err)
       console.error(err);
     else {
-      console.log(res);
       this.$rootScope.$broadcast('newDeadline');
       this.$state.go('deadline.show', {id: res.IDScadenza });
     }

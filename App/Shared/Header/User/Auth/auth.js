@@ -20,7 +20,6 @@ class Register {
       data    : $.param(this.credentials),  // pass in data as strings
       headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     }).success(angular.bind(this, function(data) { //si usa angular bind così che il this della classe si mantiene anche nella funzione interna.
-       console.log(data);
 
        if (!data.success) {
          // if not successful, bind errors to error variables
@@ -68,11 +67,9 @@ class Login {
   login() {
     this.userService.login(this.credentials, angular.bind(this, function (result) {
       if(result === true) {
-          console.log('successful login');
           this.done();
           this.$state.go('calendar');
       }else{
-          console.log('unsuccessful login');
           this.error=result.error;
       }
     }));

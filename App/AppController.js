@@ -110,7 +110,6 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       if(toState.data && toState.data.restricted && !userService.isLogged()){
         event.preventDefault();
         $state.go('home');
-        console.log(toState);
         $rootScope.$broadcast('loginRequired', toState.name);
       }
 
