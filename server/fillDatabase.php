@@ -9,7 +9,7 @@ $Deadlines=[];
 $NomeCategoria=['Interessi','Lavoro','Personale','Sport','Studio'];
 $lastEvent=0;
 $lastDeadline=0;
-for ($i=$lastUser; $i < 12; $i++) {
+for ($i=$lastUser; $i < 15; $i++) {
   $Users[$i] = ['cognome' => "Cognome $i", 'nome' => "Nome $i", 'email' => "prova$i@mail.it", 'password' => "password$i"];
   $registerResponse=postRequest('register.php',$Users[$i]);
   checkResponse($registerResponse,"Creazione utente iterazione $i");
@@ -46,10 +46,10 @@ for ($i=$lastUser; $i < 12; $i++) {
   }
   $lastDeadline+=5;
 }
-for ($i=$lastUser; $i < 12; $i++) {
+for ($i=$lastUser; $i < 15; $i++) {
   $Users[$i]['Contacts']=[];
-  for ($j=0; $j < 12; $j++) {
-    $Users[$i]['Contacts'][$j]=$Users[($i+$j+1)%12]['email'];
+  for ($j=0; $j < 15; $j++) {
+    $Users[$i]['Contacts'][$j]=$Users[($i+$j+1)%15]['email'];
     $data=['token'=>$Users[$i]['token'], 'IDContatto'=>$Users[$i]['Contacts'][$j]];
     $CreateContactResponse=postRequest('CreateContact.php',$data);
     checkResponse($CreateContactResponse, "Creazione contatti iterazione $i:$j");

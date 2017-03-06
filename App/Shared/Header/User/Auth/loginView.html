@@ -1,11 +1,16 @@
-<form name="loginForm" layout="column" layout-fill layout-padding layout-margin>
+<form name="form" layout="column" layout-fill layout-padding layout-margin>
   <h3 class="md-display-1">
     Sign in with your email: </h3>
   <md-input-container>
     <label>
       Email
     </label>
-    <input type="email" ng-model="login.credentials.email" aria-label="email" required/>
+    <input name="mail" type="email" ng-model="login.credentials.email" aria-label="email" md-maxlength="75" required md-no-asterisk/>
+    <div ng-messages="form.mail.$error">
+      <div ng-message="required">Campo obbligatorio</div>
+      <div ng-message="md-maxlength">L'email può essere lunga massimo 75 caratteri</div>
+      <div ng-message="email">Inserisci una email valida</div>
+    </div>
   </md-input-container>
   <md-input-container>
     <label>
@@ -14,7 +19,7 @@
     <input type="password" ng-model="login.credentials.password" aria-label="password" required/>
   </md-input-container>
   <div layout="row" layout-align="space-between center">
-    <md-button class="md-raised md-primary" ng-click="login.login()" aria-label="login" ng-disabled="login.loginForm.$invalid()">Sign In
+    <md-button class="md-raised md-primary" ng-click="login.login()" aria-label="login" ng-disabled="login.form.$invalid()">Sign In
     </md-button>
   </div>
 </form>

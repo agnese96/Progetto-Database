@@ -5,19 +5,33 @@
       <label>
         Nome
       </label>
-      <input name="nome" type="text" ng-model="register.credentials.nome" placeholder="nome" aria-label="nome" required/>
+      <input name="nome" type="text" ng-model="register.credentials.nome" placeholder="nome" aria-label="nome" md-maxlength="75" required md-no-asterisk/>
+      <div ng-messages="form.nome.$error">
+        <div ng-message="required">Campo obbligatorio</div>
+        <div ng-message="md-maxlength">Il nome può essere lungo massimo 75 caratteri</div>
+      </div>
+      
     </md-input-container>
     <md-input-container >
       <label>
         Cognome
       </label>
-      <input type="text" ng-model="register.credentials.cognome" placeholder="cognome" aria-label="cognome" required/>
+      <input name="cognome" type="text" ng-model="register.credentials.cognome" placeholder="cognome" aria-label="cognome" md-maxlength="75" required md-no-asterisk/>
+      <div ng-messages="form.cognome.$error">
+        <div ng-message="required">Campo obbligatorio</div>
+        <div ng-message="md-maxlength">Il cognome può essere lungo massimo 75 caratteri</div>
+      </div>
     </md-input-container>
     <md-input-container >
       <label>
         Email
       </label>
-      <input type="email" ng-model="register.credentials.email" placeholder="email" aria-label="email" required/>
+      <input name="mail" type="email" ng-model="register.credentials.email" placeholder="email" aria-label="email" required/>
+      <div ng-messages="form.mail.$error">
+        <div ng-message="required">Campo obbligatorio</div>
+        <div ng-message="md-maxlength">L'email può essere lunga massimo 75 caratteri</div>
+        <div ng-message="email">Inserisci una email valida</div>
+      </div>
     </md-input-container>
     <md-input-container >
       <label>
