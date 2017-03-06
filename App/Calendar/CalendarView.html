@@ -35,7 +35,7 @@
         on-event-times-changed="cal.timesChanged(calendarEvent, calendarNewEventStart, calendarNewEventEnd)"
         on-date-range-select="cal.dateRangeSelect(calendarRangeStartDate, calendarRangeEndDate)"
         cell-is-open="true"
-        day-view-start="06:00"
+        day-view-start="{{cal.startHour}}"
         day-view-end="24:00"
         day-view-time-position="side">
     </mwl-calendar>

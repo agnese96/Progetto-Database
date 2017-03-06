@@ -8,11 +8,11 @@ $Year = $conn->real_escape_string($_POST['Year']);
         FROM (DateEvento de JOIN Eventi e ON e.IDEvento = de.IDEvento) JOIN Invitare i ON (e.IDEvento=i.IDEvento AND de.DataInizio=i.DataInizio)
         WHERE month(de.DataInizio) = $Month AND year(de.DataInizio) = $Year AND (e.IDCreatore='$IDUtente' OR i.Email='$IDUtente')";*/
 
-$sql = "SELECT e.IDEvento, Titolo, de.DataInizio, OraInizio, DataFine, OraFine, NomeCategoria
+$sql = "SELECT e.IDEvento, Titolo, de.DataInizio, OraInizio, DataFine, OraFine, NomeCategoria, IDCreatore
         FROM (DateEvento de JOIN Eventi e ON e.IDEvento = de.IDEvento) JOIN Invitare i ON (e.IDEvento=i.IDEvento AND de.DataInizio=i.DataInizio)
         WHERE (MONTH(de.DataInizio) <= $Month AND MONTH(de.DataFine) >= $Month) AND (YEAR(de.DataInizio) <= $Year AND YEAR(de.DataFine) >= $Year) AND i.Email='$IDUtente'
         UNION
-        SELECT e.IDEvento, Titolo, de.DataInizio, OraInizio, DataFine, OraFine, NomeCategoria
+        SELECT e.IDEvento, Titolo, de.DataInizio, OraInizio, DataFine, OraFine, NomeCategoria, IDCreatore
         FROM DateEvento de JOIN Eventi e ON e.IDEvento = de.IDEvento
         WHERE (MONTH(de.DataInizio) <= $Month AND MONTH(de.DataFine) >= $Month) AND (YEAR(de.DataInizio) <= $Year AND YEAR(de.DataFine) >= $Year) AND e.IDCreatore='$IDUtente'";
 

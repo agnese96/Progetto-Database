@@ -8,6 +8,7 @@ class CalendarController {
     this.config(calendarConfig);
     this.viewDate=new Date();
     this.setView('month');
+    this.getPreferences();
   }
   config(calendarConfig) {
     // This will configure times on the day view to display in 24 hour format rather than the default of 12 hour
@@ -73,7 +74,7 @@ class CalendarController {
           color: this.getColors(event.NomeCategoria),
           incrementsBadgeTotal: true,
           allDay: false,
-          draggable: res.IDCreatore==this.userService.gMail()
+          draggable: event.IDCreatore==this.userService.gMail()
         }
       }));
      console.log(this.events);
@@ -94,7 +95,6 @@ class CalendarController {
           draggable: true
         }
       }));
-      console.log(this.events);
     }
   }
   getColors(cat) {
@@ -146,6 +146,21 @@ class CalendarController {
         break;
     }
   }
+  getPreferences(){
+    this.HttpService.newPostRequest({},'GetPreference.php',(err,res)=>{
+      if(err)
+        this.$rootScope.$broadcast('errorToastNR',"Impossibile caricare le preferenze");
+      else {
+        if(res.VistaCalendario!='month')
+          this.setView(res.VistaCalendario);
+        if(res.OraInizioGiorno)
+          this.startHour=moment(res.OraInizioGiorno,'H:m:s').format('HH:mm');
+        else
+          this.startHour="07:00";
+        console.log(this.startHour);
+      }
+    })
+  }
   eventClicked(calendarEvent) {
     if(calendarEvent.allDay){
       this.$state.go('deadline.show', {id: calendarEvent.id});
@@ -168,6 +183,29 @@ class CalendarController {
     this.$state.go('event.create', params);
   }
   timesChanged(ev, start, end) {
+    if(ev.allDay)
+      this.changeDeadlineTimes(ev,start,end);
+    else {
+      this.changeDeadlineTimes(ev,start,end);
+    }
+  }
+  changeDeadlineTimes(ev, start, end) {
+    let Data = {
+      IDScadenza: ev.id,
+      Data: moment(start).format('Y-M-D'),
+    };
+    let Backup = angular.copy(ev);
+    ev.startsAt = start;
+    ev.endsAt = end;
+    this.HttpService.newPostRequest(Data, 'EditTimes_Deadline.php', (err, res)=> {
+      if(err){
+        angular.copy(Backup, ev);
+        console.log(err);
+        this.$rootScope.$broadcast('errorToastNR', "Impossibile spostare l'evento");
+      }
+    });
+  }
+  changeEventTimes(ev, start, end) {
     let Data = {
       IDEvento: ev.id,
       DataID: moment(ev.startsAt).format('Y-M-D'),
@@ -176,9 +214,9 @@ class CalendarController {
       OraInizio: moment(start).format('HH:mm'),
       OraFine: moment(end).format('HH:mm')
     };
+    let Backup = angular.copy(ev);
     ev.startsAt = start;
     ev.endsAt = end;
-    let Backup = angular.copy(ev);
     this.HttpService.newPostRequest(Data, 'EditTimes.php', (err, res)=> {
       if(err){
         angular.copy(Backup, ev);

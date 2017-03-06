@@ -5,14 +5,11 @@ $Day = $conn->real_escape_string($_POST['Day']);
 $Month = $conn->real_escape_string($_POST['Month']);
 $Year = $conn->real_escape_string($_POST['Year']);
 
-/*$sql = "SELECT e.IDEvento, Titolo, de.DataInizio, OraInizio, DataFine, OraFine, NomeCategoria
-        FROM (DateEvento de JOIN Eventi e ON e.IDEvento = de.IDEvento) JOIN Invitare i ON (e.IDEvento=i.IDEvento AND de.DataInizio=i.DataInizio)
-        WHERE day(de.DataInizio) = $Day AND month(de.DataInizio) = $Month AND year(DataInizio) = $Year AND (e.IDCreatore='$IDUtente' OR i.Email='$IDUtente')";*/
-$sql = "SELECT e.IDEvento, Titolo, de.DataInizio, OraInizio, DataFine, OraFine, NomeCategoria
+$sql = "SELECT e.IDEvento, Titolo, de.DataInizio, OraInizio, DataFine, OraFine, NomeCategoria, IDCreatore
         FROM (DateEvento de JOIN Eventi e ON e.IDEvento = de.IDEvento) JOIN Invitare i ON (e.IDEvento=i.IDEvento AND de.DataInizio=i.DataInizio)
         WHERE (DAY(de.DataInizio) <= $Day AND DAY(de.DataFine) >= $Day) AND (MONTH(de.DataInizio) <= $Month AND MONTH(de.DataFine) >= $Month) AND (YEAR(de.DataInizio) <= $Year AND YEAR(de.DataFine) >= $Year) AND i.Email='$IDUtente'
         UNION
-        SELECT e.IDEvento, Titolo, de.DataInizio, OraInizio, DataFine, OraFine, NomeCategoria
+        SELECT e.IDEvento, Titolo, de.DataInizio, OraInizio, DataFine, OraFine, NomeCategoria, IDCreatore
         FROM DateEvento de JOIN Eventi e ON e.IDEvento = de.IDEvento
         WHERE (DAY(de.DataInizio) <= $Day AND DAY(de.DataFine) >= $Day) AND (MONTH(de.DataInizio) <= $Month AND MONTH(de.DataFine) >= $Month) AND (YEAR(de.DataInizio) <= $Year AND YEAR(de.DataFine) >= $Year) AND e.IDCreatore='$IDUtente'";
 
