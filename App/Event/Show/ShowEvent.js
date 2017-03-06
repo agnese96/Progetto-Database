@@ -91,8 +91,8 @@ class ShowEvent {
     }else{
       this.Event.AddedPartecipants=[];
       this.Event.RemovedPartecipants=[];
-      if(this.date != this.Event.DataInizio){
-        let date=moment(this.Event.DataInizio).format('Y-M-D');
+      let date=moment(this.Event.DataInizio).format('Y-M-D');
+      if(this.date != date){
         this.$state.go('event.show', {id:this.id, date: date});
       }
       else {
