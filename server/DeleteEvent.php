@@ -9,7 +9,7 @@ if(! checkOwner($IDUtente, $IDEvento, $conn)) {
   exit();
 }
 
-$sql = "SELECT Email FROM Invitare WHERE IDEvento = $IDEvento";
+$sql = "SELECT Email FROM Invitare WHERE IDEvento = $IDEvento AND (Partecipa='Y' OR Partecipa='M' OR Partecipa IS NULL)";
 if(! $result = $conn->query($sql)) {
   echo json_encode($data = ['error' => $conn->error]);
   exit();
@@ -26,7 +26,7 @@ if($result->num_rows){
   }
   $Data = (new DateTime())->format('Y-m-d');
   $Ora = (new DateTime())->format('H:i:s');
-  $sql= "INSERT INTO NotificheEvento (Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio) VALUES ('D', $Data, $Ora, $Titolo, $IDEvento, $DataInizio )";
+  $sql= "INSERT INTO NotificheEvento (Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio) VALUES ('D', '$Data', '$Ora', '$Titolo', $IDEvento, '$DataInizio' )";
   if(! $conn->query($sql)){
     echo json_encode($data = ['error' => $conn->error]);
     exit();
