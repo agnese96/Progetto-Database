@@ -7,7 +7,7 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
   $stateProvider
     .state('home', {
       url: '/home',
-      template: "Ciao Gente!"
+      templateUrl: 'App/mainView.html'
     })
     .state('calendar',{
       url: '/calendar',
