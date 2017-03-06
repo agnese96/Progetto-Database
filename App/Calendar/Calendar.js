@@ -14,7 +14,6 @@ class CalendarController {
     calendarConfig.allDateFormats.moment.date.hour = 'HH:mm';
     //use moment to format dates instead of angular
     calendarConfig.dateFormatter = 'moment';
-    moment.locale('IT');
   }
   setView(sel) {
     this.viewMonth=false;

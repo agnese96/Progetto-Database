@@ -1,14 +1,18 @@
 <?php
 require "connection.php";
-$IDUtente = require "lib\decodeToken.php";
+$IDUtente = require "lib/decodeToken.php";
 
-$sql = "SELECT TitoloEvento, Data, Ora, Tipo, IDEvento, DataInizio
-        FROM NotificheEvento ne JOIN Ricevere r ON ne.IDNotifica=r.IDNotifica
-        WHERE Data<=CURDATE() AND CURTIME()<=DATE_ADD(Ora, INTERVAL 45 SECOND) AND r.Email='$IDUtente'";
+$sql = "SELECT TitoloEvento, Data, Ora, Tipo, de.IDEvento, de.DataInizio, OraInizio, Promemoria
+        FROM ((NotificheEvento ne JOIN Ricevere r ON ne.IDNotifica=r.IDNotifica)
+              JOIN DateEvento de ON (de.DataInizio=ne.DataInizio AND de.IDEvento=ne.IDEvento))
+              JOIN Eventi e ON (de.IDEvento=e.IDEvento)
+        WHERE Data<=CURDATE() AND CURTIME()<=DATE_ADD(Ora, INTERVAL Promemoria HOUR) AND r.Email='$IDUtente'
+        ORDER BY Data, Ora DESC";
 
-$sql1 = "SELECT Data, Descrizione, Priorità
+$sql1 = "SELECT Data, Descrizione, IDScadenza, DATE_SUB(Data, INTERVAL Promemoria DAY) AS DataNotifica
         FROM Scadenze
-        WHERE CURDATE()>=DATE_SUB(Data, INTERVAL Promemoria DAY) AND IDCreatore='$IDUtente'";
+        WHERE CURDATE()>=DATE_SUB(Data, INTERVAL Promemoria DAY) AND IDCreatore='$IDUtente'
+        ORDER BY Data DESC";
 
 if(! $result = $conn->query($sql)) {
   echo json_encode($data = ['error' => $conn->error]);

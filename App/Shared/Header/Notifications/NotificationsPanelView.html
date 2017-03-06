@@ -1,0 +1,11 @@
+<div class="notification-panel" md-whiteframe="4">
+  <md-list>
+    <md-list-item class="md-3-line" ng-repeat="notifica in panel.notifications" ui-sref="{{notifica.stato}}">
+      <div class="md-list-item-text" layout="column">
+        <h3>{{notifica.desc}}</h3>
+        <h4>{{notifica.dataEvento}}</h4>
+        <p>{{notifica.dataNotifica}}</p>
+      </div>
+    </md-list-item>
+  </md-list>
+</div>

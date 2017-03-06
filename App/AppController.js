@@ -1,5 +1,7 @@
 var app=angular.module("app", ['ngMaterial', 'ngMessages', 'ui.router','mwl.calendar', 'ui.bootstrap']);
 app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+  moment.locale('IT');
+
   $urlRouterProvider.otherwise('/calendar');
 
   $stateProvider

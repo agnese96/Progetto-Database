@@ -59,8 +59,8 @@ $stmt->bind_param("issss", $ID, $DataI, $DataF, $OraInizio, $OraFine);
 if($HasPartecipants) {
   $inv1 = $conn->prepare("INSERT INTO Invitare(Email, DataInizio, IDEvento) VALUES(?,?,?)");
   $inv1->bind_param("ssi", $Email, $DataI, $ID);
-  $not1 = $conn->prepare("INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio) VALUES('N',?,?,?,?,?)");
-  $not1->bind_param('sssis',$DataNotifica, $OraNotifica, $Titolo, $ID, $DataI);
+  $not1 = $conn->prepare("INSERT INTO NotificheEvento(Tipo, Data, Ora, TitoloEvento, IDEvento, DataInizio) VALUES('N',CURDATE(),CURTIME(),?,?,?)");
+  $not1->bind_param('sis', $Titolo, $ID, $DataI);
   $ric1 = $conn->prepare("INSERT INTO Ricevere (Email, IDNotifica) VALUES (?,?)");
   $ric1->bind_param('si',$Email, $IDNotifica1);
   $ric2 = $conn->prepare("INSERT INTO Ricevere (Email, IDNotifica) VALUES (?,?)");
