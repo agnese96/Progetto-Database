@@ -1,8 +1,39 @@
-<md-list>
-  <md-subheader class="md-no-sticky">I tuoi contatti</md-subheader>
-  <md-list-item ng-repeat="Contatto in Contacts.Contatti" class="noright">
-    <img alt="{{ Contatto.Nominativo }}" ng-src="{{ Contatto.FotoProfilo }}" class="md-avatar" />
-    <p>{{ Contatto.Nominativo }}</p>
-    <!--md-checkbox class="md-secondary" ng-model="person.selected"></md-checkbox-->
-  </md-list-item>
-</md-list>
+<div layout="row" layout-align="space-between center">
+  <h3 class="md-display-1">I tuoi contatti</h3>
+
+  <md-button class="md-icon-button" ng-click="Contacts.addDialog($event)">
+    <md-icon>&#xE7FE;</md-icon>
+  </md-button>
+</div>
+<md-input-container layout="row" flex="100">
+  <input type="text" ng-model="Contacts.filter" aria-label="Filtra contatti" placeholder="Cerca" />
+</md-input-container>
+<div layout="row" flex>
+  <md-list layout-fill layout="column" flex>
+    <md-list-item ng-repeat="Contatto in Contacts.Contatti | filter: {Nominativo: Contacts.filter}" class="noright md-2-line" ng-click="Contacts.select(Contatto.Email)">
+      <img alt="{{ Contatto.Nominativo }}" ng-src="{{ Contatto.FotoProfilo }}" class="md-avatar big" />
+      <md-list-item-text>
+        <h4>{{ Contatto.Nominativo }}</h4>
+        <p>{{ Contatto.Email }}</p>
+      </md-list-item-text>
+      <md-button class="md-icon-button md-secondary" ng-click="Contacts.delete(Contatto)">
+        <md-icon>&#xE872;</md-icon>
+      </md-button>
+    </md-list-item>
+  </md-list>
+  <div layout="column" layout-fill flex ng-show="Contacts.selected" flex="50">
+    <md-button class="md-icon-button" ng-click="Contacts.selected=false;">
+      <md-icon>&#xE5C4;</md-icon>
+    </md-button>
+    <div layout="column" layout-align="center center">
+      <img alt="{{ Contacts.selectedContact.Nominativo }}" ng-src="{{ Contacts.selectedContact.FotoProfilo }}" class="md-avatar big" />
+      <h4>{{ Contacts.selectedContact.Nominativo }}</h4>
+      <p>{{ Contacts.selectedContact.Email}}</p>
+    </div>
+    <div layout="column" layout-align="space-around" layout-margin>
+      <span ng-show="Contacts.selectedContact.DataNascita">Data di nascita: {{Contacts.selectedContact.DataNascita}}</span>
+      <span ng-show="Contacts.selectedContact.City">Citta: {{Contacts.selectedContact.City}}</span>
+      <span ng-show="Contacts.selectedContact.Professione">Professione: {{Contacts.selectedContact.Professione}}</span>
+    </div>
+  </div>
+</div>

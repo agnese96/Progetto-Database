@@ -20,7 +20,17 @@ if(! $result = $conn->query($sql1)) {
   echo json_encode($data = ['error' => $conn->error]);
   exit();
 }
+$sql = "SELECT CONCAT_WS(' ', Cognome, Nome) AS Nominativo, FotoProfilo, Email
+        FROM Utenti
+        WHERE Email='$IDContatto' ";
+if(! $result = $conn->query($sql)) {
+  echo json_encode($data = ['erorr' => $conn->error]);
+  exit();
+}
 
+if($result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  echo json_encode($row);
+}
 $conn->close();
-echo json_encode($data = ['success' => true]);
- ?>
+?>

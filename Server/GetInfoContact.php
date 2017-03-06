@@ -3,9 +3,9 @@ require "connection.php";
 $IDUtente = require 'lib/decodeToken.php';
 $IDContatto = $conn->real_escape_string($_POST["IDContatto"]);
 
-$sql = "SELECT Email, Nome, Cognome, DataNascita, Città as City, Professione
+$sql = "SELECT Email, CONCAT_WS(' ', Cognome, Nome) AS Nominativo, DataNascita, Città as City, Professione, FotoProfilo
         FROM Contatti JOIN Utenti ON Utenti.Email = Contatti.Email2
-        WHERE Contatti.Email1 = '$IDUtente'";
+        WHERE Contatti.Email1 = '$IDUtente' AND Contatti.Email2 = '$IDContatto'";
 
 if(! $result = $conn->query($sql)) {
   echo json_encode($data = ['error' => $conn->error]);
