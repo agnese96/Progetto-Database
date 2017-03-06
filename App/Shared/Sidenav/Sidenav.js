@@ -1,8 +1,10 @@
 class Sidenav {
-  constructor($mdSidenav, $state, userService) {
+  constructor($mdSidenav, $state, $rootScope, userService) {
     this.handler=$mdSidenav;
     this.$state=$state;
     this.userService=userService;
+    this.logged=this.userService.isLogged();
+    $rootScope.$on('userChange',()=>{ this.logged=this.userService.isLogged(); });
   }
   goTo(destination) {
     this.close();
