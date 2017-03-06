@@ -43,7 +43,7 @@ if($result->num_rows){
     }
   }
 }
-$sql = "DELETE FROM Eventi WHERE IDEvento = $IDEvento";
+$sql = "DELETE FROM DateEvento WHERE IDEvento = $IDEvento AND DataInizio = '$DataInizio'";
 
 if(! $result = $conn->query($sql)) {
   echo json_encode($data = ['error' => $conn->error]);
