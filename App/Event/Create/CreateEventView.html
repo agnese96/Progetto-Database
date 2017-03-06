@@ -17,9 +17,12 @@
           <label>
             Categoria
           </label>
-          <md-select ng-model="Create.Event.NomeCategoria" >
-            <md-option ng-repeat="Categoria in Create.Categorie" value="{{Categoria}}">{{ Categoria }}</md-option>
+          <md-select name="categoria" ng-model="Create.Event.NomeCategoria" required md-no-asterisk>
+            <md-option ng-repeat="Categoria in Create.Categorie" value="{{Categoria}}" >{{ Categoria }}</md-option>
           </md-select>
+          <div ng-messages="form.categoria.$error">
+            <div ng-message="required">Campo obbligatorio</div>
+          </div>
         </md-input-container>
       </div>
       <span flex></span>
@@ -29,13 +32,19 @@
             <label>
               Data inizio
             </label>
-            <md-datepicker  ng-model="Create.Event.DataInizio" required md-no-asterisk>
+            <md-datepicker name="DataInizio" ng-model="Create.Event.DataInizio" required md-no-asterisk>
+            <div ng-messages="form.DataInizio.$error">
+              <div ng-message="required">Campo obbligatorio</div>
+            </div>
           </md-input-container>
           <md-input-container flex-xs=40>
             <label>
               Ora inizio
             </label>
-            <input type="time" ng-model="Create.Event.OraInizio" required md-no-asterisk/>
+            <input name="OraInizio" type="time" ng-model="Create.Event.OraInizio" required md-no-asterisk/>
+            <div ng-messages="form.OraInizio.$error">
+              <div ng-message="required">Campo obbligatorio</div>
+            </div>
           </md-input-container>
         </div>
         <div layout="row" flex-xs="100" layout-align="space-between">
@@ -43,13 +52,19 @@
             <label>
               Data fine
             </label>
-            <md-datepicker ng-model="Create.Event.DataFine">
+            <md-datepicker ng-model="Create.Event.DataFine" name="DataFine" required md-no-asterisk>
+              <div ng-messages="form.DataFine.$error">
+                <div ng-message="required">Campo obbligatorio</div>
+              </div>
           </md-input-container>
           <md-input-container flex-xs=40>
             <label>
               Ora fine
             </label>
-            <input type="time" ng-model="Create.Event.OraFine" value="10:30"/>
+            <input type="time" ng-model="Create.Event.OraFine" name="OraFine" required md-no-asterisk/>
+            <div ng-messages="form.OraFine.$error">
+              <div ng-message="required">Campo obbligatorio</div>
+            </div>
           </md-input-container>
         </div>
       </div>
@@ -63,7 +78,7 @@
     <md-input-container >
       <label>Promemoria</label>
       <md-icon>&#xE855;</md-icon>
-      <input type="number" ng-model="Create.Event.Promemoria" aria-label="promemoria" value="1"/>
+      <input type="number" name="Promemoria" ng-model="Create.Event.Promemoria" aria-label="promemoria" value="1" min="0"/>
       <div class="hint">
         Quante ore prima vuoi essere avvisato?
       </div>
@@ -75,7 +90,7 @@
         <label>
           Frequenza
         </label>
-        <input type="number" ng-model="Create.Event.Frequenza"  aria-label="frequenza" />
+        <input type="number" ng-model="Create.Event.Frequenza"  aria-label="frequenza" name="Frequenza" min="2"/>
         <div class="hint">
           Ogni quanti giorni si ripete?
         </div>
@@ -87,8 +102,8 @@
         <label>
           Ricorrenza
         </label>
-        <input type="number" ng-model="Create.Event.Ricorrenza" aria-label="ricorrenza" />
-        <div class="hint">
+        <input type="number" ng-model="Create.Event.Ricorrenza" aria-label="ricorrenza" name="Ricorrenza" min="1"/>
+        <div class="hint" ng-if="!form.Ricorrenza.$error">
           Quante volte si ripete?
         </div>
       </md-input-container>

@@ -27,16 +27,56 @@
   <div class="descrizione editable" ng-model="Show.Event.Descrizione" contenteditable="false">
     {{Show.Event.Descrizione}}
   </div>
-  <div class="Ora" ng-show="!Show.editmode">
+  <!-- <div class="Ora">
     Inizio:
     <span class="editable" ng-model="Show.Event.DataInizio" contenteditable="false"></span>
     <span class="editable" ng-model="Show.Event.OraInizio" contenteditable="false"></span>
     <br />Fine:
     <span class="editable" contenteditable="false" ng-model="Show.Event.DataFine" ng-show='Show.Event.DataInizio!=Show.Event.DataFine || Show.editmode'></span>
     <span class="editable" contenteditable="false" ng-model="Show.Event.OraFine"></span>
+  </div> -->
+  <div layout="column">
+    <div layout="row" flex-xs="100" layout-align="start">
+      <md-input-container flex-xs=60>
+        <label>
+          Data inizio
+        </label>
+        <md-datepicker  ng-model="Show.Event.DataInizio" required md-no-asterisk ng-disabled="!Show.editmode">
+      </md-input-container>
+      <md-input-container flex-xs=40>
+        <label>
+          Ora inizio
+        </label>
+        <input type="time" ng-model="Show.Event.OraInizio" required md-no-asterisk ng-disabled="!Show.editmode"/>
+      </md-input-container>
+    </div>
+    <div layout="row" flex-xs="100" layout-align="start">
+      <md-input-container flex-xs=60>
+        <label>
+          Data fine
+        </label>
+        <md-datepicker ng-model="Show.Event.DataFine" ng-disabled="!Show.editmode">
+      </md-input-container>
+      <md-input-container flex-xs=40>
+        <label>
+          Ora fine
+        </label>
+        <input type="time" ng-model="Show.Event.OraFine" ng-disabled="!Show.editmode"/>
+      </md-input-container>
+    </div>
   </div>
-  <div class="Categoria" >
+  <div class="Categoria" ng-show="!Show.editmode">
     Categoria: <span class="editable" contenteditable="false" ng-model="Show.Event.NomeCategoria"></span>
+  </div>
+  <div ng-show="Show.editmode">
+    <md-input-container >
+      <label>
+        Categoria
+      </label>
+      <md-select ng-model="Show.Event.NomeCategoria" >
+        <md-option ng-repeat="Categoria in Show.Categorie" value="{{Categoria}}">{{ Categoria }}</md-option>
+      </md-select>
+    </md-input-container>
   </div>
   <div class="Promemoria" >
     Promemoria: <span class="editable" contenteditable="false" ng-model="Show.Event.Promemoria"></span>

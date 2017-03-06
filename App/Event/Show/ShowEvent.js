@@ -5,6 +5,7 @@ class ShowEvent {
       this.$state=$state;
       this.$rootScope=$rootScope;
       this.editmode=false;
+      this.Categorie = ['Lavoro', 'Studio', 'Sport', 'Interessi', 'Personale' ];
   }
   $onInit() {
     this.Data={
@@ -16,11 +17,20 @@ class ShowEvent {
   }
   getEvent(err, res) {
     this.loading=false;
-    console.log(err);
     if(err)
       this.$rootScope.$broadcast('errorToast', 'Questo evento non esiste');
     else{
       this.Event=res.event;
+      this.Event.DataInizio=moment(this.Event.DataInizio,'Y-M-D').toDate();
+      this.Event.DataFine=moment(this.Event.DataFine,'Y-M-D').toDate();
+      this.Event.OraInizio=moment(this.Event.OraInizio,'H:m').toDate();
+      this.Event.OraFine=moment(this.Event.OraFine,'H:m').toDate();
+      if(this.Event.IDCreatore==this.userService.gMail())
+        this.owner=true;
+      else{
+        this.owner=false;
+        this.setResponse();
+      }
       if(res.partecipants)
         this.Event.Partecipanti=res.partecipants.map(function (partecipant) {
             switch (partecipant.Partecipa) {
@@ -34,17 +44,10 @@ class ShowEvent {
                 partecipant.partIcon="thumb_up";
                 break;
             }
-            console.log(partecipant);
             return partecipant;
         });
       else {
         this.Event.Partecipanti=[];
-      }
-      if(this.Event.IDCreatore==this.userService.gMail()){
-        this.owner=true;
-      }else {
-        this.owner=false;
-        this.setResponse();
       }
     }
   }
@@ -63,11 +66,16 @@ class ShowEvent {
     this.toggleContentEditable();
   }
   Apply() {
-    this.Event.IDEvento=this.id;
-    this.Event.DataID=this.date;
+    let Data=angular.copy(this.Event);
+    Data.IDEvento=this.id;
+    Data.DataID=this.date;
+    Data.DataInizio=moment(Data.DataInizio).format('Y-M-D');
+    Data.DataFine=moment(Data.DataFine).format('Y-M-D');
+    Data.OraInizio=moment(Data.OraInizio).format('HH:mm');
+    Data.OraFine=moment(Data.OraFine).format('HH:mm');
     this.loading=true;
-    console.log(this.Event);
-    this.HttpService.newPostRequest(this.Event, 'EditEvent.php', angular.bind(this, this.applyResponse));
+    console.log(Data);
+    this.HttpService.newPostRequest(Data, 'EditEvent.php', angular.bind(this, this.applyResponse));
   }
   Delete() {
     this.loading=true;
@@ -85,8 +93,10 @@ class ShowEvent {
       console.log(res);
       this.Event.AddedPartecipants=[];
       this.Event.RemovedPartecipants=[];
-      if(this.date != this.Event.DataInizio)
-        this.$state.go('event.show', {id:this.id, date:this.Event.DataInizio});
+      if(this.date != this.Event.DataInizio){
+        let date=moment(this.Event.DataInizio).format('Y-M-D');
+        this.$state.go('event.show', {id:this.id, date: date});
+      }
       else {
         this.toggleContentEditable();
         this.loading=false;
