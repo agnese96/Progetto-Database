@@ -27,7 +27,7 @@
   <div class="descrizione editable" ng-model="Show.Event.Descrizione" contenteditable="false">
     {{Show.Event.Descrizione}}
   </div>
-  <div class="Ora">
+  <div class="Ora" ng-show="!Show.editmode">
     Inizio:
     <span class="editable" ng-model="Show.Event.DataInizio" contenteditable="false"></span>
     <span class="editable" ng-model="Show.Event.OraInizio" contenteditable="false"></span>
@@ -37,6 +37,9 @@
   </div>
   <div class="Categoria" >
     Categoria: <span class="editable" contenteditable="false" ng-model="Show.Event.NomeCategoria"></span>
+  </div>
+  <div class="Promemoria" >
+    Promemoria: <span class="editable" contenteditable="false" ng-model="Show.Event.Promemoria"></span>
   </div>
   <my-contact-chips partecipants="Show.Event.Partecipanti" readonly="!Show.editmode" add="Show.addPartecipant(email)" rmv="Show.rmvPartecipant(email)"></my-contact-chips>
 </div>
