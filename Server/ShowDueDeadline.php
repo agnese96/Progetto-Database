@@ -21,7 +21,7 @@
     echo json_encode($rows);
   }
   else {
-    echo json_encode($data = ['error' => 'Nessuna scadenza trovata']);
+    echo json_encode($data = ['empty' => true]);
     exit();
   }
 

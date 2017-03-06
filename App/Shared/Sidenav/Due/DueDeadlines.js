@@ -12,7 +12,7 @@ class DueDeadlines {
     this.HttpService.newPostRequest({},'ShowDueDeadline.php',angular.bind(this, this.getDeadlines));
   }
   getDeadlines(err, res) {
-    if(err){
+    if(err || res.empty){
       //console.error(err);
       this.Deadlines=[];
     }
